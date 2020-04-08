@@ -14,7 +14,7 @@ func TestCreateID(t *testing.T) {
 }
 
 func TestCreateCourse(t *testing.T) {
-	course := CreateCourse([]string{"TigerKing", "Pesukarhu", "Ying Jang"}, 18)
+	course := CreateCourse([]string{"TigerKing", "Pesukarhu", "Ying Jang"}, 18, 1)
 	if len(course.Baskets) != 18 {
 		t.Errorf("%+v", course)
 	}
