@@ -2,46 +2,100 @@
 <html lang="en">
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" type="text/css" href="bulma.min.css">
+  <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
+  <section id="app" class="section hero is-fullheight">
 
-	<h1>Open devtools</h1>
+    <!-- VUE-IF -->
+    <div v-if="!active">
+      <!-- HERO HEAD -->
+      <div class="hero-head">
+        <div class="container">
+          <h1 class="title">Scoreboard</h1>
+        </div>
+      </div>
 
-	<table class="scores">
-		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td><button>Up</button></td>
-		</tr>
-		<tr>
-			<th>Name</th>
-			<th>Score</th>
-			<th>Total</th>
-			<th>Current</th>
-		</tr>
-		<tr>
-			<td>Miikka</td>
-			<td>+4</td>
-			<td>22</td>
-			<td>3</td>
-		</tr>
-		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td><button>Down</button></td>
-		</tr>
-	</table>
+      <!-- HERO BODY -->
+      <div class="hero-body">
+        <div class="container">
 
-	<button id="start">Start</button>
+          <!-- FORM -->
+          <form class="form">
 
-	<script src="main.js">
-	</script>
+            <!-- NAME INPUT -->
+            <div class="field">
+              <div class="control">
+                <input type="text" class="input" placeholder="Player name">
+              </div>
+            </div>
+
+            <!-- ADD BUTTON -->
+            <div class="field">
+              <div class="control">
+                <button class="button is-link">Add</button>
+              </div>
+            </div>
+          </form>
+          <!-- END OF FORM -->
+
+          <br>
+
+
+          <!-- PLAYERS -->
+          <div class="field" v-for="player in selectedPlayers" v-bind:key="player.name">
+            <div class="control">
+              <button class="button">{{player.name}} {{player.selected}}</button>
+            </div>
+          </div>
+          <!-- END OF PLAYERS -->
+
+
+
+          <!-- FORM -->
+          <form class="form">
+
+            <!-- ID INPUT -->
+            <div class="field">
+              <div class="control">
+                <input type="text" class="input" placeholder="ID">
+              </div>
+            </div>
+
+            <!-- ADD BUTTON -->
+            <div class="field">
+              <div class="control">
+                <button class="button is-link">Join</button>
+              </div>
+            </div>
+          </form>
+          <!-- END OF FORM -->
+
+
+
+        </div>
+      </div>
+
+
+      <!-- HERO FOOTER -->
+      <div class="hero-foot">
+        <div class="container">
+          <a href="/">Miikka Tuominen</a>
+        </div>
+      </div>
+
+    </div>
+    <!-- END VUE-IF -->
+
+  </section>
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script src="main.js">
+  </script>
 </body>
 
 </html>

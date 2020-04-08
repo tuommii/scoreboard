@@ -1,0 +1,8 @@
+body {
+	background: #eee;
+}
+
+/* Otherwise more indented than title */
+.hero-body {
+	padding: 3rem 0rem;
+}

@@ -1,12 +1,6 @@
 console.log('Hello!');
 
-
-const button = document.querySelector('#start');
-
-
-// Example POST method implementation:
 async function postData(url = '', data = {}) {
-	// Default options are marked with *
 	const response = await fetch(url, {
 		method: 'POST',
 		mode: 'cors',
@@ -68,8 +62,22 @@ const startingData = {
 };
 
 // Here we send startingData
-button.addEventListener('click', (event) => {
-	postData('/test_edit', edit).then((data) => {
-		console.log(data);
-	});
+// button.addEventListener('click', (event) => {
+// 	postData('/test_edit', edit).then((data) => {
+// 		console.log(data);
+// 	});
+// });
+var app = new Vue({
+	el: '#app',
+	data: {
+		active: 0,
+		// TODO: Get from server
+		selectedPlayers: [
+			{name: 'Miikka', selected: true},
+			{name: 'Sande', selected: false},
+			{name: 'Pesukarhu', selected: true},
+		],
+		// Game object
+		course: {}
+	}
 });
