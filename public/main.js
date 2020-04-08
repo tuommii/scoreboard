@@ -73,6 +73,16 @@ function toggleSelected(player) {
 	player.selected = !player.selected
 }
 
+function start() {
+	let players = [];
+	this.selectedPlayers.forEach(player => {
+		if (player.selected) {
+			players.push(player.name);
+		}
+	});
+	console.log(players);
+}
+
 var app = new Vue({
 	el: '#app',
 	data: {
@@ -87,6 +97,7 @@ var app = new Vue({
 		course: {}
 	},
 	methods: {
-		toggleSelected: toggleSelected
+		toggleSelected: toggleSelected,
+		start: start
 	}
 });
