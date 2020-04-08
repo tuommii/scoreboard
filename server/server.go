@@ -35,6 +35,7 @@ func Start() {
 	server.games = make(map[string]*game.Course)
 
 	// Init routes
+	router.HandleFunc("/test_create", TestCreate).Methods("POST")
 	router.HandleFunc("/test", TestHandler)
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./public")))
 	server.http.ListenAndServe()
@@ -45,6 +46,20 @@ func Start() {
 }
 
 // TestHandler...
+func TestCreate(w http.ResponseWriter, r *http.Request) {
+	data := struct {
+		Name string
+	}{
+		"Miikka Tuominen",
+	}
+	bytes, err := json.Marshal(data)
+	if err != nil {
+		log.Println("DSADSADSDASSADSA")
+		fmt.Fprintf(w, "{}")
+	}
+	fmt.Fprintf(w, string(bytes))
+}
+
 func TestHandler(w http.ResponseWriter, r *http.Request) {
 	jsonFile, _ := os.Open("./example.json")
 	bytes, _ := ioutil.ReadAll(jsonFile)
