@@ -11,6 +11,7 @@ import (
 
 	"github.com/gorilla/mux"
 	"miikka.xyz/sgoreboard/game"
+	"miikka.xyz/sgoreboard/manager"
 )
 
 // Server ...
@@ -39,13 +40,10 @@ func Start() {
 	router.HandleFunc("/test", TestHandler)
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./public")))
 	server.http.ListenAndServe()
-	// router.HandleFunc("/game", server.CreateGameHandle).Methods("POST")
-	// router.HandleFunc("/game/{id}", server.GetGameHandle).Methods("GET")
-	// router.HandleFunc("/game/{id}", server.SetBasketScore).Methods("PUT")
 	// router.HandleFunc("/games/{id:[0-9]+}", QueryGame)
 }
 
-// TestHandler...
+// TestCreate ...
 func TestCreate(w http.ResponseWriter, r *http.Request) {
 	data := struct {
 		Name string
@@ -60,10 +58,11 @@ func TestCreate(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, string(bytes))
 }
 
+// TestHandler ...
 func TestHandler(w http.ResponseWriter, r *http.Request) {
 	jsonFile, _ := os.Open("./example.json")
 	bytes, _ := ioutil.ReadAll(jsonFile)
-	g := game.JsonToCourse(string(bytes))
+	g := manager.JSONToCourse(string(bytes))
 	fmt.Fprintf(w, "%+v", g)
 }
 

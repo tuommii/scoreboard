@@ -86,8 +86,13 @@ console.log(calcPlayerScore(course, players, 18));
 
 
 
+const startingData = {
+	basketCount: 3,
+	players: ['Tiger King', 'Ying Jang']
+};
+
 button.addEventListener('click', (event) => {
-	// postData('/test_create', {name: "Miikka"}).then((data) => {
-	// 	console.log(data);
-	// });
+	postData('/test_create', startingData).then((data) => {
+		console.log(data);
+	});
 });
