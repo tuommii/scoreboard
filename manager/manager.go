@@ -26,6 +26,7 @@ func CreateCourse(players []string, baskets int) *game.Course {
 	// TODO: check bad input
 	course := game.NewCourse()
 	course.ID = createID(players, baskets)
+	course.BasketCount = baskets
 	for i := 0; i < baskets; i++ {
 		basket := game.NewBasket()
 		basket.OrderNum = i + 1
