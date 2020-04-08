@@ -4,11 +4,10 @@ POST http://localhost:8080/test_create HTTP/1.1
 content-type: application/json
 
 {
-	"basketCount": 18,
+	"basketCount": 2,
 	"players": [
-		"Haloo",
-		"Jing Jang",
-		"Miikka"
+		"Tiger King",
+		"Ying Yang"
 	]
 }
 

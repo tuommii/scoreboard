@@ -1,6 +1,50 @@
+# Score tracker for discgolf and golf
 
-# Sgoreboard
 
- - Every game should get unique id
- - Player must be able join the game in the middle of it also
- - Consider lane played when one after that is also marked (?)
+## Create new course
+
+### POST
+```json
+{
+	"basketCount": 2,
+	"players": ["Tiger King", "Ying Yang"]
+}
+```
+
+### Server responses
+```json
+{
+  "id": "2ty",
+  "basketCount": 2,
+  "Baskets": {
+    "1": {
+      "OrderNum": 1,
+      "Par": 0,
+      "Scores": {
+        "Tiger King": {
+          "Score": 0,
+          "OB": 0
+        },
+        "Ying Yang": {
+          "Score": 0,
+          "OB": 0
+        }
+      }
+    },
+    "2": {
+      "OrderNum": 2,
+      "Par": 0,
+      "Scores": {
+        "Tiger King": {
+          "Score": 0,
+          "OB": 0
+        },
+        "Ying Yang": {
+          "Score": 0,
+          "OB": 0
+        }
+      }
+    }
+  }
+}
+```
