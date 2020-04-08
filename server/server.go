@@ -15,6 +15,8 @@ import (
 
 // Server ...
 type Server struct {
+	// ID
+	Counter int
 	// This gets passed to Game for creating ID
 	http  *http.Server
 	games map[string]*game.Course
@@ -41,7 +43,7 @@ func Start() {
 	server.games = make(map[string]*game.Course)
 
 	// Init routes
-	router.HandleFunc("/test_create", TestCreate).Methods("POST")
+	router.HandleFunc("/test_create", server.TestCreate).Methods("POST")
 	router.HandleFunc("/test_edit", TestEdit).Methods("POST")
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./public")))
 	server.http.ListenAndServe()
@@ -49,7 +51,7 @@ func Start() {
 }
 
 // TestCreate ...
-func TestCreate(w http.ResponseWriter, r *http.Request) {
+func (s *Server) TestCreate(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var query CreateQuery
 	bytes, err := ioutil.ReadAll(r.Body)
@@ -66,7 +68,9 @@ func TestCreate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	course := manager.CreateCourse(query.Players, query.BasketCount)
+	// TODO: Inc only if all is legal
+	s.Counter++
+	course := manager.CreateCourse(query.Players, query.BasketCount, s.Counter)
 
 	bytes, err = json.Marshal(course)
 	if err != nil {

@@ -22,10 +22,10 @@ func createID(players []string, counter int) string {
 }
 
 // CreateCourse ...
-func CreateCourse(players []string, baskets int) *game.Course {
+func CreateCourse(players []string, baskets int, counter int) *game.Course {
 	// TODO: check bad input
 	course := game.NewCourse()
-	course.ID = createID(players, baskets)
+	course.ID = createID(players, counter)
 	course.BasketCount = baskets
 	for i := 0; i < baskets; i++ {
 		basket := game.NewBasket()
