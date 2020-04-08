@@ -29,18 +29,16 @@
           <form class="form">
 
             <!-- NAME INPUT -->
-            <div class="field">
+            <div class="field has-addons">
               <div class="control">
                 <input type="text" class="input" placeholder="Player name">
               </div>
-            </div>
-
-            <!-- ADD BUTTON -->
-            <div class="field">
+              <!-- ADD BUTTON -->
               <div class="control">
                 <button class="button is-link">Add</button>
               </div>
             </div>
+
           </form>
           <!-- END OF FORM -->
 
@@ -50,7 +48,7 @@
           <!-- PLAYERS -->
           <div class="field" v-for="player in selectedPlayers" v-bind:key="player.name">
             <div class="control">
-              <button class="button">{{player.name}} {{player.selected}}</button>
+              <button class="button" @click="toggleSelected(player)">{{player.name}} {{player.selected}}</button>
             </div>
           </div>
           <!-- END OF PLAYERS -->
@@ -61,14 +59,11 @@
           <form class="form">
 
             <!-- ID INPUT -->
-            <div class="field">
+            <div class="field has-addons">
               <div class="control">
                 <input type="text" class="input" placeholder="ID">
               </div>
-            </div>
-
-            <!-- ADD BUTTON -->
-            <div class="field">
+              <!-- ADD BUTTON -->
               <div class="control">
                 <button class="button is-link">Join</button>
               </div>

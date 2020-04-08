@@ -67,6 +67,12 @@ const startingData = {
 // 		console.log(data);
 // 	});
 // });
+
+
+function toggleSelected(player) {
+	player.selected = !player.selected
+}
+
 var app = new Vue({
 	el: '#app',
 	data: {
@@ -79,5 +85,8 @@ var app = new Vue({
 		],
 		// Game object
 		course: {}
+	},
+	methods: {
+		toggleSelected: toggleSelected
 	}
 });
