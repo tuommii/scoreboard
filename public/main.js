@@ -1,5 +1,8 @@
 console.log('Hello!');
 
+
+const CREATE_GAME = '/test_create';
+
 async function postData(url = '', data = {}) {
 	const response = await fetch(url, {
 		method: 'POST',
@@ -74,13 +77,22 @@ function toggleSelected(player) {
 }
 
 function start() {
-	let players = [];
+	let playersArr = [];
 	this.selectedPlayers.forEach(player => {
 		if (player.selected) {
-			players.push(player.name);
+			playersArr.push(player.name);
 		}
 	});
-	console.log(players);
+
+	const query = {
+		players: playersArr,
+		basketCount: 3
+	};
+
+	postData(CREATE_GAME, query).then((data) => {
+		console.log(data);
+		this.course = data;
+	});
 }
 
 var app = new Vue({
