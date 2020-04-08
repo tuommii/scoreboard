@@ -3,8 +3,10 @@ package server
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/gorilla/mux"
@@ -35,7 +37,6 @@ func Start() {
 	// Init routes
 	router.HandleFunc("/test", TestHandler)
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./public")))
-	log.Println("Server started...")
 	server.http.ListenAndServe()
 	// router.HandleFunc("/game", server.CreateGameHandle).Methods("POST")
 	// router.HandleFunc("/game/{id}", server.GetGameHandle).Methods("GET")
@@ -45,7 +46,10 @@ func Start() {
 
 // TestHandler...
 func TestHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Tiger King says Hello!")
+	jsonFile, _ := os.Open("./example.json")
+	bytes, _ := ioutil.ReadAll(jsonFile)
+	g := game.JsonToCourse(string(bytes))
+	fmt.Fprintf(w, "%+v", g)
 }
 
 //
