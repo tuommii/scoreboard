@@ -6,6 +6,13 @@ import (
 	"testing"
 )
 
+func TestCreateID(t *testing.T) {
+	id := createID([]string{"TigerKing", "Pesukarhu", "Ying Jang", "Bubba"}, 1)
+	if id != "1bpty" {
+		t.Errorf("%s", id)
+	}
+}
+
 func TestCreateCourse(t *testing.T) {
 	course := CreateCourse([]string{"TigerKing", "Pesukarhu", "Ying Jang"}, 18)
 	if len(course.Baskets) != 18 {

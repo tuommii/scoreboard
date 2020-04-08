@@ -21,6 +21,12 @@ type Server struct {
 	games map[string]*game.Course
 }
 
+// CreateQuery ...
+type CreateQuery struct {
+	BasketCount int      `json:"basketCount"`
+	Players     []string `json:"players"`
+}
+
 // Start ...
 func Start() {
 	server := Server{}
@@ -45,12 +51,25 @@ func Start() {
 
 // TestCreate ...
 func TestCreate(w http.ResponseWriter, r *http.Request) {
-	data := struct {
-		Name string
-	}{
-		"Miikka Tuominen",
+	w.Header().Set("Content-Type", "application/json")
+	var query CreateQuery
+	bytes, err := ioutil.ReadAll(r.Body)
+	log.Println(string(bytes))
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
-	bytes, err := json.Marshal(data)
+
+	err = json.Unmarshal(bytes, &query)
+	log.Printf("%+v\n%+v\n", query, err)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	course := manager.CreateCourse(query.Players, query.BasketCount)
+
+	bytes, err = json.Marshal(course)
 	if err != nil {
 		log.Println("DSADSADSDASSADSA")
 		fmt.Fprintf(w, "{}")

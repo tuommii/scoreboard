@@ -12,8 +12,8 @@ var counter int
 
 // Course ...
 type Course struct {
-	ID          string
-	BasketCount int
+	ID          string `json:"id"`
+	BasketCount int    `json:"basketCount"`
 	// OrderNumber is the key
 	Baskets map[int]*Basket
 }

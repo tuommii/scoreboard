@@ -4,16 +4,28 @@ import (
 	"encoding/json"
 	"io"
 	"log"
+	"sort"
 	"strconv"
 	"strings"
 
 	"miikka.xyz/sgoreboard/game"
 )
 
+// CreateID ...
+func createID(players []string, counter int) string {
+	sort.Strings(players)
+	id := strconv.Itoa(counter)
+	for _, player := range players {
+		id += strings.ToLower((string(player[0])))
+	}
+	return id
+}
+
 // CreateCourse ...
 func CreateCourse(players []string, baskets int) *game.Course {
 	// TODO: check bad input
 	course := game.NewCourse()
+	course.ID = createID(players, baskets)
 	for i := 0; i < baskets; i++ {
 		basket := game.NewBasket()
 		basket.OrderNum = i + 1
