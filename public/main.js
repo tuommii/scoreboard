@@ -29,34 +29,34 @@ const edit = {
 	"1": {
 		"par": 3,
 		"Tigerking": {
-			"score": 5,
-			"ob": 0
-		},
-		"Jing Jang": {
 			"score": 6,
 			"ob": 1
+		},
+		"Jing Jang": {
+			"score": 1,
+			"ob": 0
 		}
 	},
 	"2": {
 		"par": 4,
 		"Tigerking": {
-			"score": 3,
-			"ob": 0
+			"score": 7,
+			"ob": 1
 		},
 		"Jing Jang": {
-			"score": 4,
-			"ob": 1
+			"score": 1,
+			"ob": 0
 		}
 	},
 	"3": {
 		"par": 5,
 		"Tigerking": {
-			"score": 3,
-			"ob": 0
+			"score": 8,
+			"ob": 1
 		},
 		"Jing Jang": {
-			"score": 4,
-			"ob": 1
+			"score": 1,
+			"ob": 0
 		}
 	}
 }
