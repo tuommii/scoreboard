@@ -1,5 +1,8 @@
 # Score tracker for discgolf and golf
 
+## TODO
+- PWA
+- HTML Router
 
 ## Create new course
 
@@ -16,6 +19,7 @@
 {
   "id": "2ty",
   "basketCount": 2,
+  "active": 1,
   "Baskets": {
     "1": {
       "OrderNum": 1,

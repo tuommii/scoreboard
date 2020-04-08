@@ -1,23 +1,5 @@
-console.log('Hello!');
-
 
 const CREATE_GAME = '/test_create';
-
-async function postData(url = '', data = {}) {
-	const response = await fetch(url, {
-		method: 'POST',
-		mode: 'cors',
-		cache: 'no-cache',
-		credentials: 'same-origin',
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		redirect: 'follow',
-		referrerPolicy: 'no-referrer',
-		body: JSON.stringify(data)
-	});
-	return response.json();
-}
 
 // We test with this
 const edit = {
@@ -64,14 +46,6 @@ const startingData = {
 	players: ['Tiger King', 'Ying Jang']
 };
 
-// Here we send startingData
-// button.addEventListener('click', (event) => {
-// 	postData('/test_edit', edit).then((data) => {
-// 		console.log(data);
-// 	});
-// });
-
-
 function toggleSelected(player) {
 	player.selected = !player.selected
 }
@@ -92,6 +66,7 @@ function start() {
 	postData(CREATE_GAME, query).then((data) => {
 		console.log(data);
 		this.course = data;
+		this.active = 1;
 	});
 }
 
@@ -113,3 +88,20 @@ var app = new Vue({
 		start: start
 	}
 });
+
+
+async function postData(url = '', data = {}) {
+	const response = await fetch(url, {
+		method: 'POST',
+		mode: 'cors',
+		cache: 'no-cache',
+		credentials: 'same-origin',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		redirect: 'follow',
+		referrerPolicy: 'no-referrer',
+		body: JSON.stringify(data)
+	});
+	return response.json();
+}
