@@ -8,8 +8,21 @@ import (
 
 func TestCreateID(t *testing.T) {
 	id := createID([]string{"TigerKing", "Pesukarhu", "Ying Jang", "Bubba"}, 1)
-	if id != "1bpty" {
-		t.Errorf("%s", id)
+	wanted := "1bpty"
+	if id != wanted {
+		t.Errorf("got: %s, wanted: %s\n", id, wanted)
+	}
+
+	id = createID([]string{"Aapo", "Ari", "Ying Jang"}, 24)
+	wanted = "24aay"
+	if id != wanted {
+		t.Errorf("got: %s, wanted: %s\n", id, wanted)
+	}
+
+	id = createID([]string{"123xxx123"}, 20)
+	wanted = "201"
+	if id != wanted {
+		t.Errorf("got: %s, wanted: %s\n", id, wanted)
 	}
 }
 
