@@ -6,7 +6,6 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"os"
 	"time"
 
 	"github.com/gorilla/mux"
@@ -43,7 +42,7 @@ func Start() {
 
 	// Init routes
 	router.HandleFunc("/test_create", TestCreate).Methods("POST")
-	router.HandleFunc("/test", TestHandler)
+	router.HandleFunc("/test_edit", TestEdit).Methods("POST")
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./public")))
 	server.http.ListenAndServe()
 	// router.HandleFunc("/games/{id:[0-9]+}", QueryGame)
@@ -77,12 +76,23 @@ func TestCreate(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, string(bytes))
 }
 
-// TestHandler ...
-func TestHandler(w http.ResponseWriter, r *http.Request) {
-	jsonFile, _ := os.Open("./example.json")
-	bytes, _ := ioutil.ReadAll(jsonFile)
-	g := manager.JSONToCourse(string(bytes))
-	fmt.Fprintf(w, "%+v", g)
+func TestEdit(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	var course *game.Course
+	bytes, err := ioutil.ReadAll(r.Body)
+	log.Println(string(bytes))
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	err = json.Unmarshal(bytes, &course)
+	log.Printf("%+v\n", course)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	fmt.Fprintf(w, string(bytes))
 }
 
 //
