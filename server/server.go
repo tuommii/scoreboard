@@ -52,7 +52,7 @@ func Start() {
 
 // GetGameHandle ...
 func (s *Server) GetGameHandle(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/plain")
+	w.Header().Set("Content-Type", "application/json")
 	vars := mux.Vars(r)
 	id := vars["id"]
 	active := vars["active"]
@@ -60,7 +60,7 @@ func (s *Server) GetGameHandle(w http.ResponseWriter, r *http.Request) {
 	log.Println("REQUEST", id, active)
 
 	if _, exist := s.games[id]; exist {
-		fmt.Fprintf(w, "%+v, %+v", id, active)
+		fmt.Fprintf(w, "{}")
 		return
 	}
 	fmt.Fprintf(w, "No game found")

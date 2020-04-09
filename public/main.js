@@ -51,15 +51,15 @@ function toggleSelected(player) {
 }
 
 function start() {
-	let playersArr = [];
+	this.playersArr = [];
 	this.selectedPlayers.forEach(player => {
 		if (player.selected) {
-			playersArr.push(player.name);
+			this.playersArr.push(player.name);
 		}
 	});
 
 	const query = {
-		players: playersArr,
+		players: this.playersArr,
 		basketCount: 3
 	};
 
@@ -67,7 +67,7 @@ function start() {
 		console.log(data);
 		this.course = data;
 		this.active = 1;
-		window.location.pathname = 'games/' + this.course.id + '/' + this.course.active;
+		// window.location.pathname = 'games/' + this.course.id + '/' + this.course.active;
 	});
 }
 
@@ -81,12 +81,23 @@ var app = new Vue({
 			{name: 'Sande', selected: false},
 			{name: 'Pesukarhu', selected: true},
 		],
+		playersArr: [],
 		// Game object
 		course: {}
 	},
 	methods: {
 		toggleSelected: toggleSelected,
 		start: start
+	},
+	computed: {
+		playersOnly() {
+			// players = [];
+			// this.course.baskets[this.active].forEach((item) => {
+			// 	if (item === 'par' || item == 'orderNum') {
+			// 		console.log('asdsdsa');
+			// 	}
+			// })
+		}
 	}
 });
 

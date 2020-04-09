@@ -96,15 +96,29 @@
 
     </div>
 
-
+    <!-- VUE-IF -->
     <!-- SCOREBOARD PART -->
     <div class="section" v-else>
       <div>
+
+        <!-- ACTIVE, PAR, ID -->
         <div class="hero-head">
           <div class="container">
             <h1 class="title">#{{course.active}} | Par {{course.baskets[active].par}} | #{{course.id}}</h1>
           </div>
         </div>
+        <!-- END ACTIVE, PAR, ID -->
+
+
+              <!-- PLAYERS -->
+              <div class="field" v-for="player in playersArr" v-bind:key="player">
+                <div class="control">
+                  <p>{{player}}</p>
+                </div>
+              </div>
+              <!-- END OF PLAYERS -->
+
+
       </div>
     </div>
     <!-- END VUE-IF -->
