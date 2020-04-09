@@ -50,6 +50,14 @@ function toggleSelected(player) {
 	player.selected = !player.selected
 }
 
+function deletePlayer(name) {
+	this.selectedPlayers = this.selectedPlayers.filter(player => {
+		console.log(player);
+		return player.name != name;
+	})
+	// console.log(player, i);
+}
+
 function start() {
 	this.playersArr = [];
 	this.selectedPlayers.forEach(player => {
@@ -87,6 +95,7 @@ var app = new Vue({
 	},
 	methods: {
 		toggleSelected: toggleSelected,
+		deletePlayer: deletePlayer,
 		start: start
 	},
 	computed: {

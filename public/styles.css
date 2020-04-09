@@ -6,3 +6,10 @@ body {
 .hero-body {
 	padding: 1.5rem 0rem;
 }
+
+.lila {
+	border-color: #6257c4 !important;
+	background-color: #6257c4 !important;
+	box-shadow: 0 4px 12px -2px rgba(98,87,196,.4) !important;
+	font-weight: 700;
+}

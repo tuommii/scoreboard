@@ -38,7 +38,7 @@
                         </div>
                         <!-- ADD BUTTON -->
                         <div class="control">
-                          <button class="button is-link">Join</button>
+                          <button class="button is-link lila">Join</button>
                         </div>
                       </div>
                     </form>
@@ -51,6 +51,7 @@
           <div class="field" v-for="player in selectedPlayers" v-bind:key="player.name">
             <div class="control">
               <button class="button is-medium" @click="toggleSelected(player)">{{player.name}} {{player.selected}}</button>
+              <a href="#" class="delete" @click="deletePlayer(player.name)">X</a>
             </div>
           </div>
           <!-- END OF PLAYERS -->
