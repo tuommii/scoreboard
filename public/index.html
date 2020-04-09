@@ -77,11 +77,11 @@
             <!-- NAME INPUT -->
             <div class="field has-addons">
               <div class="control">
-                <input type="text" class="input" placeholder="Player name">
+                <input type="text" v-model="player" class="input" placeholder="Player name">
               </div>
               <!-- ADD BUTTON -->
               <div class="control">
-                <button class="button is-link">Add</button>
+                <button @click="addPlayer" class="button is-link">Add</button>
               </div>
             </div>
 

@@ -46,6 +46,11 @@ const startingData = {
 	players: ['Tiger King', 'Ying Jang']
 };
 
+function addPlayer(e) {
+	e.preventDefault();
+	console.log('sas');
+}
+
 function toggleSelected(player) {
 	player.selected = !player.selected
 }
@@ -83,6 +88,7 @@ var app = new Vue({
 	el: '#app',
 	data: {
 		active: 0,
+		player: '',
 		// TODO: Get from server
 		selectedPlayers: [
 			{name: 'Miikka', selected: true},
@@ -94,6 +100,7 @@ var app = new Vue({
 		course: {}
 	},
 	methods: {
+		addPlayer: addPlayer,
 		toggleSelected: toggleSelected,
 		deletePlayer: deletePlayer,
 		start: start

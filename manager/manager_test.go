@@ -28,13 +28,28 @@ func TestCreateID(t *testing.T) {
 
 func TestCreateCourse(t *testing.T) {
 	course := CreateCourse([]string{"TigerKing", "Pesukarhu", "Ying Jang"}, 18, 1)
-	if len(course.Baskets) != 18 {
-		t.Errorf("%+v", course)
+
+	wanted := 1
+	if course.Active != wanted {
+		t.Errorf("got: %d, wanted: %d", course.Active, wanted)
 	}
-	if len(course.Baskets[1].Scores) != 3 {
-		t.Errorf("%+v", len(course.Baskets[1].Scores))
+
+	wanted = 18
+	if len(course.Baskets) != wanted {
+		t.Errorf("got: %d, wanted: %d", len(course.Baskets), wanted)
+	}
+
+	wanted = 3
+	if len(course.Baskets[1].Scores) != wanted {
+		t.Errorf("got: %d, wanted: %d", len(course.Baskets[1].Scores), wanted)
+	}
+
+	wanted = 3
+	if course.Baskets[10].Par != wanted {
+		t.Errorf("got: %d, wanted: %d", course.Baskets[10].Par, wanted)
 	}
 }
+
 func TestJSONToCourse(t *testing.T) {
 	jsonFile, err := os.Open("../example.json")
 	if err != nil {
@@ -49,7 +64,6 @@ func TestJSONToCourse(t *testing.T) {
 	if len(g.Baskets) != wanted {
 		t.Errorf("%d, %d\n", len(g.Baskets), wanted)
 	}
-
 	wanted = 4
 	if g.Baskets[2].Par != wanted {
 		t.Errorf("%d, %d\n", g.Baskets[2].Par, wanted)
