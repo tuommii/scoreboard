@@ -67,6 +67,7 @@ function start() {
 		console.log(data);
 		this.course = data;
 		this.active = 1;
+		window.location.pathname = 'games/' + this.course.id + '/' + this.course.active;
 	});
 }
 

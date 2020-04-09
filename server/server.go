@@ -16,14 +16,14 @@ import (
 // Server ...
 type Server struct {
 	// ID
-	Counter int
+	counter int
 	// This gets passed to Game for creating ID
 	http  *http.Server
 	games map[string]*game.Course
 }
 
-// CreateQuery ...
-type CreateQuery struct {
+// StartingRequest holds data thats needed for starting new game
+type StartingRequest struct {
 	BasketCount int      `json:"basketCount"`
 	Players     []string `json:"players"`
 }
@@ -43,17 +43,33 @@ func Start() {
 	server.games = make(map[string]*game.Course)
 
 	// Init routes
+	router.HandleFunc("/games/{id}/{active:[0-9]+}", server.GetGameHandle).Methods("GET")
 	router.HandleFunc("/test_create", server.TestCreate).Methods("POST")
 	router.HandleFunc("/test_edit", TestEdit).Methods("POST")
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./public")))
 	server.http.ListenAndServe()
-	// router.HandleFunc("/games/{id:[0-9]+}", QueryGame)
+}
+
+// GetGameHandle ...
+func (s *Server) GetGameHandle(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/plain")
+	vars := mux.Vars(r)
+	id := vars["id"]
+	active := vars["active"]
+
+	log.Println("REQUEST", id, active)
+
+	if _, exist := s.games[id]; exist {
+		fmt.Fprintf(w, "%+v, %+v", id, active)
+		return
+	}
+	fmt.Fprintf(w, "No game found")
 }
 
 // TestCreate ...
 func (s *Server) TestCreate(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	var query CreateQuery
+	var query StartingRequest
 	bytes, err := ioutil.ReadAll(r.Body)
 	log.Println(string(bytes))
 	if err != nil {
@@ -69,14 +85,15 @@ func (s *Server) TestCreate(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// TODO: Inc only if all is legal
-	s.Counter++
-	course := manager.CreateCourse(query.Players, query.BasketCount, s.Counter)
+	s.counter++
+	course := manager.CreateCourse(query.Players, query.BasketCount, s.counter)
 
 	bytes, err = json.Marshal(course)
 	if err != nil {
 		log.Println("DSADSADSDASSADSA")
 		fmt.Fprintf(w, "{}")
 	}
+	s.games[course.ID] = course
 	fmt.Fprintf(w, string(bytes))
 }
 
@@ -119,18 +136,6 @@ func (s *Server) CreateGameHandle(w http.ResponseWriter, r *http.Request) {
 	}
 	s.games[g.ID] = g
 	fmt.Fprintf(w, "New Game: %d, %+v, %+v", len(g.Baskets), g, g.Baskets[1])
-}
-
-// GetGameHandle ...
-func (s *Server) GetGameHandle(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	id := vars["id"]
-
-	if _, exist := s.games[id]; exist {
-		fmt.Fprintf(w, "%+v, %+v", s.games[id], s.games[id].Baskets)
-		return
-	}
-	fmt.Fprintf(w, "No game found")
 }
 
 // SetBasketScore ...

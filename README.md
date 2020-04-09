@@ -1,7 +1,8 @@
 # Score tracker for discgolf and golf
 
 ## TODO
-- PWA
+- PWA (Offline support)
+- Great UX
 - HTML Router
 
 ## Create new course

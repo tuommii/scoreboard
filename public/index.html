@@ -17,13 +17,58 @@
       <!-- HERO HEAD -->
       <div class="hero-head">
         <div class="container">
-          <h1 class="title">Scoreboard</h1>
+          <h1 class="title is-5">Scoreboard</h1>
+          <h2 class="subtitle is-6">Prototype</h2>
         </div>
       </div>
 
       <!-- HERO BODY -->
       <div class="hero-body">
         <div class="container">
+
+
+                    <!-- FORM JOIN -->
+                    <form class="form">
+
+                      <!-- ID INPUT -->
+                      <div class="field has-addons">
+                        <div class="control">
+                          <input type="text" class="input" placeholder="ID">
+                          <p class="help">Let others play. Join the game and keep the score.</p>
+                        </div>
+                        <!-- ADD BUTTON -->
+                        <div class="control">
+                          <button class="button is-link">Join</button>
+                        </div>
+                      </div>
+                    </form>
+                    <!-- END OF FORM JOIN -->
+
+          <br>
+
+
+          <!-- PLAYERS -->
+          <div class="field" v-for="player in selectedPlayers" v-bind:key="player.name">
+            <div class="control">
+              <button class="button is-medium" @click="toggleSelected(player)">{{player.name}} {{player.selected}}</button>
+            </div>
+          </div>
+          <!-- END OF PLAYERS -->
+
+
+          <!-- START -->
+          <div class="field">
+            <div class="control">
+              <button class="button is-link" @click="start">Start</button>
+            </div>
+          </div>
+          <!-- START -->
+
+          <br>
+
+        </div>
+      </div>
+
 
           <!-- FORM -->
           <form class="form">
@@ -42,50 +87,6 @@
           </form>
           <!-- END OF FORM -->
 
-          <br>
-
-
-          <!-- PLAYERS -->
-          <div class="field" v-for="player in selectedPlayers" v-bind:key="player.name">
-            <div class="control">
-              <button class="button" @click="toggleSelected(player)">{{player.name}} {{player.selected}}</button>
-            </div>
-          </div>
-          <!-- END OF PLAYERS -->
-
-
-          <!-- START -->
-          <div class="field">
-            <div class="control">
-              <button class="button is-link" @click="start">Start</button>
-            </div>
-          </div>
-          <!-- START -->
-
-          <br>
-
-          <!-- FORM -->
-          <form class="form">
-
-            <!-- ID INPUT -->
-            <div class="field has-addons">
-              <div class="control">
-                <input type="text" class="input" placeholder="ID">
-              </div>
-              <!-- ADD BUTTON -->
-              <div class="control">
-                <button class="button is-link">Join</button>
-              </div>
-            </div>
-          </form>
-          <!-- END OF FORM -->
-
-
-
-        </div>
-      </div>
-
-
       <!-- HERO FOOTER -->
       <div class="hero-foot">
         <div class="container">
@@ -95,7 +96,9 @@
 
     </div>
 
-    <div v-else>
+
+    <!-- SCOREBOARD PART -->
+    <div class="section" v-else>
       <div>
         <div class="hero-head">
           <div class="container">
