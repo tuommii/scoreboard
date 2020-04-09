@@ -27,22 +27,22 @@
         <div class="container">
 
 
-                    <!-- FORM JOIN -->
-                    <form class="form">
+          <!-- FORM JOIN -->
+          <form class="form">
 
-                      <!-- ID INPUT -->
-                      <div class="field has-addons">
-                        <div class="control">
-                          <input type="text" class="input" placeholder="ID">
-                          <p class="help">Let others play. Join the game and keep the score.</p>
-                        </div>
-                        <!-- ADD BUTTON -->
-                        <div class="control">
-                          <button class="button is-link lila">Join</button>
-                        </div>
-                      </div>
-                    </form>
-                    <!-- END OF FORM JOIN -->
+            <!-- ID INPUT -->
+            <div class="field has-addons">
+              <div class="control">
+                <input type="text" class="input" placeholder="ID">
+                <p class="help">Your turn to keep the score.</p>
+              </div>
+              <!-- ADD BUTTON -->
+              <div class="control">
+                <button class="button is-link lila">Join</button>
+              </div>
+            </div>
+          </form>
+          <!-- END OF FORM JOIN -->
 
           <br>
 
@@ -50,7 +50,8 @@
           <!-- PLAYERS -->
           <div class="field" v-for="player in selectedPlayers" v-bind:key="player.name">
             <div class="control">
-              <button class="button is-medium" @click="toggleSelected(player)">{{player.name}} {{player.selected}}</button>
+              <button class="button is-medium" @click="toggleSelected(player)">{{player.name}}
+                {{player.selected}}</button>
               <a href="#" class="delete" @click="deletePlayer(player.name)">X</a>
             </div>
           </div>
@@ -71,22 +72,22 @@
       </div>
 
 
-          <!-- FORM -->
-          <form class="form">
+      <!-- FORM -->
+      <form class="form">
 
-            <!-- NAME INPUT -->
-            <div class="field has-addons">
-              <div class="control">
-                <input type="text" v-model="player" class="input" placeholder="Player name">
-              </div>
-              <!-- ADD BUTTON -->
-              <div class="control">
-                <button @click="addPlayer" class="button is-link">Add</button>
-              </div>
-            </div>
+        <!-- NAME INPUT -->
+        <div class="field has-addons">
+          <div class="control">
+            <input type="text" v-model="player" class="input" placeholder="Player name">
+          </div>
+          <!-- ADD BUTTON -->
+          <div class="control">
+            <button @click="addPlayer" class="button is-link">Add</button>
+          </div>
+        </div>
 
-          </form>
-          <!-- END OF FORM -->
+      </form>
+      <!-- END OF FORM -->
 
       <!-- HERO FOOTER -->
       <div class="hero-foot">
@@ -97,8 +98,12 @@
 
     </div>
 
-    <!-- VUE-IF -->
+
+
     <!-- SCOREBOARD PART -->
+
+
+    <!-- VUE-IF -->
     <div class="section" v-else>
       <div>
 
@@ -111,13 +116,13 @@
         <!-- END ACTIVE, PAR, ID -->
 
 
-              <!-- PLAYERS -->
-              <div class="field" v-for="player in playersArr" v-bind:key="player">
-                <div class="control">
-                  <p>{{player}}</p>
-                </div>
-              </div>
-              <!-- END OF PLAYERS -->
+        <!-- PLAYERS -->
+        <div class="field" v-for="player in playersArr" v-bind:key="player">
+          <div class="control">
+            <p>{{player}}</p>
+          </div>
+        </div>
+        <!-- END OF PLAYERS -->
 
 
       </div>
