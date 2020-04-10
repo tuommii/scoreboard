@@ -1,5 +1,27 @@
 body {
 	background: #f3f4f5;
+	/* Disables pull-to-refresh but allows overscroll glow effects. */
+	overscroll-behavior: none;
+	overscroll-behavior-y: none;
+}
+
+.section {
+	padding: 1.5rem;
+}
+
+.logo {
+	display: flex;
+	align-items:center;
+ }
+
+h1 {
+	padding-left: 1rem;
+}
+
+img {
+	width: 60px;
+	height: 60px;
+	vertical-align: middle;
 }
 
 /* Otherwise more indented than title */

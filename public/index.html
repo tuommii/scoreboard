@@ -3,8 +3,10 @@
 
 <head>
   <meta charset="UTF-8">
+  <meta name="author" content="Miikka Tuominen">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Scoreboard</title>
+  <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" type="text/css" href="bulma.min.css">
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -17,8 +19,10 @@
       <!-- HERO HEAD -->
       <div class="hero-head">
         <div class="container">
-          <h1 class="title is-5">Scoreboard</h1>
-          <h2 class="subtitle is-6">Prototype</h2>
+          <div class="logo">
+            <img src="prize-144.png" width="60" height="60">
+            <h1 class="title is-5">Scoreboard</h1>
+          </div>
         </div>
       </div>
 
@@ -112,24 +116,56 @@
 
     <!-- VUE-IF -->
     <div class="section" v-else>
-      <div>
 
         <!-- ACTIVE, PAR, ID -->
-        <div class="hero-head">
-          <div class="container">
-            <h1 class="title">#{{course.active}} | Par {{course.baskets[course.active].par}} | #{{course.id}}</h1>
+          <div class="container has-text-centered">
+            <h1 class="title is-5">#{{course.active}} | Par {{course.baskets[course.active].par}} | #{{course.id}}</h1>
           </div>
-        </div>
         <!-- END ACTIVE, PAR, ID -->
 
         <!-- PLAYERS -->
-        <div class="field" v-for="player in playersArr" v-bind:key="player">
-          <div class="control">
-            <p>{{player}}</p>
-            <p>{{course.baskets[course.active].scores[player].score}}</p>
-          </div>
-        </div>
+        <!-- <div class="section"> -->
+
+          <!-- <div class="container"> -->
+            <table class="table">
+              <tbody>
+              <tr>
+              <td style="vertical-align: middle;">miikka</td>
+              <td style="vertical-align: middle;">+3&nbsp;</td>
+              <td style="vertical-align: middle;">44</td>
+              <td style="vertical-align: middle;">5</td>
+              <td style="max-width: 100px; vertical-align: middle;">
+                  <button class="button">asaSA</button>
+                  <button class="button">asaSA</button>
+              <p>&nbsp;</p>
+              </td>
+              </tr>
+
+
+              <tr>
+                <td style="vertical-align: middle;">miikka</td>
+                <td style="vertical-align: middle;">+3&nbsp;</td>
+                <td style="vertical-align: middle;">44</td>
+                <td style="vertical-align: middle;">5</td>
+                <td style="max-width: 100px;">
+                  <button class="button">asaSA</button>
+                  <button class="button">asaSA</button>
+                <p>&nbsp;</p>
+                </td>
+                </tr>
+
+              </tbody>
+              </table>
+          <!-- </div> -->
+          <!-- <div class="column">
+            <div class="column is-full" v-for="player in playersArr" v-bind:key="player">
+              <p class="subtitle is-5">{{player}} | {{course.baskets[course.active].scores[player].score}}</p>
+            </div>
+          </div> -->
+        <!-- </div> -->
         <!-- END OF PLAYERS -->
+
+
 
         <div class="hero-foot">
           <div class="container">
@@ -139,7 +175,6 @@
         </div>
 
 
-      </div>
     </div>
     <!-- END VUE-IF -->
 
