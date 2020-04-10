@@ -17,3 +17,8 @@ body {
 .selected-count {
 	padding: 0.15rem 0 0.5rem;
 }
+
+.err {
+	color: red;
+	padding: 0.5rem 0 0 0;
+}

@@ -55,7 +55,6 @@ function isUniq(name, arr) {
 
 		if (name === player.name)
 		{
-			console.log('SAMA');
 			code = false;
 			return code;
 		}
@@ -66,10 +65,23 @@ function isUniq(name, arr) {
 function addPlayer(e) {
 	e.preventDefault();
 	// this.playersArr.push(this.player);
-	if (this.player.length > 0 && isUniq(this.player, this.selectedPlayers)) {
-		this.selectedPlayers.push({name: this.player, selected: true});
-		this.player = '';
+	if (this.player.length < 1) {
+		this.errors.add = 'At least one character needed';
+		return ;
 	}
+
+	else if (this.player.length > 16) {
+		this.errors.add = 'Max length is 16';
+		return ;
+	}
+
+	else if (!isUniq(this.player, this.selectedPlayers)) {
+		this.errors.add = 'Player already exists';
+		return ;
+	}
+
+	this.selectedPlayers.push({name: this.player, selected: true});
+	this.player = '';
 }
 
 function toggleSelected(player) {
@@ -92,6 +104,11 @@ function start() {
 		}
 	});
 
+	if (!this.playersArr.length) {
+		this.errors.start = "At least one player must be selected"
+		return ;
+	}
+
 	const query = {
 		players: this.playersArr,
 		basketCount: 3
@@ -105,16 +122,24 @@ function start() {
 	});
 }
 
+function join(e) {
+	e.preventDefault();
+}
+
 var app = new Vue({
 	el: '#app',
 	data: {
+		errors: {
+			start: '',
+			add: ''
+		},
 		active: 0,
 		player: '',
 		// TODO: Get from server
 		selectedPlayers: [
 			{name: 'Miikka', selected: true},
-			{name: 'Sande', selected: false},
-			{name: 'Pesukarhu', selected: true},
+			{name: 'Player 2', selected: true},
+			{name: 'Player 3', selected: false},
 		],
 		playersArr: [],
 		// Game object
