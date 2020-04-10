@@ -71,14 +71,11 @@ func (s *Server) TestCreate(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var query StartingRequest
 	bytes, err := ioutil.ReadAll(r.Body)
-	log.Println(string(bytes))
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-
 	err = json.Unmarshal(bytes, &query)
-	log.Printf("%+v\n%+v\n", query, err)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -87,19 +84,19 @@ func (s *Server) TestCreate(w http.ResponseWriter, r *http.Request) {
 	// TODO: Inc only if all is legal
 	s.counter++
 	course := manager.CreateCourse(query.Players, query.BasketCount, s.counter)
-
 	bytes, err = json.Marshal(course)
 	if err != nil {
-		log.Println("DSADSADSDASSADSA")
 		fmt.Fprintf(w, "{}")
+		return
 	}
+	log.Println(string(bytes))
 	s.games[course.ID] = course
 	fmt.Fprintf(w, string(bytes))
 }
 
+// TestEdit ...
 func TestEdit(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	var course *game.Course
 	bytes, err := ioutil.ReadAll(r.Body)
 	log.Println(string(bytes))
 	if err != nil {
@@ -107,13 +104,13 @@ func TestEdit(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = json.Unmarshal(bytes, &course)
+	course := manager.JSONToCourse(string(bytes))
 	log.Printf("%+v\n", course)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	fmt.Fprintf(w, string(bytes))
+	fmt.Fprintf(w, "{}")
 }
 
 //

@@ -1,5 +1,58 @@
 
-### Create new game
+### UPDATE
+POST http://localhost:8080/test_edit HTTP/1.1
+content-type: application/json
+
+
+{
+	"id": "1mp",
+	"basketCount": 300,
+	"active": 1,
+		"1": {
+			"orderNum": 1,
+			"par": 3,
+			"scores": {
+				"Miikka": {
+					"score": 0,
+					"ob": 0
+				},
+				"Player 2": {
+					"score": 0,
+					"ob": 0
+				}
+			}
+		},
+		"2": {
+			"orderNum": 2,
+			"par": 3,
+			"scores": {
+				"Miikka": {
+					"score": 0,
+					"ob": 0
+				},
+				"Player 2": {
+					"score": 0,
+					"ob": 0
+				}
+			}
+		},
+		"3": {
+			"orderNum": 3,
+			"par": 3,
+			"scores": {
+				"Miikka": {
+					"score": 0,
+					"ob": 0
+				},
+				"Player 2": {
+					"score": 0,
+					"ob": 0
+				}
+			}
+	}
+}
+
+###
 POST http://localhost:8080/test_create HTTP/1.1
 content-type: application/json
 

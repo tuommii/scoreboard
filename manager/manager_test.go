@@ -51,7 +51,7 @@ func TestCreateCourse(t *testing.T) {
 }
 
 func TestJSONToCourse(t *testing.T) {
-	jsonFile, err := os.Open("../example.json")
+	jsonFile, err := os.Open("../example2.json")
 	if err != nil {
 		t.Error(err)
 	}
