@@ -8,6 +8,7 @@ content-type: application/json
 	"id": "1mp",
 	"basketCount": 300,
 	"active": 1,
+	"baskets": {
 		"1": {
 			"orderNum": 1,
 			"par": 3,
@@ -49,6 +50,7 @@ content-type: application/json
 					"ob": 0
 				}
 			}
+		}
 	}
 }
 

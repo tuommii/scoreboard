@@ -84,12 +84,16 @@ func (s *Server) TestCreate(w http.ResponseWriter, r *http.Request) {
 	// TODO: Inc only if all is legal
 	s.counter++
 	course := manager.CreateCourse(query.Players, query.BasketCount, s.counter)
+
 	bytes, err = json.Marshal(course)
+	var c *game.Course
+	json.Unmarshal(bytes, &c)
+	log.Println(c)
 	if err != nil {
 		fmt.Fprintf(w, "{}")
 		return
 	}
-	log.Println(string(bytes))
+	// log.Println(string(bytes))
 	s.games[course.ID] = course
 	fmt.Fprintf(w, string(bytes))
 }
@@ -98,14 +102,16 @@ func (s *Server) TestCreate(w http.ResponseWriter, r *http.Request) {
 func TestEdit(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	bytes, err := ioutil.ReadAll(r.Body)
-	log.Println(string(bytes))
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	course := manager.JSONToCourse(string(bytes))
-	log.Printf("%+v\n", course)
+	// course := manager.JSONToCourse(string(bytes))
+	var c *game.Course
+	json.Unmarshal(bytes, &c)
+	c.Active += 121
+	fmt.Printf("%+v\n", c)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
