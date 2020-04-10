@@ -1,5 +1,6 @@
 
 const CREATE_GAME = '/test_create';
+const EDIT_GAME = '/test_edit';
 
 // We test with this
 const edit = {
@@ -48,16 +49,19 @@ const edit = {
 					"ob": 0
 				}
 			}
+		},
+		"sasas": {
+			"sadasd": {
+				"name": 10
+			}
 		}
 	}
 };
 
 
-// With this we can create game
-const startingData = {
-	basketCount: 3,
-	players: ['Tiger King', 'Ying Jang']
-};
+
+let GAME = {};
+
 
 // TODO: ignore case
 // TODO: Show error if same
@@ -141,7 +145,9 @@ function start() {
 }
 
 function sendData() {
-	postData('/test_edit', edit).then((data) => {
+	let jee = {};
+	Object.assign(jee, this.course)
+	postData(EDIT_GAME, edit).then((data) => {
 		console.log('FROM SERVER:', data);
 		this.course.active += 1;
 		this.course = data;

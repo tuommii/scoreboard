@@ -107,15 +107,15 @@ func TestEdit(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	fmt.Println(string(bytes))
+	fmt.Println("REQ:", string(bytes))
 
 	// course := manager.JSONToCourse(string(bytes))
 	var c *game.Course
 	json.Unmarshal(bytes, &c)
 
-	c.Active += 121
+	c.Active += 122
 	resp, _ := json.Marshal(c)
-	fmt.Printf("%+v\n", c)
+	fmt.Printf("\n\nRESP:%+v\n", c)
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
