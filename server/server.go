@@ -29,7 +29,7 @@ type StartingRequest struct {
 }
 
 // Start ...
-func Start() {
+func Start(path string) {
 	server := Server{}
 	router := mux.NewRouter()
 	server.http = &http.Server{
@@ -46,7 +46,7 @@ func Start() {
 	router.HandleFunc("/games/{id}/{active:[0-9]+}", server.GetGameHandle).Methods("GET")
 	router.HandleFunc("/test_create", server.TestCreate).Methods("POST")
 	router.HandleFunc("/test_edit", TestEdit).Methods("POST")
-	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./public")))
+	router.PathPrefix("/").Handler(http.FileServer(http.Dir(path)))
 	server.http.ListenAndServe()
 }
 
