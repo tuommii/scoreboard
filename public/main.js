@@ -109,6 +109,11 @@ function start() {
 		return ;
 	}
 
+	else if (this.playersArr.length > 5) {
+		this.errors.start = "Max 5 players"
+		return ;
+	}
+
 	const query = {
 		players: this.playersArr,
 		basketCount: 3
