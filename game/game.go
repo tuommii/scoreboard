@@ -1,7 +1,10 @@
 package game
 
 import (
+	"sort"
 	"strconv"
+	"strings"
+	"time"
 )
 
 var counter int
@@ -12,7 +15,8 @@ type Course struct {
 	BasketCount int    `json:"basketCount"`
 	Active      int    `json:"active"`
 	// OrderNumber is the key
-	Baskets map[int]*Basket `json:"baskets"`
+	Baskets   map[int]*Basket `json:"baskets"`
+	CreatedAt string          `json:"createdAt"`
 }
 
 // Basket ...
@@ -53,4 +57,37 @@ func NewBasket() *Basket {
 func NewBasketScore() *BasketScore {
 	basketScore := &BasketScore{}
 	return basketScore
+}
+
+// CreateID ...
+func createID(players []string, counter int) string {
+	sort.Strings(players)
+	id := strconv.Itoa(counter)
+	for _, player := range players {
+		id += strings.ToLower((string(player[0])))
+	}
+	return id
+}
+
+// CreateCourse ...
+func CreateCourse(players []string, baskets int, counter int) *Course {
+	// TODO: check bad input
+	course := NewCourse()
+	course.CreatedAt = time.Now().Format(time.RFC1123)
+	course.ID = createID(players, counter)
+	course.BasketCount = baskets
+	course.Active = 1
+	for i := 0; i < baskets; i++ {
+		basket := NewBasket()
+		// TODO: Just for testing
+		basket.Par = 3 + i
+		basket.OrderNum = i + 1
+		for _, player := range players {
+			basketScore := NewBasketScore()
+			basketScore.Score = 3
+			basket.Scores[player] = basketScore
+		}
+		course.Baskets[i+1] = basket
+	}
+	return course
 }

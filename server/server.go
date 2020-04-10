@@ -10,7 +10,6 @@ import (
 
 	"github.com/gorilla/mux"
 	"miikka.xyz/sgoreboard/game"
-	"miikka.xyz/sgoreboard/manager"
 )
 
 // Server ...
@@ -38,11 +37,9 @@ func Start(path string) {
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
-
 	// Our games/courses
 	server.games = make(map[string]*game.Course)
 
-	// Init routes
 	router.HandleFunc("/games/{id}/{active:[0-9]+}", server.GetGameHandle).Methods("GET")
 	router.HandleFunc("/test_create", server.TestCreate).Methods("POST")
 	router.HandleFunc("/test_edit", server.TestEdit).Methods("POST")
@@ -83,7 +80,7 @@ func (s *Server) TestCreate(w http.ResponseWriter, r *http.Request) {
 
 	// TODO: Inc only if all is legal
 	s.counter++
-	course := manager.CreateCourse(query.Players, query.BasketCount, s.counter)
+	course := game.CreateCourse(query.Players, query.BasketCount, s.counter)
 
 	bytes, err = json.Marshal(course)
 	var c *game.Course
@@ -101,42 +98,55 @@ func (s *Server) TestCreate(w http.ResponseWriter, r *http.Request) {
 // TestEdit ...
 func (s *Server) TestEdit(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
+	// Read body
 	bytes, err := ioutil.ReadAll(r.Body)
-
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	fmt.Println("REQ:", string(bytes))
 
-	// course := manager.JSONToCourse(string(bytes))
+	// Make course from body
 	var c *game.Course
-	json.Unmarshal(bytes, &c)
+	err = json.Unmarshal(bytes, &c)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 
+	// Check if game is found
 	id := c.ID
-	active := s.games[id].Active
+	if _, found := s.games[id]; !found {
+		http.Error(w, "Game not found", http.StatusInternalServerError)
+		return
+	}
 
-	// TODO: check is found
-	if active >= s.games[id].BasketCount {
+	// TODO: Check ip or?
+	// Posted by someone else
+	if c.CreatedAt != s.games[id].CreatedAt {
+		http.Error(w, "Hmm...", http.StatusInternalServerError)
+		return
+	}
+
+	// Not going over last basket
+	if s.games[id].Active >= s.games[id].BasketCount {
 		fmt.Fprintf(w, string(bytes))
 		return
 	}
+
+	// Update our internal game
 	s.games[id] = c
-
 	s.games[id].Active++
-	active++
+	// Easier read and write
+	active := s.games[id].Active
 
+	// Init data for next basket
 	par := s.games[id].Baskets[active].Par
-	fmt.Println("PAR:", par)
 	for player := range s.games[id].Baskets[active].Scores {
-		fmt.Println("BEFORE:", s.games[id].Baskets[active].Scores[player].Score)
 		s.games[id].Baskets[active].Scores[player].Score = par
-		fmt.Println("AFTER:", s.games[id].Baskets[active].Scores[player].Score)
 	}
 
-	resp, _ := json.Marshal(s.games[id])
-	fmt.Printf("\n\nRESP:%+v\n", s.games[id])
-
+	// Edited Course to json
+	resp, err := json.Marshal(s.games[id])
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

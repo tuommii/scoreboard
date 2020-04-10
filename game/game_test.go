@@ -1,8 +1,6 @@
-package manager
+package game
 
 import (
-	"io/ioutil"
-	"os"
 	"testing"
 )
 
@@ -47,25 +45,5 @@ func TestCreateCourse(t *testing.T) {
 	wanted = 3
 	if course.Baskets[10].Par != wanted {
 		t.Errorf("got: %d, wanted: %d", course.Baskets[10].Par, wanted)
-	}
-}
-
-func TestJSONToCourse(t *testing.T) {
-	jsonFile, err := os.Open("../example2.json")
-	if err != nil {
-		t.Error(err)
-	}
-	bytes, err := ioutil.ReadAll(jsonFile)
-	if err != nil {
-		t.Error(err)
-	}
-	g := JSONToCourse(string(bytes))
-	wanted := 3
-	if len(g.Baskets) != wanted {
-		t.Errorf("%d, %d\n", len(g.Baskets), wanted)
-	}
-	wanted = 4
-	if g.Baskets[2].Par != wanted {
-		t.Errorf("%d, %d\n", g.Baskets[2].Par, wanted)
 	}
 }
