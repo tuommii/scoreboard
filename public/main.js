@@ -127,13 +127,14 @@ var app = new Vue({
 		start: start
 	},
 	computed: {
-		playersOnly() {
-			// players = [];
-			// this.course.baskets[this.active].forEach((item) => {
-			// 	if (item === 'par' || item == 'orderNum') {
-			// 		console.log('asdsdsa');
-			// 	}
-			// })
+		selectedCount() {
+			let count = 0;
+			this.selectedPlayers.forEach(player => {
+				if (player.selected) {
+					count++;
+				}
+			});
+			return count;
 		}
 	}
 });

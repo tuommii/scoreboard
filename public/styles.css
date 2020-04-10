@@ -13,3 +13,7 @@ body {
 	box-shadow: 0 4px 12px -2px rgba(98,87,196,.4) !important;
 	font-weight: 700;
 }
+
+.selected-count {
+	padding: 0.15rem 0 0.5rem;
+}

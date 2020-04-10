@@ -61,7 +61,8 @@
           <!-- START -->
           <div class="field">
             <div class="control">
-              <button class="button is-link" @click="start">Start</button>
+              <p class="help selected-count">{{selectedCount}} of {{selectedPlayers.length}} selected</p>
+              <button class="button is-link is-medium" @click="start">Start</button>
             </div>
           </div>
           <!-- START -->
@@ -78,7 +79,7 @@
               </div>
               <!-- ADD BUTTON -->
               <div class="control">
-                <button @click="addPlayer" class="button is-link">Add</button>
+                <button @click="addPlayer" class="button is-link lila">Add</button>
               </div>
             </div>
 
@@ -95,7 +96,7 @@
       <!-- HERO FOOTER -->
       <div class="hero-foot">
         <div class="container">
-          <a href="https://miikka.xyz" alt="Miikka Tuominen">Miikka Tuominen</a>
+          <p>Made by: <a href="https://miikka.xyz" alt="Miikka Tuominen">Miikka Tuominen</a></p>
         </div>
       </div>
 

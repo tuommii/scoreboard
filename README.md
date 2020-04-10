@@ -4,6 +4,7 @@
 - PWA (Offline support)
 - Great UX
 - HTML Router
+- Random avatars
 
 ## Create new course
 
