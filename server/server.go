@@ -45,7 +45,7 @@ func Start(path string) {
 	// Init routes
 	router.HandleFunc("/games/{id}/{active:[0-9]+}", server.GetGameHandle).Methods("GET")
 	router.HandleFunc("/test_create", server.TestCreate).Methods("POST")
-	router.HandleFunc("/test_edit", TestEdit).Methods("POST")
+	router.HandleFunc("/test_edit", server.TestEdit).Methods("POST")
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir(path)))
 	server.http.ListenAndServe()
 }
@@ -99,7 +99,7 @@ func (s *Server) TestCreate(w http.ResponseWriter, r *http.Request) {
 }
 
 // TestEdit ...
-func TestEdit(w http.ResponseWriter, r *http.Request) {
+func (s *Server) TestEdit(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	bytes, err := ioutil.ReadAll(r.Body)
 
@@ -113,9 +113,25 @@ func TestEdit(w http.ResponseWriter, r *http.Request) {
 	var c *game.Course
 	json.Unmarshal(bytes, &c)
 
-	c.Active++
-	resp, _ := json.Marshal(c)
-	fmt.Printf("\n\nRESP:%+v\n", c)
+	id := c.ID
+	active := s.games[id].Active
+
+	// TODO: check is found
+	if active >= s.games[id].BasketCount {
+		fmt.Fprintf(w, string(bytes))
+		return
+	}
+	s.games[id] = c
+
+	s.games[id].Active++
+
+	par := s.games[id].Baskets[active].Par
+	for player := range s.games[id].Baskets[active].Scores {
+		s.games[id].Baskets[active].Scores[player].Score = par
+	}
+
+	resp, _ := json.Marshal(s.games[c.ID])
+	fmt.Printf("\n\nRESP:%+v\n", s.games[c.ID])
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)

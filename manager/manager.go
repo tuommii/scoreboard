@@ -29,9 +29,12 @@ func CreateCourse(players []string, baskets int, counter int) *game.Course {
 	course.BasketCount = baskets
 	for i := 0; i < baskets; i++ {
 		basket := game.NewBasket()
+		// TODO: Just for testing
+		basket.Par = 3 + i
 		basket.OrderNum = i + 1
 		for _, player := range players {
 			basketScore := game.NewBasketScore()
+			basketScore.Score = 3
 			basket.Scores[player] = basketScore
 		}
 		course.Baskets[i+1] = basket

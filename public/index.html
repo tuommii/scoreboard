@@ -117,7 +117,7 @@
         <!-- ACTIVE, PAR, ID -->
         <div class="hero-head">
           <div class="container">
-            <h1 class="title">#{{course.active}} | Par {{course.baskets[active].par}} | #{{course.id}}</h1>
+            <h1 class="title">#{{course.active}} | Par {{course.baskets[course.active].par}} | #{{course.id}}</h1>
           </div>
         </div>
         <!-- END ACTIVE, PAR, ID -->
@@ -126,6 +126,7 @@
         <div class="field" v-for="player in playersArr" v-bind:key="player">
           <div class="control">
             <p>{{player}}</p>
+            <p>{{course.baskets[course.active].scores[player].score}}</p>
           </div>
         </div>
         <!-- END OF PLAYERS -->

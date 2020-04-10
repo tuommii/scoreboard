@@ -151,8 +151,9 @@ function sendData() {
 
 	postData(EDIT_GAME, this.course).then((data) => {
 		console.log('FROM SERVER:', data);
-		this.course.active += 1;
 		this.course = data;
+
+		// Set points to par
 	});
 }
 
