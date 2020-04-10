@@ -68,26 +68,29 @@
 
           <br>
 
+          <!-- FORM -->
+          <form class="form">
+
+            <!-- NAME INPUT -->
+            <div class="field has-addons">
+              <div class="control">
+                <input type="text" v-model="player" class="input" placeholder="Player name">
+              </div>
+              <!-- ADD BUTTON -->
+              <div class="control">
+                <button @click="addPlayer" class="button is-link">Add</button>
+              </div>
+            </div>
+
+          </form>
+          <!-- END OF FORM -->
+
+
         </div>
+
       </div>
 
 
-      <!-- FORM -->
-      <form class="form">
-
-        <!-- NAME INPUT -->
-        <div class="field has-addons">
-          <div class="control">
-            <input type="text" v-model="player" class="input" placeholder="Player name">
-          </div>
-          <!-- ADD BUTTON -->
-          <div class="control">
-            <button @click="addPlayer" class="button is-link">Add</button>
-          </div>
-        </div>
-
-      </form>
-      <!-- END OF FORM -->
 
       <!-- HERO FOOTER -->
       <div class="hero-foot">
@@ -123,6 +126,13 @@
           </div>
         </div>
         <!-- END OF PLAYERS -->
+
+        <div class="hero-foot">
+          <div class="container">
+            <button class="button">Previous</button>
+            <button class="button">Update</button>
+          </div>
+        </div>
 
 
       </div>
