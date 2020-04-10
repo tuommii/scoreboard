@@ -27,6 +27,7 @@ func CreateCourse(players []string, baskets int, counter int) *game.Course {
 	course := game.NewCourse()
 	course.ID = createID(players, counter)
 	course.BasketCount = baskets
+	course.Active = 1
 	for i := 0; i < baskets; i++ {
 		basket := game.NewBasket()
 		// TODO: Just for testing

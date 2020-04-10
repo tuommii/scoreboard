@@ -124,14 +124,18 @@ func (s *Server) TestEdit(w http.ResponseWriter, r *http.Request) {
 	s.games[id] = c
 
 	s.games[id].Active++
+	active++
 
 	par := s.games[id].Baskets[active].Par
+	fmt.Println("PAR:", par)
 	for player := range s.games[id].Baskets[active].Scores {
+		fmt.Println("BEFORE:", s.games[id].Baskets[active].Scores[player].Score)
 		s.games[id].Baskets[active].Scores[player].Score = par
+		fmt.Println("AFTER:", s.games[id].Baskets[active].Scores[player].Score)
 	}
 
-	resp, _ := json.Marshal(s.games[c.ID])
-	fmt.Printf("\n\nRESP:%+v\n", s.games[c.ID])
+	resp, _ := json.Marshal(s.games[id])
+	fmt.Printf("\n\nRESP:%+v\n", s.games[id])
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
