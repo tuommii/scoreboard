@@ -127,39 +127,21 @@
         <!-- <div class="section"> -->
 
           <!-- <div class="container"> -->
-            <table class="table">
-              <tbody>
-              <tr>
-              <td style="vertical-align: middle;">miikka</td>
-              <td style="vertical-align: middle;">+3&nbsp;</td>
-              <td style="vertical-align: middle;">44</td>
-              <td style="vertical-align: middle;">5</td>
-              <td style="max-width: 100px; vertical-align: middle;">
-                  <button class="button">asaSA</button>
-                  <button class="button">asaSA</button>
-              <p>&nbsp;</p>
-              </td>
-              </tr>
-
-
-              <tr>
-                <td style="vertical-align: middle;">miikka</td>
-                <td style="vertical-align: middle;">+3&nbsp;</td>
-                <td style="vertical-align: middle;">44</td>
-                <td style="vertical-align: middle;">5</td>
-                <td style="max-width: 100px;">
-                  <button class="button">asaSA</button>
-                  <button class="button">asaSA</button>
-                <p>&nbsp;</p>
-                </td>
-                </tr>
-
-              </tbody>
-              </table>
+            <div class="card" v-for="player in playersArr" v-bind:key="player">
+              <div class="card-content">
+                <div class="content">
+                  <p class="subtitle is-5">{{player}} | {{course.baskets[course.active].scores[player].score}}</p>
+                </div>
+              </div>
+              <footer class="card-footer">
+                <a href="#" class="card-footer-item">DEC</a>
+                <a href="#" class="card-footer-item"></a>
+                <a href="#" class="card-footer-item">INC</a>
+              </footer>
+            </div>
           <!-- </div> -->
           <!-- <div class="column">
-            <div class="column is-full" v-for="player in playersArr" v-bind:key="player">
-              <p class="subtitle is-5">{{player}} | {{course.baskets[course.active].scores[player].score}}</p>
+            <div class="column is-full" >
             </div>
           </div> -->
         <!-- </div> -->

@@ -9,6 +9,15 @@ body {
 	padding: 1.5rem;
 }
 
+.card {
+	margin-top: 1rem;
+}
+
+.card-content {
+	padding: 0.5rem 0;
+	text-align: center;
+}
+
 .logo {
 	display: flex;
 	align-items:center;
