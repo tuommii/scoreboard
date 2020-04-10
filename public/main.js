@@ -3,42 +3,55 @@ const CREATE_GAME = '/test_create';
 
 // We test with this
 const edit = {
-	"id": "tigeri-jing-5",
+	"id": "1mp",
 	"basketCount": 3,
-	"1": {
-		"par": 3,
-		"Tigerking": {
-			"score": 6,
-			"ob": 1
+	"active": 42,
+	"baskets": {
+		"1": {
+			"orderNum": 1,
+			"par": 3,
+			"scores": {
+				"Miikka": {
+					"score": 0,
+					"ob": 0
+				},
+				"Player 2": {
+					"score": 0,
+					"ob": 0
+				}
+			}
 		},
-		"Jing Jang": {
-			"score": 1,
-			"ob": 0
-		}
-	},
-	"2": {
-		"par": 4,
-		"Tigerking": {
-			"score": 7,
-			"ob": 1
+		"2": {
+			"orderNum": 2,
+			"par": 3,
+			"scores": {
+				"Miikka": {
+					"score": 0,
+					"ob": 0
+				},
+				"Player 2": {
+					"score": 0,
+					"ob": 0
+				}
+			}
 		},
-		"Jing Jang": {
-			"score": 1,
-			"ob": 0
-		}
-	},
-	"3": {
-		"par": 5,
-		"Tigerking": {
-			"score": 8,
-			"ob": 1
-		},
-		"Jing Jang": {
-			"score": 1,
-			"ob": 0
+		"3": {
+			"orderNum": 3,
+			"par": 3,
+			"scores": {
+				"Miikka": {
+					"score": 0,
+					"ob": 0
+				},
+				"Player 2": {
+					"score": 0,
+					"ob": 0
+				}
+			}
 		}
 	}
-}
+};
+
 
 // With this we can create game
 const startingData = {
@@ -127,9 +140,18 @@ function start() {
 	});
 }
 
+function sendData() {
+	postData('/test_edit', edit).then((data) => {
+		console.log('FROM SERVER:', data);
+		this.course.active += 1;
+		this.course = data;
+	});
+}
+
 function join(e) {
 	e.preventDefault();
 }
+
 
 var app = new Vue({
 	el: '#app',
@@ -154,7 +176,8 @@ var app = new Vue({
 		addPlayer: addPlayer,
 		toggleSelected: toggleSelected,
 		deletePlayer: deletePlayer,
-		start: start
+		start: start,
+		sendData: sendData
 	},
 	computed: {
 		selectedCount() {

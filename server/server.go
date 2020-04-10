@@ -102,73 +102,24 @@ func (s *Server) TestCreate(w http.ResponseWriter, r *http.Request) {
 func TestEdit(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	bytes, err := ioutil.ReadAll(r.Body)
+
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	fmt.Println(string(bytes))
 
 	// course := manager.JSONToCourse(string(bytes))
 	var c *game.Course
 	json.Unmarshal(bytes, &c)
+
 	c.Active += 121
+	resp, _ := json.Marshal(c)
 	fmt.Printf("%+v\n", c)
+
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	fmt.Fprintf(w, "{}")
-}
-
-//
-//
-//
-// Old code below, left for example
-//
-//
-//
-
-// CreateGameHandle ...
-func (s *Server) CreateGameHandle(w http.ResponseWriter, r *http.Request) {
-	// TODO: Mutex here
-	g := game.NewCourse()
-	err := json.NewDecoder(r.Body).Decode(g)
-	if err != nil {
-		log.Println(err)
-		text(w, http.StatusBadRequest, err.Error())
-		return
-	}
-	s.games[g.ID] = g
-	fmt.Fprintf(w, "New Game: %d, %+v, %+v", len(g.Baskets), g, g.Baskets[1])
-}
-
-// SetBasketScore ...
-func (s *Server) SetBasketScore(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-
-	fmt.Println(vars)
-	b := game.Basket{}
-	err := json.NewDecoder(r.Body).Decode(&b)
-	if err != nil {
-		log.Println(err)
-		fmt.Fprintf(w, err.Error())
-		return
-	}
-	fmt.Fprintf(w, "%+v", b)
-}
-
-// HomeHandler ...
-func HomeHandler(w http.ResponseWriter, r *http.Request) {
-	text(w, 200, "OK")
-}
-
-// QueryGame ...
-func QueryGame(w http.ResponseWriter, r *http.Request) {
-	fmt.Println(mux.Vars(r))
-	text(w, 200, "OK")
-}
-
-func text(w http.ResponseWriter, code int, msg string) {
-	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
-	w.WriteHeader(code)
-	fmt.Fprintln(w, msg)
+	fmt.Fprintf(w, string(resp))
 }
