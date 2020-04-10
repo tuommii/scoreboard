@@ -146,8 +146,10 @@ function start() {
 
 function sendData() {
 	let jee = {};
-	Object.assign(jee, this.course)
-	postData(EDIT_GAME, edit).then((data) => {
+	// Object.assign(jee, this.course);
+	console.log('REQUEST WITH', jee, this.course);
+
+	postData(EDIT_GAME, this.course).then((data) => {
 		console.log('FROM SERVER:', data);
 		this.course.active += 1;
 		this.course = data;

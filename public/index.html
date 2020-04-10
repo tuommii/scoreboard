@@ -71,9 +71,6 @@
 
           <br>
 
-          <button @click="sendData">SEND DATA</button>
-
-
           <!-- ADD PLAYER FORM -->
           <form class="form">
 
@@ -125,7 +122,6 @@
         </div>
         <!-- END ACTIVE, PAR, ID -->
 
-
         <!-- PLAYERS -->
         <div class="field" v-for="player in playersArr" v-bind:key="player">
           <div class="control">
@@ -137,7 +133,7 @@
         <div class="hero-foot">
           <div class="container">
             <button class="button">Previous</button>
-            <button class="button">Update</button>
+            <button class="button" @click="sendData">Update</button>
           </div>
         </div>
 

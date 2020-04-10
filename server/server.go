@@ -113,7 +113,7 @@ func TestEdit(w http.ResponseWriter, r *http.Request) {
 	var c *game.Course
 	json.Unmarshal(bytes, &c)
 
-	c.Active += 122
+	c.Active++
 	resp, _ := json.Marshal(c)
 	fmt.Printf("\n\nRESP:%+v\n", c)
 
