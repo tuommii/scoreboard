@@ -5,6 +5,10 @@ body {
 	overscroll-behavior-y: none;
 }
 
+
+
+[v-cloak] { display: none; }
+
 .section {
 	padding: 1.5rem;
 }

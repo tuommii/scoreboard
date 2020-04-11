@@ -70,8 +70,7 @@ function isUniq(name, arr) {
 	arr.forEach(player => {
 		console.log(name, player.name);
 
-		if (name === player.name)
-		{
+		if (name === player.name) {
 			code = false;
 			return code;
 		}
@@ -84,20 +83,20 @@ function addPlayer(e) {
 	// this.playersArr.push(this.player);
 	if (this.player.length < 1) {
 		this.errors.add = 'At least one character needed';
-		return ;
+		return;
 	}
 
 	else if (this.player.length > 16) {
 		this.errors.add = 'Max length is 16';
-		return ;
+		return;
 	}
 
 	else if (!isUniq(this.player, this.selectedPlayers)) {
 		this.errors.add = 'Player already exists';
-		return ;
+		return;
 	}
 
-	this.selectedPlayers.push({name: this.player, selected: true});
+	this.selectedPlayers.push({ name: this.player, selected: true });
 	this.player = '';
 }
 
@@ -123,12 +122,12 @@ function start() {
 
 	if (!this.playersArr.length) {
 		this.errors.start = "At least one player must be selected"
-		return ;
+		return;
 	}
 
 	else if (this.playersArr.length > 5) {
 		this.errors.start = "Max 5 players"
-		return ;
+		return;
 	}
 
 	const query = {
@@ -140,6 +139,9 @@ function start() {
 		console.log(data);
 		this.course = data;
 		this.active = 1;
+
+		localStorage.setItem('id', this.course.id);
+		localStorage.setItem('active', this.course.active);
 		// window.location.pathname = 'games/' + this.course.id + '/' + this.course.active;
 	});
 }
@@ -185,9 +187,10 @@ var app = new Vue({
 		player: '',
 		// TODO: Get from server
 		selectedPlayers: [
-			{name: 'Miikka', selected: true},
-			{name: 'Sande', selected: true},
-			{name: 'Player 3', selected: false},
+			{ name: 'Miikka', selected: true },
+			{ name: 'Sande', selected: true },
+			{ name: 'Pasi', selected: true },
+			{ name: 'Joni', selected: false },
 		],
 		playersArr: [],
 		// Game object
@@ -212,6 +215,26 @@ var app = new Vue({
 			});
 			return count;
 		},
+	},
+	created: function () {
+		const id = localStorage.getItem('id');
+		const active = localStorage.getItem('active');
+		const URL = `/games/${id}/${active}`;
+		if (id != null) {
+			console.log('COOKIE', id);
+			fetch(URL)
+				.then((response) => {
+					return response.json();
+				})
+				.then((data) => {
+					this.active = 1;
+					this.course = data;
+					// this.$forceUpdate();
+					console.log(this.course);
+				});
+		} else {
+			console.log('NO COOKIE');
+		}
 	}
 });
 

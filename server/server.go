@@ -57,7 +57,12 @@ func (s *Server) GetGameHandle(w http.ResponseWriter, r *http.Request) {
 	log.Println("REQUEST", id, active)
 
 	if _, exist := s.games[id]; exist {
-		fmt.Fprintf(w, "{}")
+		bytes, err := json.Marshal(s.games[id])
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		fmt.Fprintf(w, string(bytes))
 		return
 	}
 	fmt.Fprintf(w, "No game found")
@@ -142,9 +147,10 @@ func (s *Server) TestEdit(w http.ResponseWriter, r *http.Request) {
 	// Init data for next basket
 	par := s.games[id].Baskets[active].Par
 	for player := range s.games[id].Baskets[active].Scores {
+		// Score defaults to par
 		s.games[id].Baskets[active].Scores[player].Score = par
+		// Calc total
 		s.games[id].Baskets[active].Scores[player].Total += s.games[id].Baskets[active-1].Scores[player].Total
-		log.Println("TOTAL:", s.games[id].Baskets[active].Scores[player].Total)
 	}
 
 	// Edited Course to json
