@@ -5,6 +5,8 @@
 - Great UX
 - HTML Router
 - Random avatars
+- User cookies to set id and createdAt
+- Measure time spent (holes also)
 
 ## Create new course
 
