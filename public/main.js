@@ -176,6 +176,15 @@ function decScore(player) {
 	}
 }
 
+function deleteGame() {
+	if (!confirm('Are you sure?'))
+		return;
+	localStorage.removeItem('id');
+	localStorage.removeItem('active');
+	this.course = {};
+	this.active = 0;
+}
+
 var app = new Vue({
 	el: '#app',
 	data: {
@@ -203,7 +212,8 @@ var app = new Vue({
 		start: start,
 		sendData: sendData,
 		incScore: incScore,
-		decScore: decScore
+		decScore: decScore,
+		deleteGame: deleteGame
 	},
 	computed: {
 		selectedCount() {
