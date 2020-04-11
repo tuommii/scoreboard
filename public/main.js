@@ -63,14 +63,10 @@ const edit = {
 let GAME = {};
 
 
-// TODO: ignore case
-// TODO: Show error if same
 function isUniq(name, arr) {
 	code = true;
 	arr.forEach(player => {
-		console.log(name, player.name);
-
-		if (name === player.name) {
+		if (name.toLowerCase() === player.name.toLowerCase()) {
 			code = false;
 			return code;
 		}
@@ -80,7 +76,6 @@ function isUniq(name, arr) {
 
 function addPlayer(e) {
 	e.preventDefault();
-	// this.playersArr.push(this.player);
 	if (this.player.length < 1) {
 		this.errors.add = 'At least one character needed';
 		return;
@@ -108,8 +103,7 @@ function deletePlayer(name) {
 	this.selectedPlayers = this.selectedPlayers.filter(player => {
 		console.log(player);
 		return player.name != name;
-	})
-	// console.log(player, i);
+	});
 }
 
 function start() {
@@ -136,31 +130,43 @@ function start() {
 	};
 
 	postData(CREATE_GAME, query).then((data) => {
+		console.log(data.status);
 		console.log(data);
 		this.course = data;
 		this.active = 1;
 
 		localStorage.setItem('id', this.course.id);
-		localStorage.setItem('active', this.course.active);
 		// window.location.pathname = 'games/' + this.course.id + '/' + this.course.active;
 	});
 }
 
 function sendData() {
 	let jee = {};
-	// Object.assign(jee, this.course);
 	console.log('REQUEST WITH', jee, this.course);
 
 	postData(EDIT_GAME, this.course).then((data) => {
+		console.log(data.status);
 		console.log('FROM SERVER:', data);
 		this.course = data;
-
-		// Set points to par
 	});
 }
 
 function join(e) {
 	e.preventDefault();
+
+	if (!this.gameID.length)
+		return ;
+
+	fetch('/games/' + this.gameID)
+		.then((response) => {
+			return response.json();
+		})
+		.then((data) => {
+			this.course = data;
+			this.active = 1;
+			console.log(data);
+			localStorage.setItem('id', this.course.id);
+		});
 }
 
 
@@ -192,6 +198,7 @@ var app = new Vue({
 			start: '',
 			add: ''
 		},
+		gameID: '',
 		active: 0,
 		player: '',
 		// TODO: Get from server
@@ -213,7 +220,8 @@ var app = new Vue({
 		sendData: sendData,
 		incScore: incScore,
 		decScore: decScore,
-		deleteGame: deleteGame
+		deleteGame: deleteGame,
+		join: join
 	},
 	computed: {
 		selectedCount() {
@@ -229,9 +237,8 @@ var app = new Vue({
 	created: function () {
 		const id = localStorage.getItem('id');
 		if (id == null)
-			return ;
-		const active = localStorage.getItem('active');
-		const URL = `/games/${id}/${active}`;
+			return;
+		const URL = `/games/${id}`;
 		if (id != null) {
 			console.log('COOKIE', id);
 			fetch(URL)
@@ -239,7 +246,7 @@ var app = new Vue({
 					return response.json();
 				})
 				.then((data) => {
-					this.active = 1;
+					this.active = data.active;
 					this.course = data;
 					// this.$forceUpdate();
 					console.log(this.course);

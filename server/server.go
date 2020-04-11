@@ -12,6 +12,11 @@ import (
 	"miikka.xyz/sgoreboard/game"
 )
 
+const (
+	maxBaskets = 36
+	maxPlayers = 5
+)
+
 // Server ...
 type Server struct {
 	// ID
@@ -40,7 +45,7 @@ func Start(path string) {
 	// Our games/courses
 	server.games = make(map[string]*game.Course)
 
-	router.HandleFunc("/games/{id}/{active:[0-9]+}", server.GetGameHandle).Methods("GET")
+	router.HandleFunc("/games/{id}", server.GetGameHandle).Methods("GET")
 	router.HandleFunc("/test_create", server.TestCreate).Methods("POST")
 	router.HandleFunc("/test_edit", server.TestEdit).Methods("POST")
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir(path)))
@@ -52,20 +57,18 @@ func (s *Server) GetGameHandle(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	vars := mux.Vars(r)
 	id := vars["id"]
-	active := vars["active"]
 
-	log.Println("REQUEST", id, active)
-
-	if _, exist := s.games[id]; exist {
-		bytes, err := json.Marshal(s.games[id])
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-		fmt.Fprintf(w, string(bytes))
+	if _, exist := s.games[id]; !exist {
+		http.Error(w, "Error", http.StatusInternalServerError)
 		return
 	}
-	fmt.Fprintf(w, "No game found")
+
+	bytes, err := json.Marshal(s.games[id])
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	fmt.Fprintf(w, string(bytes))
 }
 
 // TestCreate ...
@@ -80,6 +83,12 @@ func (s *Server) TestCreate(w http.ResponseWriter, r *http.Request) {
 	err = json.Unmarshal(bytes, &query)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	// Validate
+	if len(query.Players) > maxPlayers && query.BasketCount > maxBaskets {
+		http.Error(w, "Ivalid data", http.StatusInternalServerError)
 		return
 	}
 
