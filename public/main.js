@@ -228,6 +228,8 @@ var app = new Vue({
 	},
 	created: function () {
 		const id = localStorage.getItem('id');
+		if (id == null)
+			return ;
 		const active = localStorage.getItem('active');
 		const URL = `/games/${id}/${active}`;
 		if (id != null) {

@@ -9,6 +9,7 @@
 - Measure time spent (holes also)
 - GPS Nearest course in Helsinki
 - After action report with linegraph if total is saved for each basket
+- Take care if course aint played in right order
 
 ## Create new course
 
