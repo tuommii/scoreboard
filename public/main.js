@@ -205,6 +205,7 @@ function next() {
 
 }
 
+// TODO: Hide from user
 var app = new Vue({
 	el: '#app',
 	data: {
