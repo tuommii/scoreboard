@@ -143,6 +143,8 @@ func (s *Server) TestEdit(w http.ResponseWriter, r *http.Request) {
 	par := s.games[id].Baskets[active].Par
 	for player := range s.games[id].Baskets[active].Scores {
 		s.games[id].Baskets[active].Scores[player].Score = par
+		s.games[id].Baskets[active].Scores[player].Total += s.games[id].Baskets[active-1].Scores[player].Total
+		log.Println("TOTAL:", s.games[id].Baskets[active].Scores[player].Total)
 	}
 
 	// Edited Course to json

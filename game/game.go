@@ -31,6 +31,8 @@ type Basket struct {
 // BasketScore ...
 type BasketScore struct {
 	Score int `json:"score"`
+	// For graph
+	Total int `json:"total"`
 	OB    int `json:"ob"`
 }
 
@@ -84,7 +86,8 @@ func CreateCourse(players []string, baskets int, counter int) *Course {
 		basket.OrderNum = i + 1
 		for _, player := range players {
 			basketScore := NewBasketScore()
-			basketScore.Score = 3
+			basketScore.Score = basket.Par
+			basketScore.Total = basket.Par
 			basket.Scores[player] = basketScore
 		}
 		course.Baskets[i+1] = basket

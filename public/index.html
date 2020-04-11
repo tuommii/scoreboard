@@ -125,20 +125,18 @@
 
 
 
-
-
-
-
         <!-- PLAYERS -->
             <div class="card" v-for="player in playersArr" v-bind:key="player">
               <div class="card-content">
                 <div class="content">
-                  <p class="subtitle is-5">{{player}} | {{course.baskets[course.active].scores[player].score}}</p>
+                  <p class="subtitle is-5">{{player}} | {{course.baskets[course.active].scores[player].score}}
+                    | {{course.baskets[course.active].scores[player].total}}
+                  </p>
                 </div>
               </div>
               <footer class="card-footer">
-                <a href="#" style="color: #fff; margin-right: 10px; padding: 1rem 0" class="button lila card-footer-item">DEC</a>
-                <a href="#" style="color: #fff; padding: 1rem 0" class="button lila card-footer-item">INC</a>
+                <a href="#" class="button card-footer-item" @click="decScore(player)">DEC</a>
+                <a href="#" style="padding: 1rem 0" class="button card-footer-item" @click="incScore(player)">INC</a>
               </footer>
             </div>
         <!-- END OF PLAYERS -->

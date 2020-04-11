@@ -7,6 +7,8 @@
 - Random avatars
 - User cookies to set id and createdAt
 - Measure time spent (holes also)
+- GPS Nearest course in Helsinki
+- After action report with linegraph if total is saved for each basket
 
 ## Create new course
 

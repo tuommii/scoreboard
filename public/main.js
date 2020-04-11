@@ -162,6 +162,18 @@ function join(e) {
 }
 
 
+function incScore(player) {
+	this.course.baskets[this.course.active].scores[player].score++;
+	this.course.baskets[this.course.active].scores[player].total++;
+}
+
+function decScore(player) {
+	if (this.course.baskets[this.course.active].scores[player].score > 1) {
+		this.course.baskets[this.course.active].scores[player].score--;
+		this.course.baskets[this.course.active].scores[player].total--;
+	}
+}
+
 var app = new Vue({
 	el: '#app',
 	data: {
@@ -174,7 +186,7 @@ var app = new Vue({
 		// TODO: Get from server
 		selectedPlayers: [
 			{name: 'Miikka', selected: true},
-			{name: 'Player 2', selected: true},
+			{name: 'Sande', selected: true},
 			{name: 'Player 3', selected: false},
 		],
 		playersArr: [],
@@ -186,7 +198,9 @@ var app = new Vue({
 		toggleSelected: toggleSelected,
 		deletePlayer: deletePlayer,
 		start: start,
-		sendData: sendData
+		sendData: sendData,
+		incScore: incScore,
+		decScore: decScore
 	},
 	computed: {
 		selectedCount() {
@@ -197,7 +211,7 @@ var app = new Vue({
 				}
 			});
 			return count;
-		}
+		},
 	}
 });
 
