@@ -198,10 +198,13 @@ function deleteGame() {
 }
 
 function prev() {
-
+	if (this.course.active > 1)
+		this.course.active--;
 }
 
 function next() {
+	if (this.course.active < this.course.basketCount)
+		this.course.active++;
 
 }
 
@@ -237,7 +240,9 @@ var app = new Vue({
 		incScore: incScore,
 		decScore: decScore,
 		deleteGame: deleteGame,
-		join: join
+		join: join,
+		prev: prev,
+		next: next
 	},
 	computed: {
 		selectedCount() {

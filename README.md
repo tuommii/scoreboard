@@ -1,6 +1,6 @@
 # Score tracker for discgolf and golf
 
-## TODO
+## Things to consider
 - PWA (Offline support)
 - Great UX
 - HTML Router
@@ -11,6 +11,7 @@
 - After action report with linegraph if total is saved for each basket
 - Take care if course aint played in right order
 - Mutex
+- Secure cookie
 
 ## Create new course
 
