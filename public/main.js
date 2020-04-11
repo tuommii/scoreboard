@@ -159,6 +159,15 @@ function join(e) {
 
 	fetch('/games/' + this.gameID)
 		.then((response) => {
+			console.log(response.status);
+			if (response.status != 200) {
+				this.locked++;
+				this.gameID = '';
+				if (this.locked >= 3) {
+					this.isDisabled = true;
+				}
+			}
+
 			return response.json();
 		})
 		.then((data) => {
@@ -200,6 +209,8 @@ var app = new Vue({
 		},
 		gameID: '',
 		active: 0,
+		locked: 0,
+		isDisabled: false,
 		player: '',
 		// TODO: Get from server
 		selectedPlayers: [
