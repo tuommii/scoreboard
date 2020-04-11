@@ -16,7 +16,7 @@
   <section id="app" class="section hero is-fullheight" v-cloak>
 
     <!-- VUE-IF -->
-    <div v-if="!active">
+    <div v-if="!this.course.active">
       <!-- HERO HEAD -->
       <div class="hero-head">
         <div class="container">
@@ -146,7 +146,8 @@
 
         <div class="hero-foot">
           <div class="container">
-            <button class="button">Previous</button>
+            <button class="button" @click="prev">Previous</button>
+            <button class="button" @click="next">Next</button>
             <button class="button" @click="deleteGame">Delete</button>
             <button class="button" @click="sendData">Update</button>
           </div>

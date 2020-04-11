@@ -133,8 +133,6 @@ function start() {
 		console.log(data.status);
 		console.log(data);
 		this.course = data;
-		this.active = 1;
-
 		localStorage.setItem('id', this.course.id);
 		// window.location.pathname = 'games/' + this.course.id + '/' + this.course.active;
 	});
@@ -145,7 +143,6 @@ function sendData() {
 	console.log('REQUEST WITH', jee, this.course);
 
 	postData(EDIT_GAME, this.course).then((data) => {
-		console.log(data.status);
 		console.log('FROM SERVER:', data);
 		this.course = data;
 	});
@@ -172,7 +169,6 @@ function join(e) {
 		})
 		.then((data) => {
 			this.course = data;
-			this.active = 1;
 			console.log(data);
 			localStorage.setItem('id', this.course.id);
 		});
@@ -196,8 +192,17 @@ function deleteGame() {
 		return;
 	localStorage.removeItem('id');
 	localStorage.removeItem('active');
-	this.course = {};
-	this.active = 0;
+	this.course = {
+		active: 0
+	};
+}
+
+function prev() {
+
+}
+
+function next() {
+
 }
 
 var app = new Vue({
@@ -208,7 +213,6 @@ var app = new Vue({
 			add: ''
 		},
 		gameID: '',
-		active: 0,
 		locked: 0,
 		isDisabled: false,
 		player: '',
@@ -257,7 +261,6 @@ var app = new Vue({
 					return response.json();
 				})
 				.then((data) => {
-					this.active = data.active;
 					this.course = data;
 					// this.$forceUpdate();
 					console.log(this.course);
