@@ -130,7 +130,6 @@
             <div class="card" v-for="(i, player) in course.baskets[1].scores" v-bind:key="player">
               <div class="card-content">
                 <div class="content">
-                  <p>{{player}}</p>
                   <p class="subtitle is-5">{{player}} | {{course.baskets[course.active].scores[player].score}}
                     | {{course.baskets[course.active].scores[player].total}}
                   </p>
