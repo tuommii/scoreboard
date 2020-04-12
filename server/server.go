@@ -22,7 +22,7 @@ type Server struct {
 	// ID
 	counter int
 	// This gets passed to Game for creating ID
-	http  *http.Server
+	Http  *http.Server
 	games map[string]*game.Course
 }
 
@@ -32,11 +32,11 @@ type StartingRequest struct {
 	Players     []string `json:"players"`
 }
 
-// Start ...
-func Start(path string) {
-	server := Server{}
+// New ...
+func New(path string) *Server {
+	server := &Server{}
 	router := mux.NewRouter()
-	server.http = &http.Server{
+	server.Http = &http.Server{
 		Handler:      router,
 		Addr:         "0.0.0.0:8080",
 		WriteTimeout: 15 * time.Second,
@@ -49,7 +49,7 @@ func Start(path string) {
 	router.HandleFunc("/test_create", server.TestCreate).Methods("POST")
 	router.HandleFunc("/test_edit", server.TestEdit).Methods("POST")
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir(path)))
-	server.http.ListenAndServe()
+	return server
 }
 
 // GetGameHandle ...
@@ -170,4 +170,21 @@ func (s *Server) TestEdit(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	fmt.Fprintf(w, string(resp))
+}
+
+// CleanGames ...
+func (s *Server) CleanGames() {
+	for {
+		time.Sleep(15 * time.Minute)
+		s.remove()
+	}
+}
+
+func (s *Server) remove() {
+	for id, game := range s.games {
+		if time.Since(game.CreatedAt) > (time.Hour * 6) {
+			log.Println(id, "deleted")
+			delete(s.games, id)
+		}
+	}
 }
