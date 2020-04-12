@@ -20,10 +20,10 @@
       <!-- HERO HEAD -->
       <div class="hero-head">
         <div class="container">
-          <div class="logo">
-            <img src="prize-144.png" width="60" height="60">
-            <h1 class="title is-5">Scoreboard</h1>
-          </div>
+            <a href="/" class="logo">
+              <img src="prize-144.png" width="60" height="60">
+              <h1 class="title is-5">Scoreboard</h1>
+            </a>
         </div>
       </div>
 
@@ -34,11 +34,11 @@
 
           <!-- FORM JOIN -->
           <form class="form">
-
             <!-- ID INPUT -->
             <div class="field has-addons">
               <div class="control">
                 <input type="text" class="input" placeholder="ID" v-model="gameID">
+                <p class="help err">{{errors.join}}</p>
                 <p class="help">Your turn to keep the score.</p>
               </div>
               <!-- ADD BUTTON -->
@@ -55,7 +55,7 @@
           <!-- PLAYERS LIST -->
           <div class="field" v-for="player in selectedPlayers" v-bind:key="player.name">
             <div class="control">
-              <button class="button is-medium min-width" v-bind:class="{ 'is-primary': player.selected}"
+              <button class="button is-medium width-160" v-bind:class="{ 'is-primary': player.selected}"
                 @click="toggleSelected(player)">{{player.name}}
               </button>
               <a class="delete" @click="deletePlayer(player.name)">X</a>
@@ -68,7 +68,7 @@
           <div class="field">
             <div class="control">
               <p class="help selected-count">{{selectedCount}} of {{selectedPlayers.length}} selected</p>
-              <button class="button is-link is-medium min-width" @click="start">Start</button>
+              <button class="button is-link is-medium width-160" @click="start">Start</button>
               <p class="help err">{{errors.start}}</p>
             </div>
           </div>
@@ -98,8 +98,6 @@
         </div>
 
       </div>
-
-
 
       <!-- HERO FOOTER -->
       <div class="hero-foot">
@@ -132,7 +130,7 @@
           <div class="level-item has-text-centered">
             <div>
               <p class="heading">Par</p>
-              <p class="title is-5 light"><span class="par parMinus" @click="decPar">-</span class="parValue">{{course.baskets[course.active].par}}<span class="par parPlus" @click="incPar">+</span></p>
+              <p class="title is-5 light"><span class="par par-minus" @click="decPar">-</span class="parValue">{{course.baskets[course.active].par}}<span class="par par-plus" @click="incPar">+</span></p>
             </div>
           </div>
         </nav>
@@ -148,15 +146,15 @@
 
               <div class="columns is-mobile data">
                 <div class="column"><span class="name">{{player}}</span></div>
-                <div class="column"><span class="sign" v-if="(testi(player) - pars()) >= 0">+</span><span class="total">{{testi(player) - pars()}}</span></div>
                 <div class="column"><span class="current">{{course.baskets[course.active].scores[player].score}}</span></div>
+                <div class="column"><span class="sign" v-if="(testi(player) - pars()) >= 0">+</span><span class="total">{{testi(player) - pars()}}</span></div>
               </div>
 
             </div>
           </div>
           <footer class="card-footer">
-            <a class="button card-footer-item" @click="decScore(player)">-</a>
-            <a style="padding: 1rem 0" class="button card-footer-item" @click="incScore(player)">+</a>
+            <a style="padding: 1rem 0" class="button card-footer-item inc" @click="decScore(player)">-</a>
+            <a style="padding: 1rem 0" class="button card-footer-item dec" @click="incScore(player)">+</a>
           </footer>
           </div>
           <!-- END OF PLAYERS -->

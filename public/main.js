@@ -2,68 +2,6 @@
 const CREATE_GAME = '/test_create';
 const EDIT_GAME = '/test_edit';
 
-// We test with this
-const edit = {
-	"id": "1mp",
-	"basketCount": 3,
-	"active": 42,
-	"baskets": {
-		"1": {
-			"orderNum": 1,
-			"par": 3,
-			"scores": {
-				"Miikka": {
-					"score": 0,
-					"ob": 0
-				},
-				"Player 2": {
-					"score": 0,
-					"ob": 0
-				}
-			}
-		},
-		"2": {
-			"orderNum": 2,
-			"par": 3,
-			"scores": {
-				"Miikka": {
-					"score": 0,
-					"ob": 0
-				},
-				"Player 2": {
-					"score": 0,
-					"ob": 0
-				}
-			}
-		},
-		"3": {
-			"orderNum": 3,
-			"par": 3,
-			"scores": {
-				"Miikka": {
-					"score": 0,
-					"ob": 0
-				},
-				"Player 2": {
-					"score": 0,
-					"ob": 0
-				}
-			}
-		},
-		"sasas": {
-			"sadasd": {
-				"name": 10
-			}
-		}
-	}
-};
-
-
-
-let GAME = {};
-
-
-
 /*
 **
 **	CRUD FUNCTIONS
@@ -136,11 +74,13 @@ function decScore(player) {
 }
 
 function incPar() {
+	if (this.course.baskets[this.course.active].par < 5)
 	this.course.baskets[this.course.active].par++;
 }
 
 function decPar() {
-	this.course.baskets[this.course.active].par--;
+	if (this.course.baskets[this.course.active].par > 3)
+		this.course.baskets[this.course.active].par--;
 }
 
 function prev() {
@@ -242,6 +182,7 @@ function join(e) {
 		.then((response) => {
 			console.log(response.status);
 			if (response.status != 200) {
+				this.errors.join = 'ID Not Found'
 				this.locked++;
 				this.gameID = '';
 				if (this.locked >= 3) {
@@ -259,14 +200,14 @@ function join(e) {
 }
 
 
-
 // TODO: Hide from user
 var app = new Vue({
 	el: '#app',
 	data: {
 		errors: {
 			start: '',
-			add: ''
+			add: '',
+			join: ''
 		},
 		gameID: '',
 		locked: 0,
@@ -303,15 +244,6 @@ var app = new Vue({
 			for (let i = 1; i <= this.course.basketCount; i++) {
 				total += this.course.baskets[i].scores[name].score
 			}
-			// for (let key in this.course.baskets[1].scores) {
-			// 	console.log(key);
-			// 	this.course.baskets[1].scores[key].total = this.course.baskets[1].scores[key].score - this.course.baskets[1].par;
-			// }
-
-			// if (this.course.active > 1) {
-			// 	prev += this.course.baskets[this.course.active - 1].scores[name].total;
-			// }
-			// return this.course.baskets[this.course.active].scores[name].score - this.course.baskets[this.course.active].par + prev;
 			return total;
 		},
 		pars: function() {
