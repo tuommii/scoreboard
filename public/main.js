@@ -44,7 +44,7 @@ function deletePlayer(name) {
 }
 
 function deleteGame() {
-	if (!confirm('This will delete whole game. Are you sure?'))
+	if (!confirm('Remember the ID. Are you sure?'))
 		return;
 	localStorage.removeItem('id');
 	this.course = {
@@ -196,6 +196,7 @@ function join(e) {
 			this.course = data;
 			console.log(data);
 			localStorage.setItem('id', this.course.id);
+			this.gameID = '';
 		});
 }
 

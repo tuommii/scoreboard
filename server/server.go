@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"sync"
 	"time"
 
 	"github.com/gorilla/mux"
@@ -24,6 +25,7 @@ type Server struct {
 	// This gets passed to Game for creating ID
 	HTTP  *http.Server
 	games map[string]*game.Course
+	mu    sync.Mutex
 }
 
 // StartingRequest holds data thats needed for starting new game
@@ -74,6 +76,12 @@ func (s *Server) GetGameHandle(w http.ResponseWriter, r *http.Request) {
 // TestCreate ...
 func (s *Server) TestCreate(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
+
+	if len(s.games) > 10000 {
+		http.Error(w, "Server if full", http.StatusTooManyRequests)
+		return
+	}
+
 	var query StartingRequest
 	bytes, err := ioutil.ReadAll(r.Body)
 	if err != nil {
@@ -92,9 +100,11 @@ func (s *Server) TestCreate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	s.mu.Lock()
 	// TODO: Inc only if all is legal
 	s.counter++
 	course := game.CreateCourse(query.Players, query.BasketCount, s.counter)
+	s.mu.Unlock()
 
 	bytes, err = json.Marshal(course)
 	var c *game.Course
@@ -148,22 +158,10 @@ func (s *Server) TestEdit(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Update our internal game
+	s.mu.Lock()
 	s.games[id] = c
+	s.mu.Unlock()
 
-	// s.games[id].Active++
-	// // Easier read and write
-	// active := s.games[id].Active
-
-	// // Init data for next basket
-	// par := s.games[id].Baskets[active].Par
-	// for player := range s.games[id].Baskets[active].Scores {
-	// 	// Score defaults to par
-	// 	s.games[id].Baskets[active].Scores[player].Score = par
-	// 	// Calc total
-	// 	s.games[id].Baskets[active].Scores[player].Total += s.games[id].Baskets[active-1].Scores[player].Total
-	// }
-
-	// Edited Course to json
 	resp, err := json.Marshal(s.games[id])
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -184,7 +182,9 @@ func (s *Server) remove() {
 	for id, game := range s.games {
 		if time.Since(game.CreatedAt) > (time.Hour * 6) {
 			log.Println(id, "deleted")
+			s.mu.Lock()
 			delete(s.games, id)
+			s.mu.Unlock()
 		}
 	}
 }
