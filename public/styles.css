@@ -1,8 +1,7 @@
 body {
 	/* background: #f3f4f5; */
 	/* Disables pull-to-refresh but allows overscroll glow effects. */
-	overscroll-behavior: none;
-	overscroll-behavior-y: none;
+	background: #f3f4f5;
 }
 
 .app {
