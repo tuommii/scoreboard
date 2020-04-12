@@ -119,6 +119,19 @@ span.parPlus {
 	font-size: 1rem !important;
 }
 
+.data {
+	color: #dae2e5;
+	font-size: 1.5rem;
+}
+
+.name, .total, .sign {
+	font-size: 1rem;
+}
+.current {
+	color: #fff;
+	font-weight: 900;
+}
+
 @media only screen and (min-width: 500px) {
 	#app {
 		width: 480px;

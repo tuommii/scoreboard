@@ -129,7 +129,7 @@
         <div class="level-item has-text-centered">
           <div>
             <p class="heading">Par</p>
-            <p class="title is-5 light"><span class="par parMinus">-</span class="parValue">{{course.baskets[course.active].par}}<span class="par parPlus">+</span></p>
+            <p class="title is-5 light"><span class="par parMinus" @click="decPar">-</span class="parValue">{{course.baskets[course.active].par}}<span class="par parPlus" @click="incPar">+</span></p>
           </div>
         </div>
         <!-- <div class="level-item has-text-centered">
@@ -147,9 +147,15 @@
                   <!-- <p class="subtitle is-5">{{player}} | {{course.baskets[course.active].scores[player].score}}
                     | Total: <span v-if="course.baskets[course.active].scores[player].total > 0">+</span>{{course.baskets[course.active].scores[player].total}}
                   </p> -->
-                  <p class="subtitle is-5">{{player}} | {{course.baskets[course.active].scores[player].score}}
+                  <!-- <p class="subtitle is-5">{{player}} | {{course.baskets[course.active].scores[player].score}}
                     | Total: {{ testi(player) - pars()}}
-                  </p>
+                  </p> -->
+                  <div class="columns is-mobile data">
+                    <div class="column"><span class="name">{{player}}</span></div>
+                    <div class="column"><span class="sign" v-if="(testi(player) - pars()) >= 0">+</span><span class="total">{{testi(player) - pars()}}</span></div>
+                    <div class="column"><span class="current">{{course.baskets[course.active].scores[player].score}}</span></div>
+                  </div>
+                  <!-- <div class="data"></div> -->
                   <!-- <p>SAS: {{testi(player)}}</p> -->
                 </div>
               </div>

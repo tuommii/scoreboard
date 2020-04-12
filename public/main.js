@@ -135,6 +135,14 @@ function decScore(player) {
 	}
 }
 
+function incPar() {
+	this.course.baskets[this.course.active].par++;
+}
+
+function decPar() {
+	this.course.baskets[this.course.active].par--;
+}
+
 function prev() {
 	if (this.course.active > 1)
 		this.course.active--;
@@ -280,6 +288,8 @@ var app = new Vue({
 		sendData: sendData,
 		incScore: incScore,
 		decScore: decScore,
+		incPar: incPar,
+		decPar: decPar,
 		deleteGame: deleteGame,
 		join: join,
 		prev: prev,

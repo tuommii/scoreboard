@@ -15,6 +15,7 @@
 - If cookie is found but no game, fix that injecting starttime or something
 - Updating stats require hold button
 - Sound effects
+- Copy id to clipboard
 
 ## Create new course
 
