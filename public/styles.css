@@ -1,11 +1,18 @@
 body {
-	background: #f3f4f5;
+	/* background: #f3f4f5; */
 	/* Disables pull-to-refresh but allows overscroll glow effects. */
 	overscroll-behavior: none;
 	overscroll-behavior-y: none;
 }
 
+.app {
+	background: #f3f4f5;
+}
 
+.dark {
+	background: #1d144d;
+	color: #ffe69e;
+}
 
 [v-cloak] { display: none; }
 
@@ -65,6 +72,30 @@ img {
 
 .scoreboard {
 	padding: 0;
+}
+
+p.light {
+	color: #fff !important;
+}
+
+span.par {
+	color: #3d82ec !important;
+}
+
+.parValue {
+	font-size: 40px !important;
+}
+
+span.parMinus {
+	padding-right: 1rem;
+}
+span.parPlus {
+	padding-left: 1rem;
+}
+
+.parValue {
+	padding-right: 1rem !important;
+	padding-left: 1rem !important;
 }
 
 @media only screen and (min-width: 500px) {

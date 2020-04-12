@@ -13,7 +13,7 @@
 </head>
 
 <body>
-  <section id="app" class="section hero is-fullheight" v-cloak>
+  <section id="app" class="section hero is-fullheight app" v-bind:class="{ 'dark': course.active}" v-cloak>
 
     <!-- VUE-IF -->
     <div v-if="!this.course.active">
@@ -123,19 +123,19 @@
         <div class="level-item has-text-centered">
           <div>
             <p class="heading">Basket</p>
-            <p class="title is-5">{{course.active}}</p>
+            <p class="title is-5 light">{{course.active}}</p>
           </div>
         </div>
         <div class="level-item has-text-centered">
           <div>
             <p class="heading">Par</p>
-            <p class="title is-5">{{course.baskets[course.active].par}}</p>
+            <p class="title is-5 light"><span class="par parMinus">-</span class="parValue">{{course.baskets[course.active].par}}<span class="par parPlus">+</span></p>
           </div>
         </div>
         <div class="level-item has-text-centered">
           <div>
             <p class="heading">ID</p>
-            <p class="title is-5">{{course.id}}</p>
+            <p class="title is-5 light">{{course.id}}</p>
           </div>
         </div>
       </nav>
