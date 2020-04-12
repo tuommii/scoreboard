@@ -4,6 +4,12 @@ body {
 	background: #f3f4f5;
 }
 
+.bg {
+	height: 100%;
+	widht: 100%;
+	background: #f3f4f5;
+}
+
 [v-cloak] { display: none; }
 
 .dark {
@@ -158,7 +164,7 @@ a.button.card-footer-item {
 }
 
 @media only screen and (min-width: 500px) {
-	#app {
+	#app .section {
 		width: 480px;
 		margin: 0 auto;
 	}

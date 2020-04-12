@@ -13,7 +13,8 @@
 </head>
 
 <body>
-  <section id="app" class="section hero is-fullheight app" v-bind:class="{ 'dark': course.active}" v-cloak>
+  <div id="app" class="bg" v-bind:class="{ 'dark': course.active}" v-cloak>
+  <section class="section hero is-fullheight">
 
     <!-- VUE-IF -->
     <div v-if="!this.course.active">
@@ -183,6 +184,7 @@
     <!-- END VUE-IF -->
 
   </section>
+  </div>
   <script src="https://cdn.jsdelivr.net/npm/vue"></script>
   <script src="main.js"></script>
 </body>
