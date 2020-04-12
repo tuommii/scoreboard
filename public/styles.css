@@ -114,7 +114,8 @@ p.light {
 
 a.button.card-footer-item {
 	/* background: #242f69; */
-	background: #1e2d48;
+	/* background: #1e2d48; */
+	background: #1f2838;
 	color: #f1f1f1 !important;
 	border-color: rgba(0,0,0,0.5);
 
@@ -122,8 +123,8 @@ a.button.card-footer-item {
 
 .inc, .dec {
 	font-weight: 900;
-	font-size: 1.5rem;
-	height: 3rem;
+	font-size: 1.15rem;
+	height: 2.5rem;
 }
 
 .level-item .subtitle, .level-item .title {
@@ -150,6 +151,10 @@ a.button.card-footer-item {
 .current {
 	color: #fff;
 	font-weight: 900;
+}
+
+.navbar {
+	background: #000 !important;
 }
 
 @media only screen and (min-width: 500px) {
