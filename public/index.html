@@ -58,7 +58,7 @@
               <button class="button is-medium min-width" v-bind:class="{ 'is-primary': player.selected}"
                 @click="toggleSelected(player)">{{player.name}}
               </button>
-              <a href="/" class="delete" @click="deletePlayer(player.name)">X</a>
+              <a class="delete" @click="deletePlayer(player.name)">X</a>
             </div>
           </div>
           <!-- END OF PLAYERS LIST -->
@@ -116,15 +116,29 @@
 
 
     <!-- VUE-IF -->
-    <div class="section" v-else>
+    <div class="section scoreboard" v-else>
 
-        <!-- ACTIVE, PAR, ID -->
-          <div class="container has-text-centered">
-            <h1 class="title is-5">#{{course.active}} | Par {{course.baskets[course.active].par}} | #{{course.id}}</h1>
+
+      <nav class="level is-mobile">
+        <div class="level-item has-text-centered">
+          <div>
+            <p class="heading">Basket</p>
+            <p class="title is-5">{{course.active}}</p>
           </div>
-        <!-- END ACTIVE, PAR, ID -->
-
-
+        </div>
+        <div class="level-item has-text-centered">
+          <div>
+            <p class="heading">Par</p>
+            <p class="title is-5">{{course.baskets[course.active].par}}</p>
+          </div>
+        </div>
+        <div class="level-item has-text-centered">
+          <div>
+            <p class="heading">ID</p>
+            <p class="title is-5">{{course.id}}</p>
+          </div>
+        </div>
+      </nav>
 
         <!-- PLAYERS -->
             <div class="card" v-for="(i, player) in course.baskets[1].scores" v-bind:key="player">
