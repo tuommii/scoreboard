@@ -200,35 +200,36 @@ function join(e) {
 		});
 }
 
+(function() {
 
-// TODO: Hide from user
-var app = new Vue({
-	el: '#app',
-	data: {
-		errors: {
-			start: '',
-			add: '',
-			join: ''
+	// TODO: Hide from user
+	var app = new Vue({
+		el: '#app',
+		data: {
+			errors: {
+				start: '',
+				add: '',
+				join: ''
+			},
+			gameID: '',
+			locked: 0,
+			isDisabled: false,
+			player: '',
+			// TODO: Get from server
+			selectedPlayers: [
+				{ name: 'Miikka', selected: true },
+				{ name: 'Sande', selected: true },
+				{ name: 'Pasi', selected: false },
+				{ name: 'Joni', selected: false },
+			],
+			playersArr: [],
+			// Game object
+			course: {}
 		},
-		gameID: '',
-		locked: 0,
-		isDisabled: false,
-		player: '',
-		// TODO: Get from server
-		selectedPlayers: [
-			{ name: 'Miikka', selected: true },
-			{ name: 'Sande', selected: true },
-			{ name: 'Pasi', selected: false },
-			{ name: 'Joni', selected: false },
-		],
-		playersArr: [],
-		// Game object
-		course: {}
-	},
-	methods: {
-		addPlayer: addPlayer,
-		toggleSelected: toggleSelected,
-		deletePlayer: deletePlayer,
+		methods: {
+			addPlayer: addPlayer,
+			toggleSelected: toggleSelected,
+			deletePlayer: deletePlayer,
 		start: start,
 		sendData: sendData,
 		incScore: incScore,
@@ -270,23 +271,26 @@ var app = new Vue({
 		// getLocation();
 		const id = localStorage.getItem('id');
 		if (id == null)
-			return;
+		return;
 		const URL = `/games/${id}`;
 		console.log('COOKIE', id);
 		fetch(URL)
-			.then((response) => {
-				return response.json();
-			})
-			.then((data) => {
-				this.course = data;
-				// this.$forceUpdate();
-				console.log(this.course);
-			});
+		.then((response) => {
+			return response.json();
+		})
+		.then((data) => {
+			this.course = data;
+			// this.$forceUpdate();
+			console.log(this.course);
+		});
 	}
 });
 
+
+})();
+
 // function getLocation() {
-//   if (navigator.geolocation) {
+	//   if (navigator.geolocation) {
 //     navigator.geolocation.getCurrentPosition(cb);
 //   } else {
 // 	  console.log('Not supported');
