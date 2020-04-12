@@ -119,65 +119,59 @@
     <!-- <div class="hero-head">
 
     </div> -->
-    <div class="section scoreboard" v-else>
+    <div v-else>
 
+    <div class="hero-head scoreboard">
+        <nav class="level is-mobile">
+          <div class="level-item has-text-centered">
+            <div>
+              <p class="heading">Basket</p>
+              <p class="title is-5 light">{{course.active}}</p>
+            </div>
+          </div>
+          <div class="level-item has-text-centered">
+            <div>
+              <p class="heading">Par</p>
+              <p class="title is-5 light"><span class="par parMinus" @click="decPar">-</span class="parValue">{{course.baskets[course.active].par}}<span class="par parPlus" @click="incPar">+</span></p>
+            </div>
+          </div>
+        </nav>
+    </div>
 
-      <nav class="level is-mobile">
-        <div class="level-item has-text-centered">
-          <div>
-            <p class="heading">Basket</p>
-            <p class="title is-5 light">{{course.active}}</p>
-          </div>
-        </div>
-        <div class="level-item has-text-centered">
-          <div>
-            <p class="heading">Par</p>
-            <p class="title is-5 light"><span class="par parMinus" @click="decPar">-</span class="parValue">{{course.baskets[course.active].par}}<span class="par parPlus" @click="incPar">+</span></p>
-          </div>
-        </div>
-        <!-- <div class="level-item has-text-centered">
-          <div>
-            <p class="heading">ID</p>
-            <p class="title is-5 light id">{{course.id}}</p>
-          </div>
-        </div> -->
-      </nav>
+    <div class="hero-body">
+      <div class="container">
 
         <!-- PLAYERS -->
-            <div class="card" v-for="(i, player) in course.baskets[1].scores" v-bind:key="player">
-              <div class="card-content">
-                <div class="content">
-                  <!-- <p class="subtitle is-5">{{player}} | {{course.baskets[course.active].scores[player].score}}
-                    | Total: <span v-if="course.baskets[course.active].scores[player].total > 0">+</span>{{course.baskets[course.active].scores[player].total}}
-                  </p> -->
-                  <!-- <p class="subtitle is-5">{{player}} | {{course.baskets[course.active].scores[player].score}}
-                    | Total: {{ testi(player) - pars()}}
-                  </p> -->
-                  <div class="columns is-mobile data">
-                    <div class="column"><span class="name">{{player}}</span></div>
-                    <div class="column"><span class="sign" v-if="(testi(player) - pars()) >= 0">+</span><span class="total">{{testi(player) - pars()}}</span></div>
-                    <div class="column"><span class="current">{{course.baskets[course.active].scores[player].score}}</span></div>
-                  </div>
-                  <!-- <div class="data"></div> -->
-                  <!-- <p>SAS: {{testi(player)}}</p> -->
-                </div>
+        <div class="card" v-for="(i, player) in course.baskets[1].scores" v-bind:key="player">
+          <div class="card-content">
+            <div class="content">
+
+              <div class="columns is-mobile data">
+                <div class="column"><span class="name">{{player}}</span></div>
+                <div class="column"><span class="sign" v-if="(testi(player) - pars()) >= 0">+</span><span class="total">{{testi(player) - pars()}}</span></div>
+                <div class="column"><span class="current">{{course.baskets[course.active].scores[player].score}}</span></div>
               </div>
-              <footer class="card-footer">
-                <a class="button card-footer-item" @click="decScore(player)">-</a>
-                <a style="padding: 1rem 0" class="button card-footer-item" @click="incScore(player)">+</a>
-              </footer>
+
             </div>
-        <!-- END OF PLAYERS -->
-            <div class="section container has-text-centered">
-              <button class="button" @click="deleteGame">Delete</button>
+          </div>
+          <footer class="card-footer">
+            <a class="button card-footer-item" @click="decScore(player)">-</a>
+            <a style="padding: 1rem 0" class="button card-footer-item" @click="incScore(player)">+</a>
+          </footer>
+          </div>
+          <!-- END OF PLAYERS -->
+
+          <button class="button" @click="deleteGame">Delete</button>
+        </div>
+        <!-- END OF CONTAINER -->
+
+      </div>
+      <!-- END OF HERO BODY -->
+
+        <div class="navbar is-fixed-bottom has-text-centered">
+              <button class="button" @click="prev">Previous</button>
               <button class="button" @click="sendData">Update</button>
-            </div>
-
-
-
-        <div class="navbar is-fixed-bottom">
-                  <button class="button" @click="prev">Previous</button>
-                  <button class="button" @click="next">Next</button>
+              <button class="button" @click="next">Next</button>
         </div>
 
 
