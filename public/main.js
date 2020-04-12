@@ -127,12 +127,10 @@ function toggleSelected(player) {
 
 function incScore(player) {
 	this.course.baskets[this.course.active].scores[player].score++;
-	this.course.baskets[this.course.active].scores[player].total = this.course.baskets[this.course.active].scores[player].score - this.course.baskets[this.course.active].par;
 }
 
 function decScore(player) {
 	if (this.course.baskets[this.course.active].scores[player].score > 1) {
-		this.course.baskets[this.course.active].scores[player].score--;
 		// this.course.baskets[this.course.active].scores[player].total--;
 	}
 }
@@ -287,11 +285,22 @@ var app = new Vue({
 		prev: prev,
 		next: next,
 		testi: function(name) {
-			let prev = 0;
-			if (this.course.active > 1) {
-				prev = this.course.baskets[this.course.active - 1].scores[name].total;
+			// let prev = 0;
+			let total = 0
+			for (let i = 1; i <= this.course.basketCount; i++) {
+				this.course.baskets[i].scores[name].score
+				total += this.course.baskets[i].scores[name].score
 			}
-			return this.course.baskets[this.course.active].scores[name].score - this.course.baskets[this.course.active].par + prev;
+			// for (let key in this.course.baskets[1].scores) {
+			// 	console.log(key);
+			// 	this.course.baskets[1].scores[key].total = this.course.baskets[1].scores[key].score - this.course.baskets[1].par;
+			// }
+
+			// if (this.course.active > 1) {
+			// 	prev += this.course.baskets[this.course.active - 1].scores[name].total;
+			// }
+			// return this.course.baskets[this.course.active].scores[name].score - this.course.baskets[this.course.active].par + prev;
+			return total;
 		}
 	},
 	computed: {
