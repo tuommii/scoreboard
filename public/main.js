@@ -331,6 +331,7 @@ var app = new Vue({
 		}
 	},
 	created: function () {
+		getLocation();
 		const id = localStorage.getItem('id');
 		if (id == null)
 			return;
@@ -347,3 +348,16 @@ var app = new Vue({
 			});
 	}
 });
+
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(cb);
+  } else {
+	  console.log('Not supported');
+  }
+}
+
+function cb(pos) {
+	console.log(pos.coords.latitude);
+	console.log(pos.coords.longitude);
+}
