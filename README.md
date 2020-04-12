@@ -16,6 +16,7 @@
 - Updating stats require hold button
 - Sound effects
 - Copy id to clipboard
+- Multiple languages
 
 ## Create new course
 
