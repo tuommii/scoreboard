@@ -106,7 +106,7 @@ function deletePlayer(name) {
 }
 
 function deleteGame() {
-	if (!confirm('Are you sure?'))
+	if (!confirm('This will delete whole game. Are you sure?'))
 		return;
 	localStorage.removeItem('id');
 	this.course = {
@@ -201,6 +201,9 @@ function start() {
 function sendData() {
 	let jee = {};
 	console.log('REQUEST WITH', jee, this.course);
+
+	if (!confirm('This will save your current state to server so others can take lead.'))
+		return ;
 
 	postData(EDIT_GAME, this.course).then((data) => {
 		console.log('FROM SERVER:', data);

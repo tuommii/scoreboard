@@ -35,6 +35,10 @@ a.button.card-footer-item {
 
 }
 
+.deleteGame {
+	margin-top: 2rem;
+}
+
 .card-footer {
 	border-color: #5e6dab;
 	border: 0;
