@@ -13,5 +13,5 @@ func main() {
 	log.Println("Server started...")
 	server := server.New(*dir)
 	go server.CleanGames()
-	server.Http.ListenAndServe()
+	server.HTTP.ListenAndServe()
 }

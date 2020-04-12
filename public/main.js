@@ -217,7 +217,7 @@ var app = new Vue({
 		selectedPlayers: [
 			{ name: 'Miikka', selected: true },
 			{ name: 'Sande', selected: true },
-			{ name: 'Pasi', selected: true },
+			{ name: 'Pasi', selected: false },
 			{ name: 'Joni', selected: false },
 		],
 		playersArr: [],

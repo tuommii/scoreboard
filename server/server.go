@@ -22,7 +22,7 @@ type Server struct {
 	// ID
 	counter int
 	// This gets passed to Game for creating ID
-	Http  *http.Server
+	HTTP  *http.Server
 	games map[string]*game.Course
 }
 
@@ -36,7 +36,7 @@ type StartingRequest struct {
 func New(path string) *Server {
 	server := &Server{}
 	router := mux.NewRouter()
-	server.Http = &http.Server{
+	server.HTTP = &http.Server{
 		Handler:      router,
 		Addr:         "0.0.0.0:8080",
 		WriteTimeout: 15 * time.Second,
@@ -136,10 +136,10 @@ func (s *Server) TestEdit(w http.ResponseWriter, r *http.Request) {
 
 	// TODO: Check ip or?
 	// Posted by someone else
-	if c.CreatedAt != s.games[id].CreatedAt {
-		http.Error(w, "Hmm...", http.StatusInternalServerError)
-		return
-	}
+	// if c.CreatedAt != s.games[id].CreatedAt {
+	// 	http.Error(w, "Hmm...", http.StatusInternalServerError)
+	// 	return
+	// }
 
 	// Not going over last basket
 	if s.games[id].Active >= s.games[id].BasketCount {
