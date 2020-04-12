@@ -144,14 +144,18 @@
             <div class="card" v-for="(i, player) in course.baskets[1].scores" v-bind:key="player">
               <div class="card-content">
                 <div class="content">
+                  <!-- <p class="subtitle is-5">{{player}} | {{course.baskets[course.active].scores[player].score}}
+                    | Total: <span v-if="course.baskets[course.active].scores[player].total > 0">+</span>{{course.baskets[course.active].scores[player].total}}
+                  </p> -->
                   <p class="subtitle is-5">{{player}} | {{course.baskets[course.active].scores[player].score}}
-                    | Total: {{course.baskets[course.active].scores[player].total}}
+                    | Total: <span v-if="course.baskets[course.active].scores[player].total > 0">+</span>{{testi(player)}}
                   </p>
+                  <!-- <p>SAS: {{testi(player)}}</p> -->
                 </div>
               </div>
               <footer class="card-footer">
-                <a class="button card-footer-item" @click="decScore(player)">DEC</a>
-                <a style="padding: 1rem 0" class="button card-footer-item" @click="incScore(player)">INC</a>
+                <a class="button card-footer-item" @click="decScore(player)">-</a>
+                <a style="padding: 1rem 0" class="button card-footer-item" @click="incScore(player)">+</a>
               </footer>
             </div>
         <!-- END OF PLAYERS -->

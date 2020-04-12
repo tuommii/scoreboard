@@ -12,6 +12,9 @@
 - Take care if course aint played in right order
 - Mutex
 - Secure cookie
+- If cookie is found but no game, fix that injecting starttime or something
+- Updating stats require hold button
+- Sound effects
 
 ## Create new course
 

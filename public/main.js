@@ -120,19 +120,20 @@ function deleteGame() {
 **	UI RELATED
 **
 */
+
 function toggleSelected(player) {
 	player.selected = !player.selected
 }
 
 function incScore(player) {
 	this.course.baskets[this.course.active].scores[player].score++;
-	this.course.baskets[this.course.active].scores[player].total++;
+	this.course.baskets[this.course.active].scores[player].total = this.course.baskets[this.course.active].scores[player].score - this.course.baskets[this.course.active].par;
 }
 
 function decScore(player) {
 	if (this.course.baskets[this.course.active].scores[player].score > 1) {
 		this.course.baskets[this.course.active].scores[player].score--;
-		this.course.baskets[this.course.active].scores[player].total--;
+		// this.course.baskets[this.course.active].scores[player].total--;
 	}
 }
 
@@ -143,7 +144,9 @@ function prev() {
 
 function next() {
 	if (this.course.active < this.course.basketCount)
+	{
 		this.course.active++;
+	}
 }
 
 function nextToActive(course) {
@@ -282,7 +285,14 @@ var app = new Vue({
 		deleteGame: deleteGame,
 		join: join,
 		prev: prev,
-		next: next
+		next: next,
+		testi: function(name) {
+			let prev = 0;
+			if (this.course.active > 1) {
+				prev = this.course.baskets[this.course.active - 1].scores[name].total;
+			}
+			return this.course.baskets[this.course.active].scores[name].score - this.course.baskets[this.course.active].par + prev;
+		}
 	},
 	computed: {
 		selectedCount() {
@@ -293,7 +303,7 @@ var app = new Vue({
 				}
 			});
 			return count;
-		},
+		}
 	},
 	created: function () {
 		const id = localStorage.getItem('id');
