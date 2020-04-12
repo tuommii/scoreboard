@@ -131,7 +131,7 @@ function incScore(player) {
 
 function decScore(player) {
 	if (this.course.baskets[this.course.active].scores[player].score > 1) {
-		// this.course.baskets[this.course.active].scores[player].total--;
+		this.course.baskets[this.course.active].scores[player].score--;
 	}
 }
 
@@ -288,7 +288,6 @@ var app = new Vue({
 			// let prev = 0;
 			let total = 0
 			for (let i = 1; i <= this.course.basketCount; i++) {
-				this.course.baskets[i].scores[name].score
 				total += this.course.baskets[i].scores[name].score
 			}
 			// for (let key in this.course.baskets[1].scores) {
@@ -301,6 +300,13 @@ var app = new Vue({
 			// }
 			// return this.course.baskets[this.course.active].scores[name].score - this.course.baskets[this.course.active].par + prev;
 			return total;
+		},
+		pars: function() {
+			let total = 0
+			for (let i = 1; i <= this.course.basketCount; i++) {
+				total += this.course.baskets[i].par
+			}
+			return (total);
 		}
 	},
 	computed: {

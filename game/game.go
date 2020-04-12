@@ -86,7 +86,7 @@ func CreateCourse(players []string, baskets int, counter int) *Course {
 		basket.OrderNum = i + 1
 		for _, player := range players {
 			basketScore := NewBasketScore()
-			// basketScore.Score = basket.Par
+			basketScore.Score = basket.Par
 			// basketScore.Total = basket.Par
 			basket.Scores[player] = basketScore
 		}

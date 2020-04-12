@@ -148,7 +148,7 @@
                     | Total: <span v-if="course.baskets[course.active].scores[player].total > 0">+</span>{{course.baskets[course.active].scores[player].total}}
                   </p> -->
                   <p class="subtitle is-5">{{player}} | {{course.baskets[course.active].scores[player].score}}
-                    | Total: <span v-if="course.baskets[course.active].scores[player].total > 0">+</span>{{testi(player)}}
+                    | Total: {{ testi(player) - pars()}}
                   </p>
                   <!-- <p>SAS: {{testi(player)}}</p> -->
                 </div>
