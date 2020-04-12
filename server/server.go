@@ -159,7 +159,9 @@ func (s *Server) TestEdit(w http.ResponseWriter, r *http.Request) {
 
 	// Update our internal game
 	s.mu.Lock()
+	temp := s.games[id].CreatedAt
 	s.games[id] = c
+	s.games[id].CreatedAt = temp
 	s.mu.Unlock()
 
 	resp, err := json.Marshal(s.games[id])
@@ -173,14 +175,14 @@ func (s *Server) TestEdit(w http.ResponseWriter, r *http.Request) {
 // CleanGames ...
 func (s *Server) CleanGames() {
 	for {
-		time.Sleep(15 * time.Minute)
+		time.Sleep(30 * time.Minute)
 		s.remove()
 	}
 }
 
 func (s *Server) remove() {
 	for id, game := range s.games {
-		if time.Since(game.CreatedAt) > (time.Hour * 6) {
+		if time.Since(game.CreatedAt) > (time.Hour * 5) {
 			log.Println(id, "deleted")
 			s.mu.Lock()
 			delete(s.games, id)
