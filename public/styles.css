@@ -26,6 +26,23 @@ body {
 
 .card {
 	margin-top: 1rem;
+	background: #242f69;
+}
+
+a.button.card-footer-item {
+	background: #242f69;
+	color: #f1f1f1 !important;
+	border-color: #5e6dab;
+
+}
+
+.card-footer {
+	border-color: #5e6dab;
+	border: 0;
+}
+
+p.subtitle.is-5 {
+	color: #f1f1f1 !important;
 }
 
 .card-content {
@@ -82,10 +99,6 @@ span.par {
 	color: #3d82ec !important;
 }
 
-.parValue {
-	font-size: 40px !important;
-}
-
 span.parMinus {
 	padding-right: 1rem;
 }
@@ -96,6 +109,14 @@ span.parPlus {
 .parValue {
 	padding-right: 1rem !important;
 	padding-left: 1rem !important;
+}
+
+.level-item .subtitle, .level-item .title {
+	font-size: 2rem !important;
+}
+
+.id {
+	font-size: 1rem !important;
 }
 
 @media only screen and (min-width: 500px) {
