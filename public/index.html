@@ -55,7 +55,7 @@
           <!-- PLAYERS LIST -->
           <div class="field" v-for="player in selectedPlayers" v-bind:key="player.name">
             <div class="control">
-              <button class="button is-medium" v-bind:class="{ 'is-primary': player.selected}"
+              <button class="button is-medium min-width" v-bind:class="{ 'is-primary': player.selected}"
                 @click="toggleSelected(player)">{{player.name}}
               </button>
               <a href="/" class="delete" @click="deletePlayer(player.name)">X</a>
@@ -68,7 +68,7 @@
           <div class="field">
             <div class="control">
               <p class="help selected-count">{{selectedCount}} of {{selectedPlayers.length}} selected</p>
-              <button class="button is-link is-medium" @click="start">Start</button>
+              <button class="button is-link is-medium min-width" @click="start">Start</button>
               <p class="help err">{{errors.start}}</p>
             </div>
           </div>

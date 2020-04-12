@@ -149,18 +149,19 @@ func (s *Server) TestEdit(w http.ResponseWriter, r *http.Request) {
 
 	// Update our internal game
 	s.games[id] = c
-	s.games[id].Active++
-	// Easier read and write
-	active := s.games[id].Active
 
-	// Init data for next basket
-	par := s.games[id].Baskets[active].Par
-	for player := range s.games[id].Baskets[active].Scores {
-		// Score defaults to par
-		s.games[id].Baskets[active].Scores[player].Score = par
-		// Calc total
-		s.games[id].Baskets[active].Scores[player].Total += s.games[id].Baskets[active-1].Scores[player].Total
-	}
+	// s.games[id].Active++
+	// // Easier read and write
+	// active := s.games[id].Active
+
+	// // Init data for next basket
+	// par := s.games[id].Baskets[active].Par
+	// for player := range s.games[id].Baskets[active].Scores {
+	// 	// Score defaults to par
+	// 	s.games[id].Baskets[active].Scores[player].Score = par
+	// 	// Calc total
+	// 	s.games[id].Baskets[active].Scores[player].Total += s.games[id].Baskets[active-1].Scores[player].Total
+	// }
 
 	// Edited Course to json
 	resp, err := json.Marshal(s.games[id])

@@ -63,15 +63,19 @@ const edit = {
 let GAME = {};
 
 
+
+/*
+**
+**	CRUD FUNCTIONS
+**
+*/
 function isUniq(name, arr) {
-	code = true;
 	arr.forEach(player => {
 		if (name.toLowerCase() === player.name.toLowerCase()) {
-			code = false;
-			return code;
+			return false;
 		}
 	});
-	return code;
+	return true;
 }
 
 function addPlayer(e) {
@@ -95,17 +99,64 @@ function addPlayer(e) {
 	this.player = '';
 }
 
-function toggleSelected(player) {
-	player.selected = !player.selected
-}
-
 function deletePlayer(name) {
 	this.selectedPlayers = this.selectedPlayers.filter(player => {
-		console.log(player);
 		return player.name != name;
 	});
 }
 
+function deleteGame() {
+	if (!confirm('Are you sure?'))
+		return;
+	localStorage.removeItem('id');
+	this.course = {
+		active: 0
+	};
+}
+
+
+/*
+**
+**	UI RELATED
+**
+*/
+function toggleSelected(player) {
+	player.selected = !player.selected
+}
+
+function incScore(player) {
+	this.course.baskets[this.course.active].scores[player].score++;
+	this.course.baskets[this.course.active].scores[player].total++;
+}
+
+function decScore(player) {
+	if (this.course.baskets[this.course.active].scores[player].score > 1) {
+		this.course.baskets[this.course.active].scores[player].score--;
+		this.course.baskets[this.course.active].scores[player].total--;
+	}
+}
+
+function prev() {
+	if (this.course.active > 1)
+		this.course.active--;
+}
+
+function next() {
+	if (this.course.active < this.course.basketCount)
+		this.course.active++;
+}
+
+function nextToActive(course) {
+	if (course.active < course.basketCount) {
+		course.active++;
+	}
+}
+
+/*
+**
+**	DATA
+**
+*/
 function start() {
 	this.playersArr = [];
 	this.selectedPlayers.forEach(player => {
@@ -145,14 +196,35 @@ function sendData() {
 	postData(EDIT_GAME, this.course).then((data) => {
 		console.log('FROM SERVER:', data);
 		this.course = data;
+		nextToActive(this.course);
+		// if (this.course.active < this.course.basketCount) {
+		// 	this.course.active++;
+		// }
 	});
 }
+
+async function postData(url = '', data = {}) {
+	const response = await fetch(url, {
+		method: 'POST',
+		mode: 'cors',
+		cache: 'no-cache',
+		credentials: 'same-origin',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		redirect: 'follow',
+		referrerPolicy: 'no-referrer',
+		body: JSON.stringify(data)
+	});
+	return response.json();
+}
+
 
 function join(e) {
 	e.preventDefault();
 
 	if (!this.gameID.length)
-		return ;
+		return;
 
 	fetch('/games/' + this.gameID)
 		.then((response) => {
@@ -175,38 +247,6 @@ function join(e) {
 }
 
 
-function incScore(player) {
-	this.course.baskets[this.course.active].scores[player].score++;
-	this.course.baskets[this.course.active].scores[player].total++;
-}
-
-function decScore(player) {
-	if (this.course.baskets[this.course.active].scores[player].score > 1) {
-		this.course.baskets[this.course.active].scores[player].score--;
-		this.course.baskets[this.course.active].scores[player].total--;
-	}
-}
-
-function deleteGame() {
-	if (!confirm('Are you sure?'))
-		return;
-	localStorage.removeItem('id');
-	localStorage.removeItem('active');
-	this.course = {
-		active: 0
-	};
-}
-
-function prev() {
-	if (this.course.active > 1)
-		this.course.active--;
-}
-
-function next() {
-	if (this.course.active < this.course.basketCount)
-		this.course.active++;
-
-}
 
 // TODO: Hide from user
 var app = new Vue({
@@ -260,36 +300,15 @@ var app = new Vue({
 		if (id == null)
 			return;
 		const URL = `/games/${id}`;
-		if (id != null) {
-			console.log('COOKIE', id);
-			fetch(URL)
-				.then((response) => {
-					return response.json();
-				})
-				.then((data) => {
-					this.course = data;
-					// this.$forceUpdate();
-					console.log(this.course);
-				});
-		} else {
-			console.log('NO COOKIE');
-		}
+		console.log('COOKIE', id);
+		fetch(URL)
+			.then((response) => {
+				return response.json();
+			})
+			.then((data) => {
+				this.course = data;
+				// this.$forceUpdate();
+				console.log(this.course);
+			});
 	}
 });
-
-
-async function postData(url = '', data = {}) {
-	const response = await fetch(url, {
-		method: 'POST',
-		mode: 'cors',
-		cache: 'no-cache',
-		credentials: 'same-origin',
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		redirect: 'follow',
-		referrerPolicy: 'no-referrer',
-		body: JSON.stringify(data)
-	});
-	return response.json();
-}
