@@ -14,6 +14,7 @@ type Course struct {
 	ID          string `json:"id"`
 	BasketCount int    `json:"basketCount"`
 	Active      int    `json:"active"`
+	Action      string `json:"action"`
 	// OrderNumber is the key
 	Baskets   map[int]*Basket `json:"baskets"`
 	CreatedAt time.Time       `json:"createdAt"`

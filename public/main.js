@@ -77,7 +77,7 @@ function decScore(player) {
 
 function incPar() {
 	if (this.course.baskets[this.course.active].par < 5)
-	this.course.baskets[this.course.active].par++;
+		this.course.baskets[this.course.active].par++;
 }
 
 function decPar() {
@@ -91,8 +91,7 @@ function prev() {
 }
 
 function next() {
-	if (this.course.active < this.course.basketCount)
-	{
+	if (this.course.active < this.course.basketCount) {
 		this.course.active++;
 	}
 }
@@ -146,15 +145,16 @@ function saveAndNext() {
 
 	// if (!confirm('This will save your current state to server so others can take lead.'))
 	// 	return ;
-
+	this.course.action = "next";
 	postData(EDIT_GAME, this.course).then((data) => {
 		console.log('FROM SERVER:', data);
 		this.course = data;
-		nextToActive(this.course);
+		// nextToActive(this.course);
 		window.scrollTo({
 			top: 0,
 			behavior: 'smooth'
 		});
+		this.course.action = "";
 		// if (this.course.active < this.course.basketCount) {
 		// 	this.course.active++;
 		// }
@@ -164,22 +164,23 @@ function saveAndNext() {
 
 function saveAndPrev() {
 	if (this.course.active === 1)
-		return ;
+		return;
 	let jee = {};
 	console.log('REQUEST WITH', jee, this.course);
 
 	// if (!confirm('This will save your current state to server so others can take lead.'))
 	// 	return ;
 
+	this.course.action = "back";
 	postData(EDIT_GAME, this.course).then((data) => {
 		console.log('FROM SERVER:', data);
 		this.course = data;
-		this.course.active--;
 		// nextToActive(this.course);
 		window.scrollTo({
 			top: 0,
 			behavior: 'smooth'
 		});
+		this.course.action = "";
 		// if (this.course.active < this.course.basketCount) {
 		// 	this.course.active++;
 		// }
@@ -231,7 +232,7 @@ function join(e) {
 		});
 }
 
-(function() {
+(function () {
 
 	// TODO: Hide from user
 	var app = new Vue({
@@ -261,63 +262,63 @@ function join(e) {
 			addPlayer: addPlayer,
 			toggleSelected: toggleSelected,
 			deletePlayer: deletePlayer,
-		start: start,
-		// sendData: sendData,
-		incScore: incScore,
-		decScore: decScore,
-		incPar: incPar,
-		decPar: decPar,
-		deleteGame: deleteGame,
-		join: join,
-		saveAndNext: saveAndNext,
-		saveAndPrev: saveAndPrev,
-		// prev: prev,
-		// next: next,
-		testi: function(name) {
-			// let prev = 0;
-			let total = 0
-			for (let i = 1; i <= this.course.basketCount; i++) {
-				total += this.course.baskets[i].scores[name].score
-			}
-			return total;
-		},
-		pars: function() {
-			let total = 0
-			for (let i = 1; i <= this.course.basketCount; i++) {
-				total += this.course.baskets[i].par
-			}
-			return (total);
-		}
-	},
-	computed: {
-		selectedCount() {
-			let count = 0;
-			this.selectedPlayers.forEach(player => {
-				if (player.selected) {
-					count++;
+			start: start,
+			// sendData: sendData,
+			incScore: incScore,
+			decScore: decScore,
+			incPar: incPar,
+			decPar: decPar,
+			deleteGame: deleteGame,
+			join: join,
+			saveAndNext: saveAndNext,
+			saveAndPrev: saveAndPrev,
+			// prev: prev,
+			// next: next,
+			testi: function (name) {
+				// let prev = 0;
+				let total = 0
+				for (let i = 1; i <= this.course.basketCount; i++) {
+					total += this.course.baskets[i].scores[name].score
 				}
-			});
-			return count;
+				return total;
+			},
+			pars: function () {
+				let total = 0
+				for (let i = 1; i <= this.course.basketCount; i++) {
+					total += this.course.baskets[i].par
+				}
+				return (total);
+			}
+		},
+		computed: {
+			selectedCount() {
+				let count = 0;
+				this.selectedPlayers.forEach(player => {
+					if (player.selected) {
+						count++;
+					}
+				});
+				return count;
+			}
+		},
+		created: function () {
+			// getLocation();
+			const id = localStorage.getItem('id');
+			if (id == null)
+				return;
+			const URL = `/games/${id}`;
+			console.log('COOKIE', id);
+			fetch(URL)
+				.then((response) => {
+					return response.json();
+				})
+				.then((data) => {
+					this.course = data;
+					// this.$forceUpdate();
+					console.log(this.course);
+				});
 		}
-	},
-	created: function () {
-		// getLocation();
-		const id = localStorage.getItem('id');
-		if (id == null)
-		return;
-		const URL = `/games/${id}`;
-		console.log('COOKIE', id);
-		fetch(URL)
-		.then((response) => {
-			return response.json();
-		})
-		.then((data) => {
-			this.course = data;
-			// this.$forceUpdate();
-			console.log(this.course);
-		});
-	}
-});
+	});
 
 
 })();
