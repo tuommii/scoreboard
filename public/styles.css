@@ -2,12 +2,11 @@ body {
 	/* background: #f3f4f5; */
 	/* Disables pull-to-refresh but allows overscroll glow effects. */
 	background: #f3f4f5;
-	padding-bottom: 3rem;
 }
 
 .bg {
 	height: 100%;
-	widht: 100%;
+	width: 100%;
 	background: #f3f4f5;
 }
 
@@ -70,6 +69,9 @@ img {
 
 
 /* SCOREBOAD HEADER */
+.else {
+	padding-bottom: 3rem;
+}
 .scoreboard {
 	padding: 0;
 }
@@ -167,6 +169,10 @@ a.button.card-footer-item {
 
 .navbar {
 	background: #000 !important;
+}
+
+.no-pad {
+	padding: 1rem 0 1rem !important;
 }
 
 @media only screen and (min-width: 500px) {

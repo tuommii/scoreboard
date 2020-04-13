@@ -118,7 +118,7 @@
     <!-- <div class="hero-head">
 
     </div> -->
-    <div v-else>
+    <div class="else" v-else>
 
     <div class="hero-head scoreboard">
         <nav class="level is-mobile">
@@ -169,20 +169,14 @@
         </div>
         <!-- END OF CONTAINER -->
 
-        <button class="button deleteGame" @click="deleteGame">Exit</button>
       </div>
+      <button class="button deleteGame" @click="deleteGame">Exit</button>
       <!-- END OF HERO BODY -->
 
 
-        <div class="navbar is-fixed-bottom has-text-centered">
-          <div class="columns is-mobile">
-            <div class="column">
+        <div class="navbar is-fixed-bottom section no-pad has-text-centered">
               <button class="button" @click="saveAndPrev">Back</button>
-            </div>
-            <div class="column">
               <button class="button" @click="saveAndNext">Next</button>
-            </div>
-          </div>
         </div>
 
 
