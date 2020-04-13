@@ -80,18 +80,18 @@ func CreateCourse(players []string, baskets int, counter int) *Course {
 	course.ID = createID(players, counter)
 	course.BasketCount = baskets
 	course.Active = 1
-	for i := 0; i < baskets; i++ {
+	for i := 1; i <= baskets; i++ {
 		basket := NewBasket()
 		// TODO: Just for testing
-		basket.Par = 3 + i
-		basket.OrderNum = i + 1
+		basket.Par = 3
+		basket.OrderNum = i
 		for _, player := range players {
 			basketScore := NewBasketScore()
 			basketScore.Score = basket.Par
 			// basketScore.Total = basket.Par
 			basket.Scores[player] = basketScore
 		}
-		course.Baskets[i+1] = basket
+		course.Baskets[i] = basket
 	}
 	return course
 }

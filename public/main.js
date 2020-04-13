@@ -44,7 +44,7 @@ function deletePlayer(name) {
 }
 
 function deleteGame() {
-	if (!confirm('Remember the ID. Are you sure?'))
+	if (!confirm('The games remain on the server for a few hours. You can still come back with ID. Are you sure?'))
 		return;
 	localStorage.removeItem('id');
 	this.course = {
@@ -128,7 +128,7 @@ function start() {
 
 	const query = {
 		players: this.playersArr,
-		basketCount: 5
+		basketCount: 18
 	};
 
 	postData(CREATE_GAME, query).then((data) => {
@@ -140,17 +140,46 @@ function start() {
 	});
 }
 
-function sendData() {
+function saveAndNext() {
 	let jee = {};
 	console.log('REQUEST WITH', jee, this.course);
 
-	if (!confirm('This will save your current state to server so others can take lead.'))
-		return ;
+	// if (!confirm('This will save your current state to server so others can take lead.'))
+	// 	return ;
 
 	postData(EDIT_GAME, this.course).then((data) => {
 		console.log('FROM SERVER:', data);
 		this.course = data;
 		nextToActive(this.course);
+		window.scrollTo({
+			top: 0,
+			behavior: 'smooth'
+		});
+		// if (this.course.active < this.course.basketCount) {
+		// 	this.course.active++;
+		// }
+	});
+}
+
+
+function saveAndPrev() {
+	if (this.course.active === 1)
+		return ;
+	let jee = {};
+	console.log('REQUEST WITH', jee, this.course);
+
+	// if (!confirm('This will save your current state to server so others can take lead.'))
+	// 	return ;
+
+	postData(EDIT_GAME, this.course).then((data) => {
+		console.log('FROM SERVER:', data);
+		this.course = data;
+		this.course.active--;
+		// nextToActive(this.course);
+		window.scrollTo({
+			top: 0,
+			behavior: 'smooth'
+		});
 		// if (this.course.active < this.course.basketCount) {
 		// 	this.course.active++;
 		// }
@@ -233,15 +262,17 @@ function join(e) {
 			toggleSelected: toggleSelected,
 			deletePlayer: deletePlayer,
 		start: start,
-		sendData: sendData,
+		// sendData: sendData,
 		incScore: incScore,
 		decScore: decScore,
 		incPar: incPar,
 		decPar: decPar,
 		deleteGame: deleteGame,
 		join: join,
-		prev: prev,
-		next: next,
+		saveAndNext: saveAndNext,
+		saveAndPrev: saveAndPrev,
+		// prev: prev,
+		// next: next,
 		testi: function(name) {
 			// let prev = 0;
 			let total = 0
