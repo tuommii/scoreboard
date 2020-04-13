@@ -6,19 +6,19 @@ import (
 
 func TestCreateID(t *testing.T) {
 	id := createID([]string{"TigerKing", "Pesukarhu", "Ying Jang", "Bubba"}, 1)
-	wanted := "1bpty"
+	wanted := "bpty1"
 	if id != wanted {
 		t.Errorf("got: %s, wanted: %s\n", id, wanted)
 	}
 
 	id = createID([]string{"Aapo", "Ari", "Ying Jang"}, 24)
-	wanted = "24aay"
+	wanted = "aay24"
 	if id != wanted {
 		t.Errorf("got: %s, wanted: %s\n", id, wanted)
 	}
 
 	id = createID([]string{"123xxx123"}, 20)
-	wanted = "201"
+	wanted = "120"
 	if id != wanted {
 		t.Errorf("got: %s, wanted: %s\n", id, wanted)
 	}

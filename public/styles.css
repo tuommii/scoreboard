@@ -105,7 +105,11 @@ p.light {
 	margin-top: 1.5rem;
 	/* background: #242f69; */
 	background: #1f2227;
-	box-shadow:  inset 0 0 10px #000000;;
+	box-shadow:  inset 0 0 10px rgba(0, 0, 0, 0.75);
+}
+
+a.delete {
+	vertical-align: middle;
 }
 
 .card-footer {

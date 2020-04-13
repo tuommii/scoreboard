@@ -64,10 +64,11 @@ func NewBasketScore() *BasketScore {
 // CreateID ...
 func createID(players []string, counter int) string {
 	sort.Strings(players)
-	id := strconv.Itoa(counter)
+	var id string
 	for _, player := range players {
 		id += strings.ToLower((string(player[0])))
 	}
+	id += strconv.Itoa(counter)
 	return id
 }
 

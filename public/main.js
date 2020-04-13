@@ -64,7 +64,9 @@ function toggleSelected(player) {
 }
 
 function incScore(player) {
-	this.course.baskets[this.course.active].scores[player].score++;
+	if (this.course.baskets[this.course.active].scores[player].score < 42) {
+		this.course.baskets[this.course.active].scores[player].score++;
+	}
 }
 
 function decScore(player) {
@@ -126,7 +128,7 @@ function start() {
 
 	const query = {
 		players: this.playersArr,
-		basketCount: 3
+		basketCount: 5
 	};
 
 	postData(CREATE_GAME, query).then((data) => {
