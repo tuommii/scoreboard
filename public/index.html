@@ -169,20 +169,21 @@
         </div>
         <!-- END OF CONTAINER -->
 
+        <button class="button deleteGame" @click="deleteGame">Exit</button>
       </div>
       <!-- END OF HERO BODY -->
 
-        <div class="has-text-centered">
-            <div class="columns is-mobile">
-              <div class="column">
-                <button class="button" @click="saveAndPrev">Back</button>
-              </div>
-              <div class="column">
-                <button class="button" @click="saveAndNext">Next</button>
-              </div>
+
+        <div class="navbar is-fixed-bottom has-text-centered">
+          <div class="columns is-mobile">
+            <div class="column">
+              <button class="button" @click="saveAndPrev">Back</button>
             </div>
+            <div class="column">
+              <button class="button" @click="saveAndNext">Next</button>
+            </div>
+          </div>
         </div>
-        <button class="button deleteGame" @click="deleteGame">Exit</button>
 
 
 

@@ -135,6 +135,10 @@ function start() {
 		console.log(data);
 		this.course = data;
 		localStorage.setItem('id', this.course.id);
+		window.scrollTo({
+			top: 0
+		});
+
 		// window.location.pathname = 'games/' + this.course.id + '/' + this.course.active;
 	});
 }
@@ -151,8 +155,7 @@ function saveAndNext() {
 		this.course = data;
 		// nextToActive(this.course);
 		window.scrollTo({
-			top: 0,
-			behavior: 'smooth'
+			top: 0
 		});
 		this.course.action = "";
 		// if (this.course.active < this.course.basketCount) {
@@ -177,8 +180,7 @@ function saveAndPrev() {
 		this.course = data;
 		// nextToActive(this.course);
 		window.scrollTo({
-			top: 0,
-			behavior: 'smooth'
+			top: 0
 		});
 		this.course.action = "";
 		// if (this.course.active < this.course.basketCount) {
@@ -301,7 +303,7 @@ function join(e) {
 				return count;
 			}
 		},
-		created: function () {
+		mounted: function () {
 			// getLocation();
 			const id = localStorage.getItem('id');
 			if (id == null)
@@ -314,6 +316,7 @@ function join(e) {
 				})
 				.then((data) => {
 					this.course = data;
+					// window.location.reload(true);
 					// this.$forceUpdate();
 					console.log(this.course);
 				});

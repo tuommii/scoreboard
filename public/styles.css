@@ -2,6 +2,7 @@ body {
 	/* background: #f3f4f5; */
 	/* Disables pull-to-refresh but allows overscroll glow effects. */
 	background: #f3f4f5;
+	padding-bottom: 3rem;
 }
 
 .bg {
@@ -98,7 +99,7 @@ p.light {
 }
 
 .hero-body .container .card:nth-child(even) {
-	background: #2f333b;
+	background: #2c4b58;
 }
 /* SCORECARD */
 .card {
