@@ -91,6 +91,14 @@ p.light {
 	padding-left: 1rem;
 }
 
+.par-minus, .par-plus, .exit {
+	cursor: pointer;
+}
+
+.exit {
+	color: #d44c4c;
+}
+
 .parValue {
 	padding-right: 1rem !important;
 	padding-left: 1rem !important;
@@ -168,11 +176,22 @@ a.button.card-footer-item {
 }
 
 .navbar {
-	background: #000 !important;
+	background: #382555 !important;
 }
 
 .no-pad {
-	padding: 1rem 0 1rem !important;
+	padding: 0.5rem 0 0.5rem !important;
+}
+
+.nav-button {
+	color: #fff !important;
+    border: 1px solid rgba(0, 0, 0, 0.7);
+    font-weight: 600;
+    border-radius: 4px;
+    background: #0073e8;
+    background: linear-gradient(135deg, #00bec7, #0073e8);
+    transition: all 0.2s ease;
+    /* width: 200px; */
 }
 
 @media only screen and (min-width: 500px) {
