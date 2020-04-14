@@ -176,8 +176,9 @@
 
 
         <div class="navbar is-fixed-bottom section no-pad has-text-centered">
-              <button class="button nav-button" @click="saveAndPrev">Back</button>
-              <button class="button nav-button" @click="saveAndNext">Next</button>
+          <button class="button nav-button" @click="saveAndPrev">Back</button>
+          {{course.active}}
+          <button class="button nav-button" @click="saveAndNext">Next</button>
         </div>
 
 

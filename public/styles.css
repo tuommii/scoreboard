@@ -177,6 +177,9 @@ a.button.card-footer-item {
 
 .navbar {
 	background: #382555 !important;
+	border: 1px solid #8058bc;
+	align-items: center;
+	display: block;
 }
 
 .no-pad {
@@ -192,6 +195,13 @@ a.button.card-footer-item {
     background: linear-gradient(135deg, #00bec7, #0073e8);
     transition: all 0.2s ease;
     /* width: 200px; */
+}
+
+.navbar .nav-button:first-child {
+	margin-right: 0.25rem;
+}
+.navbar .nav-button:last-child {
+	margin-left: 0.25rem;
 }
 
 @media only screen and (min-width: 500px) {

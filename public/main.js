@@ -255,7 +255,7 @@ function join(e) {
 				{ name: 'Sande', selected: true },
 				{ name: 'Pasi', selected: true },
 				{ name: 'Joni', selected: true },
-				{ name: 'Test', selected: true },
+				{ name: 'Random', selected: true },
 			],
 			playersArr: [],
 			// Game object
