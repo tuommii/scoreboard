@@ -50,8 +50,14 @@ func New(path string) *Server {
 	router.HandleFunc("/games/{id}", server.GetGameHandle).Methods("GET")
 	router.HandleFunc("/test_create", server.TestCreate).Methods("POST")
 	router.HandleFunc("/test_edit", server.TestEdit).Methods("POST")
+	router.HandleFunc("/test", test).Methods("GET")
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir(path)))
 	return server
+}
+
+func test(w http.ResponseWriter, r *http.Request) {
+	log.Println("REQUEST")
+	fmt.Fprintf(w, "OK!")
 }
 
 // GetGameHandle ...
@@ -59,6 +65,8 @@ func (s *Server) GetGameHandle(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	vars := mux.Vars(r)
 	id := vars["id"]
+
+	log.Println("VUE-CLI!")
 
 	if _, exist := s.games[id]; !exist {
 		http.Error(w, "Error", http.StatusInternalServerError)

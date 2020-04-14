@@ -19,6 +19,11 @@
 - Multiple languages
 - Delete based on updated at
 
+## UI
+- Star icon to leader
+- Round plus and inc buttons
+- Avatars
+
 ## Create new course
 
 ### POST

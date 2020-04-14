@@ -147,6 +147,7 @@ a.button.card-footer-item {
 	font-weight: 900;
 	font-size: 1.15rem;
 	height: 2.5rem;
+	border-radius: 0;
 }
 
 .level-item .subtitle, .level-item .title {
