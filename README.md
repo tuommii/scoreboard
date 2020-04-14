@@ -17,6 +17,7 @@
 - Sound effects
 - Copy id to clipboard
 - Multiple languages
+- Delete based on updated at
 
 ## Create new course
 

@@ -171,6 +171,7 @@ func (s *Server) TestEdit(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	s.games[id].CreatedAt = temp
+	log.Println(s.games[id].EditedAt.Sub(s.games[id].CreatedAt))
 	s.mu.Unlock()
 
 	resp, err := json.Marshal(s.games[id])
@@ -184,14 +185,19 @@ func (s *Server) TestEdit(w http.ResponseWriter, r *http.Request) {
 // CleanGames ...
 func (s *Server) CleanGames() {
 	for {
-		time.Sleep(30 * time.Minute)
+		time.Sleep(20 * time.Minute)
 		s.remove()
 	}
 }
 
 func (s *Server) remove() {
 	for id, game := range s.games {
-		if time.Since(game.CreatedAt) > (time.Hour * 5) {
+		if time.Since(game.EditedAt) > time.Hour*1 {
+			log.Println(id, "deleted")
+			s.mu.Lock()
+			delete(s.games, id)
+			s.mu.Unlock()
+		} else if time.Since(game.CreatedAt) > (time.Hour * 5) {
 			log.Println(id, "deleted")
 			s.mu.Lock()
 			delete(s.games, id)

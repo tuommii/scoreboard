@@ -18,6 +18,7 @@ type Course struct {
 	// OrderNumber is the key
 	Baskets   map[int]*Basket `json:"baskets"`
 	CreatedAt time.Time       `json:"createdAt"`
+	EditedAt  time.Time       `json:"editedAt"`
 }
 
 // Basket ...
@@ -78,6 +79,7 @@ func CreateCourse(players []string, baskets int, counter int) *Course {
 	// TODO: check bad input
 	course := NewCourse()
 	course.CreatedAt = time.Now()
+	course.EditedAt = time.Now()
 	course.ID = createID(players, counter)
 	course.BasketCount = baskets
 	course.Active = 1

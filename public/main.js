@@ -150,6 +150,8 @@ function saveAndNext() {
 	// if (!confirm('This will save your current state to server so others can take lead.'))
 	// 	return ;
 	this.course.action = "next";
+	now = new Date().toJSON();
+	this.course.editedAt = now;
 	postData(EDIT_GAME, this.course).then((data) => {
 		console.log('FROM SERVER:', data);
 		this.course = data;
@@ -175,6 +177,8 @@ function saveAndPrev() {
 	// 	return ;
 
 	this.course.action = "back";
+	now = new Date().toJSON();
+	this.course.editedAt = now;
 	postData(EDIT_GAME, this.course).then((data) => {
 		console.log('FROM SERVER:', data);
 		this.course = data;
@@ -254,8 +258,8 @@ function join(e) {
 				{ name: 'Miikka', selected: true },
 				{ name: 'Sande', selected: true },
 				{ name: 'Pasi', selected: true },
-				{ name: 'Joni', selected: true },
-				{ name: 'Random', selected: true },
+				{ name: 'Joni', selected: false },
+				{ name: 'Random', selected: false },
 			],
 			playersArr: [],
 			// Game object
