@@ -44,7 +44,7 @@ function deletePlayer(name) {
 }
 
 function deleteGame() {
-	if (!confirm('The games remain on the server for a few hours. You can still come back with ID. Are you sure?'))
+	if (!confirm('The games remain on the server for a few hours. You can still come back with ID.'))
 		return;
 	localStorage.removeItem('id');
 	this.course = {
