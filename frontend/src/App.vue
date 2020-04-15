@@ -3,7 +3,6 @@
     <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
     <!-- <HelloWorld msg="Haloo ei ole nero!"/> -->
     <JoinForm />
-    <button class="button">Klikkaa</button>
   </div>
 </template>
 
