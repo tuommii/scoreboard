@@ -14,7 +14,8 @@ body {
 
 .dark {
 	/* background: #1d144d; */
-	background: #26292e;
+	/* background: #26292e; */
+	background: #1b233a;
 	color: #ffe69e;
 }
 
@@ -85,9 +86,11 @@ p.light {
 }
 
 .par-minus {
+	color: #ff8570 !important;
 	padding-right: 1rem;
 }
 .par-plus {
+	color: #a7df6c !important;
 	padding-left: 1rem;
 }
 
@@ -108,20 +111,58 @@ p.light {
 	margin-top: 0rem;
 }
 
-.hero-body .container .card:nth-child(even) {
+/* .hero-body .container .card:nth-child(even) {
 	background: #2c4b58;
-}
+} */
 /* SCORECARD */
-.card {
-	margin-top: 1.5rem;
-	/* background: #242f69; */
-	background: #1f2227;
-	box-shadow:  inset 0 0 10px rgba(0, 0, 0, 0.75);
+
+nav.info {
+border-bottom: 5px solid;
+  /* border-image-source: linear-gradient(45deg, rgb(0,143,104), rgb(250,224,66)); */
+  border-image-source: linear-gradient(45deg, #8a57ff, #1eedfe);
+  border-image-slice: 1;
+  padding-bottom: 1rem;
 }
 
 .delete {
 	vertical-align: middle;
 	margin: 0 0 0 0.5rem;
+}
+
+
+.card {
+	margin-top: 1.5rem;
+	/* background: #242f69; */
+	/* background: #34406f; */
+	background: linear-gradient(#34406f, #293458);
+	/* 293458 */
+	/* box-shadow:  inset 0 0 10px rgba(0, 0, 0, 0.75); */
+	/* box-shadow:  0 0 10px 0 rgba(255, 255, 255, 0.35); */
+	/* border-radius: 4px; */
+	/* border: 1px solid rgba(255, 255, 255, 0.4); */
+	/* border-bottom: 1px solid rgba(0,0,0, 0.4); */
+}
+
+.name {
+	font-weight: 700;
+	color: #fff;
+}
+
+.name, .total, .sign {
+	font-size: 1rem;
+}
+.current {
+	/* color: #1eedfe; */
+	font-weight: 900;
+}
+
+.round {
+	border-radius: 50% !important;
+	/* border: 1px solid rgba(0,0,0,0.9); */
+	/* background: linear-gradient(135deg, #62a8ff, #5146ff); */
+	background: #62a8ff;
+	border: 0 !important;
+	color: #fff;
 }
 
 .card-footer {
@@ -150,6 +191,10 @@ a.button.card-footer-item {
 	border-radius: 0;
 }
 
+.exit {
+	color: #da8e7d;
+}
+
 .level-item .subtitle, .level-item .title {
 	font-size: 2rem !important;
 }
@@ -161,20 +206,14 @@ a.button.card-footer-item {
 .data {
 	color: #dae2e5;
 	font-size: 1.5rem;
+	text-align: left;
 }
 
-.name {
-	font-weight: 700;
-	color: #e1cf86
+.fa-star {
+	color: #ffd559;
 }
 
-.name, .total, .sign {
-	font-size: 1rem;
-}
-.current {
-	color: #fff;
-	font-weight: 900;
-}
+
 
 .navbar {
 	background: #382555 !important;
