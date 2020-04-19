@@ -155,12 +155,10 @@
 
               <div class="columns is-mobile data">
                 <div class="column">
-                  <div class="test">
-
-                    <span class="name"><span class="icon exit"><i class="fas fa-star"></i></span>{{player}}</span></div>
-                  </div>
+                    <span class="name">{{player}}</span>
+                </div>
                 <div class="column is-6">
-                  <button class="button round" @click="decScore(player)">+</button>
+                  <button class="button round" @click="decScore(player)">-</button>
                   <span class="current">
                     {{course.baskets[course.active].scores[player].score}}
                   </span>

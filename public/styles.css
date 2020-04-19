@@ -86,11 +86,11 @@ p.light {
 }
 
 .par-minus {
-	color: #ff8570 !important;
+	/* color: #ff8570 !important; */
 	padding-right: 1rem;
 }
 .par-plus {
-	color: #a7df6c !important;
+	/* color: #a7df6c !important; */
 	padding-left: 1rem;
 }
 
@@ -146,6 +146,7 @@ border-bottom: 5px solid;
 .name {
 	font-weight: 700;
 	color: #fff;
+	padding-left: 0.5rem;
 }
 
 .name, .total, .sign {
@@ -158,6 +159,7 @@ border-bottom: 5px solid;
 
 .round {
 	border-radius: 50% !important;
+	min-width: 41px;
 	/* border: 1px solid rgba(0,0,0,0.9); */
 	/* background: linear-gradient(135deg, #62a8ff, #5146ff); */
 	background: #62a8ff;
