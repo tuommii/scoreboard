@@ -81,7 +81,7 @@ function incPar() {
 }
 
 function decPar() {
-	if (this.course.baskets[this.course.active].par > 3)
+	if (this.course.baskets[this.course.active].par > 2)
 		this.course.baskets[this.course.active].par--;
 }
 
