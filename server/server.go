@@ -23,9 +23,10 @@ type Server struct {
 	// ID
 	counter int
 	// This gets passed to Game for creating ID
-	HTTP  *http.Server
-	games map[string]*game.Course
-	mu    sync.Mutex
+	HTTP    *http.Server
+	games   map[string]*game.Course
+	courses infos
+	mu      sync.Mutex
 }
 
 // StartingRequest holds data thats needed for starting new game
@@ -35,6 +36,21 @@ type StartingRequest struct {
 	Lat         float64  `json:"lat"`
 	Lon         float64  `json:"lon"`
 }
+
+// CourseInfo ...
+type CourseInfo struct {
+	ID          string  `json:"id,omitempty"`
+	CountryCode string  `json:"countryCode,omitempty"`
+	City        string  `json:"city,omitempty"`
+	Lanes       int     `json:"lanes,omitempty"`
+	Lon         float64 `json:"lon,omitempty"`
+	Lat         float64 `json:"lat,omitempty"`
+	ShortName   string  `json:"shortName,omitempty"`
+	FullName    string  `json:"fullName,omitempty"`
+	Pars        []int   `json:"pars,omitempty"`
+}
+
+type infos []CourseInfo
 
 // New ...
 func New(path string) *Server {
@@ -49,11 +65,23 @@ func New(path string) *Server {
 	// Our games/courses
 	server.games = make(map[string]*game.Course)
 
+	file, err := ioutil.ReadFile("./courses.json")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err2 := json.Unmarshal([]byte(file), &server.courses)
+	if err2 != nil {
+		log.Fatal(err2)
+	}
+	fmt.Printf("%+v", server.courses)
+
 	router.HandleFunc("/games/{id}", server.GetGameHandle).Methods("GET")
 	router.HandleFunc("/test_create", server.TestCreate).Methods("POST")
 	router.HandleFunc("/test_edit", server.TestEdit).Methods("POST")
 	router.HandleFunc("/test", test).Methods("GET")
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir(path)))
+
 	return server
 }
 
@@ -115,7 +143,22 @@ func (s *Server) TestCreate(w http.ResponseWriter, r *http.Request) {
 	s.mu.Lock()
 	// TODO: Inc only if all is legal
 	s.counter++
-	course := game.CreateCourse(query.Players, query.BasketCount, s.counter)
+
+	// Calc distances
+	var course *game.Course
+	for _, info := range s.courses {
+		m := Distance(query.Lat, query.Lon, info.Lat, info.Lon)
+		if m < 7000 {
+			fmt.Println("EXISTING COURSE")
+			course = game.CreateExistingCourse(query.Players, query.BasketCount, s.counter, info.Pars)
+			break
+		}
+		fmt.Println(info.ShortName, m)
+	}
+	if course == nil {
+		fmt.Println("PAR 3 COURSE")
+		course = game.CreateCourse(query.Players, query.BasketCount, s.counter)
+	}
 	s.mu.Unlock()
 
 	bytes, err = json.Marshal(course)

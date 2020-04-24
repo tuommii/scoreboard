@@ -85,8 +85,30 @@ func CreateCourse(players []string, baskets int, counter int) *Course {
 	course.Active = 1
 	for i := 1; i <= baskets; i++ {
 		basket := NewBasket()
-		// TODO: Just for testing
 		basket.Par = 3
+		basket.OrderNum = i
+		for _, player := range players {
+			basketScore := NewBasketScore()
+			basketScore.Score = basket.Par
+			// basketScore.Total = basket.Par
+			basket.Scores[player] = basketScore
+		}
+		course.Baskets[i] = basket
+	}
+	return course
+}
+
+// CreateExistingCourse ...
+func CreateExistingCourse(players []string, baskets int, counter int, pars []int) *Course {
+	course := NewCourse()
+	course.CreatedAt = time.Now()
+	course.EditedAt = time.Now()
+	course.ID = createID(players, counter)
+	course.BasketCount = baskets
+	course.Active = 1
+	for i := 1; i <= baskets; i++ {
+		basket := NewBasket()
+		basket.Par = pars[i-1]
 		basket.OrderNum = i
 		for _, player := range players {
 			basketScore := NewBasketScore()
