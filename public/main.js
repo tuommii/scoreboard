@@ -228,20 +228,22 @@ function join(e) {
 
 function getLocation() {
 	if (navigator.geolocation) {
-		navigator.geolocation.getCurrentPosition(cb);
+		navigator.geolocation.getCurrentPosition(getPosition, locationError);
 	} else {
 		console.log('Not supported');
 	}
 }
 
-function cb(pos) {
+function getPosition(pos) {
 	LAT = pos.coords.latitude;
 	LON = pos.coords.longitude;
 	console.log(LAT);
 	console.log(LON);
-	return pos.coords;
 }
 
+function locationError(error) {
+	console.log(error);
+}
 
 (function () {
 
