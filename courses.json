@@ -2,12 +2,34 @@
 	{
 		"ID" : "1",
 		"countryCode" : "FI",
-		"City" : "Helsinki",
+		"city" : "Helsinki",
 		"Lanes": 18,
 		"lon" : "24.846823667701187",
 		"lat" : "60.21315136048605",
 		"shortName": "Tali",
 		"fullName" : "Talin frisbeegolfpuisto",
 		"pars": [5, 3, 3, 3, 3, 3, 3, 3, 3, 4, 3, 3, 3, 3, 3, 3, 4, 3]
+	},
+	{
+		"ID" : "2",
+		"countryCode" : "FI",
+		"city" : "Helsinki",
+		"lanes": 18,
+		"fullName" : "Kivikon frisbeegolfrata",
+		"shortName" : "Kivikko",
+		"lon" : "25.05276912793866",
+		"lat" : "60.23697523021647",
+		"pars": [3, 3, 3, 3, 3, 4, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3]
+	 },
+	{
+		"ID" : "3",
+		"countryCode" : "FI",
+		"city" : "Helsinki",
+		"lanes": 18,
+		"fullName" : "Siltamäen frisbeegolfrata",
+		"shortName" : "Siltamäki",
+		"lon" : "24.98101690223271",
+		"lat" : "60.27245380664016",
+		"pars": [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2]
 	 }
 ]
