@@ -131,8 +131,6 @@ function start() {
 	};
 
 	postData(CREATE_GAME, query).then((data) => {
-		console.log(data.status);
-		console.log(data);
 		this.course = data;
 		localStorage.setItem('id', this.course.id);
 		window.scrollTo({
@@ -145,7 +143,6 @@ function start() {
 
 function saveAndNext() {
 	let jee = {};
-	console.log('REQUEST WITH', jee, this.course);
 
 	// if (!confirm('This will save your current state to server so others can take lead.'))
 	// 	return ;
@@ -155,14 +152,10 @@ function saveAndNext() {
 	postData(EDIT_GAME, this.course).then((data) => {
 		console.log('FROM SERVER:', data);
 		this.course = data;
-		// nextToActive(this.course);
 		window.scrollTo({
 			top: 0
 		});
 		this.course.action = "";
-		// if (this.course.active < this.course.basketCount) {
-		// 	this.course.active++;
-		// }
 	});
 }
 
@@ -170,26 +163,16 @@ function saveAndNext() {
 function saveAndPrev() {
 	if (this.course.active === 1)
 		return;
-	let jee = {};
-	console.log('REQUEST WITH', jee, this.course);
-
-	// if (!confirm('This will save your current state to server so others can take lead.'))
-	// 	return ;
-
 	this.course.action = "back";
 	now = new Date().toJSON();
 	this.course.editedAt = now;
 	postData(EDIT_GAME, this.course).then((data) => {
 		console.log('FROM SERVER:', data);
 		this.course = data;
-		// nextToActive(this.course);
 		window.scrollTo({
 			top: 0
 		});
 		this.course.action = "";
-		// if (this.course.active < this.course.basketCount) {
-		// 	this.course.active++;
-		// }
 	});
 }
 
@@ -279,8 +262,6 @@ function join(e) {
 			join: join,
 			saveAndNext: saveAndNext,
 			saveAndPrev: saveAndPrev,
-			// prev: prev,
-			// next: next,
 			testi: function (name) {
 				// let prev = 0;
 				let total = 0
@@ -314,16 +295,12 @@ function join(e) {
 			if (id == null)
 				return;
 			const URL = `/games/${id}`;
-			console.log('COOKIE', id);
 			fetch(URL)
 				.then((response) => {
 					return response.json();
 				})
 				.then((data) => {
 					this.course = data;
-					// window.location.reload(true);
-					// this.$forceUpdate();
-					console.log(this.course);
 				});
 		}
 	});
