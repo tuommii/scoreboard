@@ -2,6 +2,9 @@
 const CREATE_GAME = '/test_create';
 const EDIT_GAME = '/test_edit';
 
+let LAT = 0;
+let LON = 0;
+
 /*
 **
 **	CRUD FUNCTIONS
@@ -127,7 +130,9 @@ function start() {
 
 	const query = {
 		players: this.playersArr,
-		basketCount: 18
+		basketCount: 18,
+		lat: LAT,
+		lon: LON
 	};
 
 	postData(CREATE_GAME, query).then((data) => {
@@ -221,6 +226,23 @@ function join(e) {
 		});
 }
 
+function getLocation() {
+	if (navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(cb);
+	} else {
+		console.log('Not supported');
+	}
+}
+
+function cb(pos) {
+	LAT = pos.coords.latitude;
+	LON = pos.coords.longitude;
+	console.log(LAT);
+	console.log(LON);
+	return pos.coords;
+}
+
+
 (function () {
 
 	// TODO: Hide from user
@@ -232,6 +254,8 @@ function join(e) {
 				add: '',
 				join: ''
 			},
+			lat: 0,
+			lon: 0,
 			gameID: '',
 			locked: 0,
 			isDisabled: false,
@@ -290,7 +314,7 @@ function join(e) {
 			}
 		},
 		mounted: function () {
-			// getLocation();
+			getLocation();
 			const id = localStorage.getItem('id');
 			if (id == null)
 				return;
@@ -307,16 +331,3 @@ function join(e) {
 
 
 })();
-
-// function getLocation() {
-	//   if (navigator.geolocation) {
-//     navigator.geolocation.getCurrentPosition(cb);
-//   } else {
-// 	  console.log('Not supported');
-//   }
-// }
-
-// function cb(pos) {
-// 	console.log(pos.coords.latitude);
-// 	console.log(pos.coords.longitude);
-// }

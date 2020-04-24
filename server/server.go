@@ -32,6 +32,8 @@ type Server struct {
 type StartingRequest struct {
 	BasketCount int      `json:"basketCount"`
 	Players     []string `json:"players"`
+	Lat         float64  `json:"lat"`
+	Lon         float64  `json:"lon"`
 }
 
 // New ...
@@ -101,6 +103,8 @@ func (s *Server) TestCreate(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+
+	fmt.Printf("%+v\n", query)
 
 	// Validate
 	if len(query.Players) > maxPlayers && query.BasketCount > maxBaskets {
