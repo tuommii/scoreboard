@@ -19,6 +19,7 @@ type Course struct {
 	Baskets   map[int]*Basket `json:"baskets"`
 	CreatedAt time.Time       `json:"createdAt"`
 	EditedAt  time.Time       `json:"editedAt"`
+	Name      string          `json:"name"`
 }
 
 // Basket ...
@@ -82,6 +83,7 @@ func CreateCourse(players []string, baskets int, counter int) *Course {
 	course.EditedAt = time.Now()
 	course.ID = createID(players, counter)
 	course.BasketCount = baskets
+	course.Name = "Default"
 	course.Active = 1
 	for i := 1; i <= baskets; i++ {
 		basket := NewBasket()
@@ -99,12 +101,13 @@ func CreateCourse(players []string, baskets int, counter int) *Course {
 }
 
 // CreateExistingCourse ...
-func CreateExistingCourse(players []string, baskets int, counter int, pars []int) *Course {
+func CreateExistingCourse(players []string, baskets int, counter int, pars []int, name string) *Course {
 	course := NewCourse()
 	course.CreatedAt = time.Now()
 	course.EditedAt = time.Now()
 	course.ID = createID(players, counter)
 	course.BasketCount = baskets
+	course.Name = name
 	course.Active = 1
 	for i := 1; i <= baskets; i++ {
 		basket := NewBasket()

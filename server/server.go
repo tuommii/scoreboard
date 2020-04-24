@@ -65,7 +65,7 @@ func New(path string) *Server {
 	// Our games/courses
 	server.games = make(map[string]*game.Course)
 
-	file, err := ioutil.ReadFile("./courses.json")
+	file, err := ioutil.ReadFile(path + "courses.json")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -80,7 +80,7 @@ func New(path string) *Server {
 	router.HandleFunc("/test_create", server.TestCreate).Methods("POST")
 	router.HandleFunc("/test_edit", server.TestEdit).Methods("POST")
 	router.HandleFunc("/test", test).Methods("GET")
-	router.PathPrefix("/").Handler(http.FileServer(http.Dir(path)))
+	router.PathPrefix("/").Handler(http.FileServer(http.Dir(path + "public")))
 
 	return server
 }
@@ -148,9 +148,8 @@ func (s *Server) TestCreate(w http.ResponseWriter, r *http.Request) {
 	var course *game.Course
 	for _, info := range s.courses {
 		m := Distance(query.Lat, query.Lon, info.Lat, info.Lon)
-		if m < 7000 {
-			fmt.Println("EXISTING COURSE")
-			course = game.CreateExistingCourse(query.Players, query.BasketCount, s.counter, info.Pars)
+		if m < 1000 && m > 0 {
+			course = game.CreateExistingCourse(query.Players, query.BasketCount, s.counter, info.Pars, info.ShortName)
 			break
 		}
 		fmt.Println(info.ShortName, m)

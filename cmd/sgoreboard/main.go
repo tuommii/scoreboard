@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	dir := flag.String("dir", "public", "Path to static dir")
+	dir := flag.String("dir", "./", "Path to static dir")
 	flag.Parse()
 	log.Println("Server started...")
 	server := server.New(*dir)
