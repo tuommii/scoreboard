@@ -138,26 +138,6 @@
         <div class="column is-4"><p class="title is-5 light"><span class="par par-minus" @click="decPar">-</span>{{course.baskets[course.active].par}}<span class="par par-plus" @click="incPar">+</span></p></div>
 
       </div>
-        <!-- <nav class="level is-mobile hasinfo">
-          <div class="level-item">
-            <div>
-              <p class="heading">Lane</p>
-              <p class="title is-5 light">{{course.active}}</p>
-            </div>
-          </div>
-          <div class="level-item">
-            <div>
-              <p class="heading">{{course.id}}</p>
-              <p class="title is-5 light"><a @click="deleteGame"><span class="icon exit"><i class="fas fa-times-circle"></i></span></a></p>
-            </div>
-          </div>
-          <div class="level-item">
-            <div>
-              <p class="heading">Par</p>
-              <p class="title is-5 light"><span class="par par-minus" @click="decPar">-</span class="parValue">{{course.baskets[course.active].par}}<span class="par par-plus" @click="incPar">+</span></p>
-            </div>
-          </div>
-        </nav> -->
     </div>
 
     <div class="hero-body">
@@ -180,15 +160,11 @@
                   </span>
                   <button class="button round" @click="incScore(player)">+</button>
                 </div>
-                <div class="column is-2"><span class="sign" v-if="(testi(player) - pars()) >= 0">+</span><span class="total">{{testi(player) - pars()}}</span></div>
+                <div class="column is-2"><span class="sign" v-if="(totalScore(player) - totalPars()) >= 0">+</span><span class="total">{{totalScore(player) - totalPars()}}</span></div>
               </div>
 
             </div>
           </div>
-          <!-- <footer class="card-footer">
-            <a style="padding: 1rem 0" class="button card-footer-item inc" @click="decScore(player)">-</a>
-            <a style="padding: 1rem 0" class="button card-footer-item dec" @click="incScore(player)">+</a>
-          </footer> -->
           </div>
           <!-- END OF PLAYERS -->
 
@@ -196,7 +172,6 @@
         <!-- END OF CONTAINER -->
 
       </div>
-      <!-- <button class="button deleteGame" >Exit</button> -->
       <!-- END OF HERO BODY -->
 
 

@@ -88,23 +88,6 @@ function decPar() {
 		this.course.baskets[this.course.active].par--;
 }
 
-function prev() {
-	if (this.course.active > 1)
-		this.course.active--;
-}
-
-function next() {
-	if (this.course.active < this.course.basketCount) {
-		this.course.active++;
-	}
-}
-
-function nextToActive(course) {
-	if (course.active < course.basketCount) {
-		course.active++;
-	}
-}
-
 /*
 **
 **	DATA
@@ -135,9 +118,6 @@ function start() {
 		lon: LON
 	};
 
-	if (!navigator.geolocation) {
-		console.log('sdsadsadsadsadasd');
-	}
 	navigator.geolocation.getCurrentPosition((position) => {
 			console.log('Geolocation permissions granted');
 			query.lat = position.coords.latitude;
@@ -148,19 +128,15 @@ function start() {
 				window.scrollTo({
 					top: 0
 				});
-
-				// window.location.pathname = 'games/' + this.course.id + '/' + this.course.active;
 			});
 	}, (err) => {
-		console.log('All Par 3');
+		console.log('Geolocation not supported. Creating Par 3 course.');
 		postData(CREATE_GAME, query).then((data) => {
 			this.course = data;
 			localStorage.setItem('id', this.course.id);
 			window.scrollTo({
 				top: 0
 			});
-
-			// window.location.pathname = 'games/' + this.course.id + '/' + this.course.active;
 		});
 	});
 }
@@ -298,7 +274,6 @@ function locationError(error) {
 			toggleSelected: toggleSelected,
 			deletePlayer: deletePlayer,
 			start: start,
-			// sendData: sendData,
 			incScore: incScore,
 			decScore: decScore,
 			incPar: incPar,
@@ -307,15 +282,14 @@ function locationError(error) {
 			join: join,
 			saveAndNext: saveAndNext,
 			saveAndPrev: saveAndPrev,
-			testi: function (name) {
-				// let prev = 0;
+			totalScore: function (name) {
 				let total = 0
 				for (let i = 1; i <= this.course.basketCount; i++) {
 					total += this.course.baskets[i].scores[name].score
 				}
 				return total;
 			},
-			pars: function () {
+			totalPars: function () {
 				let total = 0
 				for (let i = 1; i <= this.course.basketCount; i++) {
 					total += this.course.baskets[i].par
