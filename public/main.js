@@ -232,10 +232,9 @@ function join(e) {
 			player: '',
 			selectedPlayers: [
 				{ name: 'Miikka', selected: true },
-				{ name: 'Sande', selected: true },
 				{ name: 'Pasi', selected: true },
+				{ name: 'Sande', selected: false },
 				{ name: 'Joni', selected: false },
-				{ name: 'Random', selected: false },
 			],
 			playersArr: [],
 			course: {}
