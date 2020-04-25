@@ -6,7 +6,6 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"sync"
 	"time"
 
 	"github.com/gorilla/mux"
@@ -17,40 +16,6 @@ const (
 	maxBaskets = 36
 	maxPlayers = 5
 )
-
-// Server ...
-type Server struct {
-	// ID
-	counter int
-	// This gets passed to Game for creating ID
-	HTTP    *http.Server
-	games   map[string]*game.Course
-	courses infos
-	mu      sync.Mutex
-}
-
-// StartingRequest holds data thats needed for starting new game
-type StartingRequest struct {
-	BasketCount int      `json:"basketCount"`
-	Players     []string `json:"players"`
-	Lat         float64  `json:"lat"`
-	Lon         float64  `json:"lon"`
-}
-
-// CourseInfo ...
-type CourseInfo struct {
-	ID          string  `json:"id,omitempty"`
-	CountryCode string  `json:"countryCode,omitempty"`
-	City        string  `json:"city,omitempty"`
-	Lanes       int     `json:"lanes,omitempty"`
-	Lon         float64 `json:"lon,omitempty"`
-	Lat         float64 `json:"lat,omitempty"`
-	ShortName   string  `json:"shortName,omitempty"`
-	FullName    string  `json:"fullName,omitempty"`
-	Pars        []int   `json:"pars,omitempty"`
-}
-
-type infos []CourseInfo
 
 // New ...
 func New(path string) *Server {
