@@ -142,10 +142,6 @@ function start() {
 }
 
 function saveAndNext() {
-	let jee = {};
-
-	// if (!confirm('This will save your current state to server so others can take lead.'))
-	// 	return ;
 	this.course.action = "next";
 	now = new Date().toJSON();
 	this.course.editedAt = now;
@@ -257,7 +253,6 @@ function locationError(error) {
 			locked: 0,
 			isDisabled: false,
 			player: '',
-			// TODO: Get from server
 			selectedPlayers: [
 				{ name: 'Miikka', selected: true },
 				{ name: 'Sande', selected: true },
@@ -266,7 +261,6 @@ function locationError(error) {
 				{ name: 'Random', selected: false },
 			],
 			playersArr: [],
-			// Game object
 			course: {}
 		},
 		methods: {
@@ -323,6 +317,4 @@ function locationError(error) {
 				});
 		}
 	});
-
-
 })();
