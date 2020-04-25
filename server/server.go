@@ -10,6 +10,7 @@ import (
 
 	"github.com/gorilla/mux"
 	"miikka.xyz/sgoreboard/game"
+	"miikka.xyz/sgoreboard/geo"
 )
 
 const (
@@ -112,7 +113,7 @@ func (s *Server) TestCreate(w http.ResponseWriter, r *http.Request) {
 	// Calc distances
 	var course *game.Course
 	for _, info := range s.courses {
-		m := Distance(query.Lat, query.Lon, info.Lat, info.Lon)
+		m := geo.Distance(query.Lat, query.Lon, info.Lat, info.Lon)
 		if m < 1000 && m > 0 {
 			course = game.CreateExistingCourse(query.Players, query.BasketCount, s.counter, info.Pars, info.ShortName)
 			break
