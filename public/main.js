@@ -146,7 +146,6 @@ function saveAndNext() {
 	now = new Date().toJSON();
 	this.course.editedAt = now;
 	postData(EDIT_GAME, this.course).then((data) => {
-		console.log('FROM SERVER:', data);
 		this.course = data;
 		window.scrollTo({
 			top: 0
@@ -163,7 +162,6 @@ function saveAndPrev() {
 	now = new Date().toJSON();
 	this.course.editedAt = now;
 	postData(EDIT_GAME, this.course).then((data) => {
-		console.log('FROM SERVER:', data);
 		this.course = data;
 		window.scrollTo({
 			top: 0
@@ -197,7 +195,6 @@ function join(e) {
 
 	fetch('/games/' + this.gameID)
 		.then((response) => {
-			console.log(response.status);
 			if (response.status != 200) {
 				this.errors.join = 'ID Not Found'
 				this.locked++;
@@ -211,29 +208,9 @@ function join(e) {
 		})
 		.then((data) => {
 			this.course = data;
-			console.log(data);
 			localStorage.setItem('id', this.course.id);
 			this.gameID = '';
 		});
-}
-
-function getLocation() {
-	if (navigator.geolocation) {
-		navigator.geolocation.getCurrentPosition(getPosition, locationError);
-	} else {
-		console.log('Not supported');
-	}
-}
-
-function getPosition(pos) {
-	LAT = pos.coords.latitude;
-	LON = pos.coords.longitude;
-	console.log(LAT);
-	console.log(LON);
-}
-
-function locationError(error) {
-	console.log(error);
 }
 
 (function () {
