@@ -135,14 +135,20 @@ function start() {
 		lon: LON
 	};
 
-	postData(CREATE_GAME, query).then((data) => {
-		this.course = data;
-		localStorage.setItem('id', this.course.id);
-		window.scrollTo({
-			top: 0
-		});
 
-		// window.location.pathname = 'games/' + this.course.id + '/' + this.course.active;
+	navigator.geolocation.getCurrentPosition((position) => {
+			console.log('Geolocation permissions granted');
+			query.lat = position.coords.latitude;
+			query.lon = position.coords.longitude;
+			postData(CREATE_GAME, query).then((data) => {
+				this.course = data;
+				localStorage.setItem('id', this.course.id);
+				window.scrollTo({
+					top: 0
+				});
+
+				// window.location.pathname = 'games/' + this.course.id + '/' + this.course.active;
+			});
 	});
 }
 
@@ -316,7 +322,7 @@ function locationError(error) {
 			}
 		},
 		mounted: function () {
-			getLocation();
+			// getLocation();
 			const id = localStorage.getItem('id');
 			if (id == null)
 				return;
