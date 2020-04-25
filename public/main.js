@@ -135,7 +135,9 @@ function start() {
 		lon: LON
 	};
 
-
+	if (!navigator.geolocation) {
+		console.log('sdsadsadsadsadasd');
+	}
 	navigator.geolocation.getCurrentPosition((position) => {
 			console.log('Geolocation permissions granted');
 			query.lat = position.coords.latitude;
@@ -149,6 +151,17 @@ function start() {
 
 				// window.location.pathname = 'games/' + this.course.id + '/' + this.course.active;
 			});
+	}, (err) => {
+		console.log('All Par 3');
+		postData(CREATE_GAME, query).then((data) => {
+			this.course = data;
+			localStorage.setItem('id', this.course.id);
+			window.scrollTo({
+				top: 0
+			});
+
+			// window.location.pathname = 'games/' + this.course.id + '/' + this.course.active;
+		});
 	});
 }
 
