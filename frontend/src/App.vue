@@ -1,20 +1,27 @@
 <template>
   <div id="app">
-    <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
-    <!-- <HelloWorld msg="Haloo ei ole nero!"/> -->
-    <JoinForm />
+    <div class="section">
+      <JoinGame @joinGame="joinGame($event)" />
+      <PlayersList />
+    </div>
   </div>
 </template>
 
 <script>
-// import HelloWorld from './components/HelloWorld.vue'
-import JoinForm from './components/JoinForm.vue'
+import JoinGame from './components/JoinGame.vue'
+import PlayersList from './components/PlayersList.vue'
 import '../node_modules/bulma/css/bulma.min.css'
 
 export default {
   name: 'App',
   components: {
-    JoinForm
+    JoinGame,
+    PlayersList
+  },
+  methods: {
+    joinGame(id) {
+      console.log('PARENT:', id);
+    }
   }
 }
 </script>

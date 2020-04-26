@@ -1,5 +1,7 @@
 # Score tracker for discgolf and golf
 
+- En käytä vuex koska toistaiseksi se tuntuu lisäävän liikaa
+
 ## Things to consider
 - PWA (Offline support)
 - Great UX
@@ -18,6 +20,7 @@
 - Copy id to clipboard
 - Multiple languages
 - Delete based on updated at
+- User specific friends
 
 ## UI
 - Star icon to leader
