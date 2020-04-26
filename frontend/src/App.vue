@@ -16,6 +16,7 @@
           :active="course.active"
           :id="course.id"
           :name="course.name" />
+        <ScoreList />
       </div>
     </div>
   </div>
@@ -25,6 +26,7 @@
 import JoinGame from "./components/JoinGame.vue";
 import PlayersList from "./components/PlayersList.vue";
 import ParHeader from "./components/ParHeader.vue";
+import ScoreList from "./components/ScoreList.vue";
 import "../node_modules/bulma/css/bulma.min.css";
 
 const CREATE_GAME = "/test_create";
@@ -40,7 +42,8 @@ export default {
   components: {
     JoinGame,
     PlayersList,
-    ParHeader
+    ParHeader,
+    ScoreList
   },
   methods: {
     joinGame(id) {
