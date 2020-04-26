@@ -16,7 +16,7 @@
           :active="course.active"
           :id="course.id"
           :name="course.name" />
-        <ScoreList />
+        <ScoreList :course="course"/>
       </div>
     </div>
   </div>

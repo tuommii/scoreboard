@@ -84,9 +84,11 @@ export default {
 
       if (!selected.length) {
         this.showErr("start", "At least one player must be selected");
+        return ;
       }
       else if (selected.length > 5) {
         this.showErr("start", "Max 5 players");
+        return ;
       }
       this.$emit('startGame', selected);
     },
