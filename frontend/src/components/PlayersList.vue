@@ -4,9 +4,10 @@
         <div class="control">
           <button
             class="button is-medium width-160"
-            v-bind:class="{ 'is-primary': player.selected}"
-            @click="toggleSelected(player)"
-          >{{player.name}}</button>
+            v-bind:class="{'is-primary': player.selected}"
+            @click="toggleSelected(player)">
+              {{player.name}}
+          </button>
           <a class="delete" @click="deletePlayer(player.name)"></a>
         </div>
       </div>
@@ -14,15 +15,15 @@
       <div class="field">
         <div class="control">
           <p class="help selected-count">{{selectedCount}} of {{players.length}} selected</p>
-          <button class="button is-link is-medium width-160" @click="start">Start</button>
-          <p class="help err">{{startErr}}</p>
+          <button class="button is-link is-medium width-160" @click="handleStart">Start</button>
+          <p class="help err">{{errors.start}}</p>
         </div>
       </div>
 
       <div class="field has-addons">
         <div class="control">
           <input type="text" class="input" placeholder="Name" v-model="name" />
-          <p class="help err">{{addErr}}</p>
+          <p class="help err">{{errors.add}}</p>
         </div>
         <div class="control">
           <button class="button is-link lila" @click="handleAdd">Add</button>
@@ -36,15 +37,17 @@
 export default {
   data() {
     return {
+      name: "",
       players: [
         { name: "Miikka", selected: true },
         { name: "Pasi", selected: true },
         { name: "Sande", selected: false },
         { name: "Joni", selected: false }
       ],
-      name: "",
-      addErr: "",
-      startErr: "",
+      errors: {
+        start: "",
+        add: ""
+      }
     };
   },
   methods: {
@@ -58,26 +61,39 @@ export default {
     },
     handleAdd() {
       if (this.name.length < 1) {
-        this.showErr("At least one character needed");
+        this.showErr("add", "At least one character needed");
         return;
-      } else if (this.name.length > 16) {
-        this.showErr("Max length is 16");
+      } else if (this.name.length > 8) {
+        this.showErr("add", "Max length is 8");
         return;
       }
       if (isUniq(this.name, this.players) === false) {
-        this.showErr("Player already exists");
+        this.showErr("add", "Player already exists");
         return;
       }
       this.players.push({ name: this.name, selected: true });
       this.name = "";
     },
-    start() {
-      console.log('Start');
+    handleStart() {
+      let selected = [];
+      this.players.forEach(player => {
+        if (player.selected) {
+          selected.push(player.name);
+        }
+      });
+
+      if (!selected.length) {
+        this.showErr("start", "At least one player must be selected");
+      }
+      else if (selected.length > 5) {
+        this.showErr("start", "Max 5 players");
+      }
+      this.$emit('startGame', selected);
     },
-    showErr(msg) {
-      this.addErr = msg;
+    showErr(field, msg) {
+      this.errors[field] = msg;
       setTimeout(() => {
-        this.addErr = "";
+        this.errors[field] = "";
       }, 3000);
     }
   },
