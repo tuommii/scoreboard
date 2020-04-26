@@ -1,7 +1,6 @@
 <template>
   <div id="app">
     <div class="section">
-
       <!-- HOME -->
       <div v-if="!course.active">
         <JoinGame @joinGame="joinGame($event)" />
@@ -10,9 +9,14 @@
 
       <!-- SCOREBOARD -->
       <div v-else>
-        <h1>Started</h1>
+        <ParHeader
+          @incPar="incPar"
+          @decPar="decPar"
+          :par="course.baskets[course.active].par"
+          :active="course.active"
+          :id="course.id"
+          :name="course.name" />
       </div>
-
     </div>
   </div>
 </template>
@@ -20,6 +24,7 @@
 <script>
 import JoinGame from "./components/JoinGame.vue";
 import PlayersList from "./components/PlayersList.vue";
+import ParHeader from "./components/ParHeader.vue";
 import "../node_modules/bulma/css/bulma.min.css";
 
 const CREATE_GAME = "/test_create";
@@ -29,17 +34,27 @@ export default {
   name: "App",
   data() {
     return {
-      active: 0,
       course: {}
     };
   },
   components: {
     JoinGame,
-    PlayersList
+    PlayersList,
+    ParHeader
   },
   methods: {
     joinGame(id) {
       console.log("PARENT:", id);
+    },
+    createGame(query) {
+      postData(CREATE_GAME, query).then(data => {
+        this.course = data;
+        // localStorage.setItem('id', this.course.id);
+        console.log(data);
+        window.scrollTo({
+          top: 0
+        });
+      });
     },
     startGame(players) {
       console.log(players);
@@ -49,14 +64,24 @@ export default {
         lat: 0,
         lon: 0
       };
-      postData(CREATE_GAME, query).then(data => {
-        this.course = data;
-        // localStorage.setItem('id', this.course.id);
-        console.log(data);
-        window.scrollTo({
-          top: 0
-        });
-      });
+
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          query.lat = pos.coords.latitude;
+          query.lon = pos.coords.longitude;
+          this.createGame(query);
+        },
+        (err) => {
+          console.log(err);
+          this.createGame(query);
+        }
+      );
+    },
+    incPar() {
+      this.course.baskets[this.course.active].par++;
+    },
+    decPar() {
+      this.course.baskets[this.course.active].par--;
     }
   }
 };
