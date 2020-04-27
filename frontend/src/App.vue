@@ -20,6 +20,7 @@
         @incScore="incScore"
         @decScore="decScore"
         :course="course"/>
+        <Navigation @navigate="navigate" :active="course.active" :basketCount="course.basketCount" />
       </div>
     </div>
   </div>
@@ -30,6 +31,7 @@ import JoinGame from "./components/JoinGame.vue";
 import PlayersList from "./components/PlayersList.vue";
 import ParHeader from "./components/ParHeader.vue";
 import ScoreList from "./components/ScoreList.vue";
+import Navigation from "./components/Navigation.vue";
 import "../node_modules/bulma/css/bulma.min.css";
 
 const CREATE_GAME = "/test_create";
@@ -46,7 +48,8 @@ export default {
     JoinGame,
     PlayersList,
     ParHeader,
-    ScoreList
+    ScoreList,
+    Navigation
   },
   methods: {
     joinGame(id) {
@@ -82,6 +85,10 @@ export default {
           this.createGame(query);
         }
       );
+    },
+    navigate(num) {
+      console.log('Navigate', num);
+      this.course.active = num;
     },
     incPar() {
       this.course.baskets[this.course.active].par++;
