@@ -31,10 +31,10 @@ export default {
   },
   methods: {
     incScore(player) {
-      console.log('INC', player);
+      this.$emit('incScore', player);
     },
     decScore(player) {
-      console.log('DEC', player);
+      this.$emit('decScore', player);
     }
   }
 };

@@ -16,7 +16,10 @@
           :active="course.active"
           :id="course.id"
           :name="course.name" />
-        <ScoreList :course="course"/>
+        <ScoreList
+        @incScore="incScore"
+        @decScore="decScore"
+        :course="course"/>
       </div>
     </div>
   </div>
@@ -85,6 +88,12 @@ export default {
     },
     decPar() {
       this.course.baskets[this.course.active].par--;
+    },
+    incScore(player) {
+      this.course.baskets[this.course.active].scores[player].score++;
+    },
+    decScore(player) {
+      this.course.baskets[this.course.active].scores[player].score--;
     }
   }
 };
