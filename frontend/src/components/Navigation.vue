@@ -5,7 +5,7 @@
       <div class="column left"><a class="button bold" @click="navigate(showPrev)">
         Prev <span class="tag">{{showPrev}}</span></a>
       </div>
-      <div class="column middle active is-2"><a class="button">{{active}}</a></div>
+      <div class="column middle active is-2"><a class="button active">{{active}}</a></div>
       <div class="column right"><a class="button bold" @click="navigate(showNext)">
         Next <span class="tag">{{showNext}}</span></a></div>
     </div>
@@ -34,7 +34,7 @@ export default {
       if (this.active <= 1)
         return (this.basketCount);
       return this.active - 1;
-    }
+    },
   }
 };
 </script>
@@ -43,6 +43,7 @@ export default {
 a, a:visited {
   color: #fff !important;
 }
+
 .button {
   border: 0;
   background: inherit;
@@ -52,8 +53,15 @@ a, a:visited {
   font-weight: 700;
 }
 
+.active {
+  padding: 0;
+  margin: 0;
+  vertical-align: middle;
+  padding-top: 0.5rem;
+}
+
 .column {
-  border: 1px solid #24444e;
+  border: 1px solid #2a7390;
   background: #1f2743;
 }
 .left {

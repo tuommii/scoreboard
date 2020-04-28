@@ -131,6 +131,7 @@ async function postData(url = "", data = {}) {
   color: #2c3e50;
   /* margin-top: 60px; */
   background: #222;
+  background: radial-gradient(#1e6a84, #033148);
   min-height: 100vh;
 }
 </style>
