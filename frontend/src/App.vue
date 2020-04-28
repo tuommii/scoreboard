@@ -8,7 +8,7 @@
       </div>
 
       <!-- SCOREBOARD -->
-      <div v-else>
+      <div class="scoreboard" v-else>
         <ParHeader
           @incPar="incPar"
           @decPar="decPar"
@@ -124,11 +124,13 @@ async function postData(url = "", data = {}) {
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, Ubuntu, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  /* margin-top: 60px; */
+  background: #222;
+  min-height: 100vh;
 }
 </style>
