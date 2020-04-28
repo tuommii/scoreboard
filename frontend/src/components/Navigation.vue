@@ -66,10 +66,10 @@ a, a:visited {
   padding: 0.35rem;
 }
 .left {
-  border-right: 1px solid;
+  border: 1px solid #2a7390;
 }
 .right {
-  border-left: 1px solid;
+  border: 1px solid #2a7390;
 }
 .tag {
   color: #ccc;

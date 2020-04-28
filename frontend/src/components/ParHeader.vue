@@ -1,35 +1,31 @@
 <template>
-  <div>
-    <div class="columns is-multiline is-mobile has-text-centered heading">
+    <div class="columns is-multiline is-mobile heading">
       <div class="column is-4">
-        <p class="heading">Lane</p>
+        <p class="lane-title">Lane</p>
       </div>
       <div class="column is-4">
-        <p class="heading">{{name}}: {{id}}</p>
+        <p class="name-title">{{name}}</p>
       </div>
       <div class="column is-4">
-        <p class="heading">Par</p>
+        <p class="par-title">Par</p>
       </div>
 
-      <div class="column is-4">
-        <p class="title is-5 light">{{active}}</p>
+      <div class="column is-4 lane">
+        <p class="title is-5">{{active}}</p>
       </div>
-      <div class="column is-4">
+      <div class="column is-4 name">
         <a @click="handleExit">
-          <span class="icon exit">
-            <i class="fas fa-times-circle"></i>
-          </span>
+          <p class="id">{{id}}</p>
         </a>
       </div>
-      <div class="column is-4">
-        <p class="title is-5 light">
+      <div class="column is-4 right">
+        <p class="title is-5">
           <span class="par par-minus" @click="handleDec">-</span>
           {{par}}
           <span class="par par-plus" @click="handleInc">+</span>
         </p>
       </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -53,5 +49,33 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+p {
+  color: #fff;
+}
+
+.par-minus, .par-plus {
+  color: #fff !important;
+}
+
+.column {
+  padding-top: 0;
+  padding-bottom: 0.25rem;
+}
+
+.heading {
+  padding-top: 1rem;
+}
+
+.lane-title, .name-title, .par-title {
+  color: #e2ff4b;
+}
+
+.left, .middle, .right {
+  color :#fff;
+}
+
+.id {
+  padding-top: 0.25rem;
+}
 </style>

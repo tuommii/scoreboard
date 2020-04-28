@@ -134,4 +134,7 @@ async function postData(url = "", data = {}) {
   background: radial-gradient(#1e6a84, #033148);
   min-height: 100vh;
 }
+.section {
+  padding-top: 1rem;
+}
 </style>
