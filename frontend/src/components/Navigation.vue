@@ -1,10 +1,12 @@
 <template>
 <div>
-  <p @click="navigate(showPrev)">{{showPrev}}</p>
-  <br>
-  <p>{{active}}</p>
-  <br>
-  <p @click="navigate(showNext)">{{showNext}}</p>
+  <nav class="breadcrumb has-bullet-separator" aria-label="breadcrumbs">
+  <ul>
+    <li><a @click="navigate(showPrev)">{{showPrev}}</a></li>
+    <li class="is-active"><a href="#">{{active}}</a></li>
+    <li><a @click="navigate(showNext)">{{showNext}}</a></li>
+  </ul>
+</nav>
 </div>
 </template>
 
@@ -36,4 +38,10 @@ export default {
 </script>
 
 <style>
+a, a:visited {
+  color: red !important;
+}
+.is-active a {
+  color: #444 !important;
+}
 </style>
