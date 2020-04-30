@@ -55,9 +55,30 @@ export default {
 </script>
 
 <style>
-  .card {
-    /* background: #eee; */
-    color: #000 !important;
-    background-image: linear-gradient(#fff, #eee) !important;
-  }
+.card {
+  /* background: #eee; */
+  color: #000 !important;
+  /* background-image: linear-gradient(#f1f2f3, #eee) !important; */
+  background: #fff;
+  border-radius: 4px;
+  border-top: 1px solid #fff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+  margin-bottom: 1rem;
+}
+
+.card-content {
+  padding: 0.5rem 0;
+  margin: 0;
+}
+
+.round {
+    border-radius: 50% !important;
+    min-width: 41px;
+    /* border: 1px solid rgba(0,0,0,0.9); */
+    /* background: linear-gradient(135deg, #62a8ff, #5146ff); */
+    background: #1199a2;
+    border: 0 !important;
+    color: #fff;
+}
+
 </style>
