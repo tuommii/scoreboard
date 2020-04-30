@@ -13,19 +13,26 @@
   <div class="column name-col is-4">
     <span class="name-val">{{player}}</span>
   </div>
-  <div class="column cur-col">
+  <div class="column">
+      <button class="button round" @click="decScore(player)">-</button>
+  </div>
+  <div class="column score-col">
+      <span class="current">{{course.baskets[course.active].scores[player].score}}</span>
+  </div>
+  <div class="column">
+      <button class="button round" @click="incScore(player)">+</button>
+  </div>
+  <!-- <div class="column cur-col">
     <div class="columns is-mobile">
-      <div class="column minus-col">
+      <div class="minus-col">
         <button class="button round" @click="decScore(player)">-</button>
       </div>
-      <div class="column score-col">
-        <span class="current">{{course.baskets[course.active].scores[player].score}}</span>
+      <div class="score-col">
       </div>
-      <div class="column plus-col">
-        <button class="button round" @click="incScore(player)">+</button>
+      <div class="plus-col">
       </div>
     </div>
-  </div>
+  </div> -->
   <div class="column is-2 total-col">
     <span class="sign" v-if="(totalScore(player) - totalPars()) >= 0">+</span>
     <span class="total">{{totalScore(player) - totalPars()}}</span>
@@ -93,7 +100,13 @@ export default {
 }
 
 .score-col {
+  width: 20px;
   text-align: center;
+}
+
+.cur-col {
+  padding-top: 1.3rem !important;
+  /* margin-top: .25rem !important; */
 }
 
 .score {
