@@ -97,10 +97,14 @@ export default {
       this.course.baskets[this.course.active].par--;
     },
     incScore(player) {
-      this.course.baskets[this.course.active].scores[player].score++;
+      if (this.course.baskets[this.course.active].scores[player].score < 42) {
+        this.course.baskets[this.course.active].scores[player].score++;
+      }
     },
     decScore(player) {
-      this.course.baskets[this.course.active].scores[player].score--;
+      if (this.course.baskets[this.course.active].scores[player].score > 1) {
+        this.course.baskets[this.course.active].scores[player].score--;
+      }
     }
   }
 };
