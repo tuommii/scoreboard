@@ -1,5 +1,5 @@
 <template>
-    <div class="columns is-multiline is-mobile heading">
+    <div class="columns is-multiline is-mobile heading has-text-centered">
       <div class="column is-4">
         <p class="lane-title">Lane</p>
       </div>

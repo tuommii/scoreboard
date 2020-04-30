@@ -67,9 +67,11 @@ a, a:visited {
 }
 .left {
   border: 1px solid #2a7390;
+  border-right: 0;
 }
 .right {
   border: 1px solid #2a7390;
+  border-left: 0;
 }
 .tag {
   color: #ccc;
