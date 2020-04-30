@@ -10,16 +10,16 @@
                 <span class="sign" v-if="(totalScore(player) - totalPars()) >= 0">+</span>
                 <span class="total">{{totalScore(player) - totalPars()}}</span> -->
 <div class="columns is-mobile score-card" v-for="(i, player) in course.baskets[1].scores" v-bind:key="player">
-  <div class="column name-col is-4">
+  <div class="column name-col is-3">
     <span class="name-val">{{player}}</span>
   </div>
-  <div class="column">
+  <div class="column is-2">
       <button class="button round" @click="decScore(player)">-</button>
   </div>
-  <div class="column score-col">
+  <div class="column score-col is-2">
       <span class="current">{{course.baskets[course.active].scores[player].score}}</span>
   </div>
-  <div class="column">
+  <div class="column is-2">
       <button class="button round" @click="incScore(player)">+</button>
   </div>
   <!-- <div class="column cur-col">
@@ -33,7 +33,7 @@
       </div>
     </div>
   </div> -->
-  <div class="column is-2 total-col">
+  <div class="column is-3 total-col">
     <span class="sign" v-if="(totalScore(player) - totalPars()) >= 0">+</span>
     <span class="total">{{totalScore(player) - totalPars()}}</span>
   </div>
@@ -75,10 +75,9 @@ export default {
 
 <style>
 .score-card {
-  /* background: #eee; */
   color: #000 !important;
-  background: #fff;
-  background-image: linear-gradient(#f1f2f3, #eee) !important;
+  /* background: #fff; */
+  background-image: linear-gradient(#f1f2f3, #ddd) !important;
   border-radius: 4px;
   border-top: 1px solid #fff;
   border-bottom: 1px solid rgba(0, 0, 0, 0.8);
@@ -89,10 +88,8 @@ export default {
   margin-top: calc(.5em - 1px);
 }
 
-.name-col {
-  background: #eee;
-  border-right: 1px solid #ccc;
-
+.name-val, .total {
+  font-weight: bold;
 }
 
 .total-col {
@@ -100,18 +97,12 @@ export default {
 }
 
 .score-col {
-  width: 20px;
   text-align: center;
 }
 
 .cur-col {
   padding-top: 1.3rem !important;
   /* margin-top: .25rem !important; */
-}
-
-.score {
-  text-align: center;
-  border: 0px solid #000;
 }
 
 .current {
