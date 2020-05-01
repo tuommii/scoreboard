@@ -44,8 +44,8 @@ import Navigation from "./components/Navigation.vue";
 import "../node_modules/bulma/css/bulma.min.css";
 
 const BASE = "/games/"
-const CREATE_GAME = BASE + "/create"
-const EDIT_GAME = BASE + "/edit"
+const CREATE_GAME = BASE + "create"
+const EDIT_GAME = BASE + "edit"
 
 export default {
   name: "App",
