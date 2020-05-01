@@ -19,6 +19,8 @@ const (
 	maxPlayers   = 5
 	maxPlayerLen = 10
 	maxGames     = 10000
+	// max distance for existing course in meters
+	near = 1000
 )
 
 // New creates new server
@@ -70,41 +72,6 @@ func (s *Server) GetGameHandle(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, string(bytes))
 }
 
-func isValid(query CreateRequest) bool {
-	if len(query.Players) > maxPlayers || query.BasketCount > maxBaskets {
-		return false
-	}
-
-	for _, player := range query.Players {
-		if len(player) > maxPlayerLen {
-			return false
-		}
-	}
-	return true
-}
-
-func getQuery(body io.ReadCloser) (CreateRequest, error) {
-	bytes, err := ioutil.ReadAll(body)
-	var query CreateRequest
-	if err != nil {
-		return query, err
-	}
-	err = json.Unmarshal(bytes, &query)
-	if err != nil {
-		return query, err
-	}
-	return query, nil
-}
-
-func (s *Server) updateCounter() {
-	if s.counter >= 10000 {
-		s.counter = 0
-	}
-	s.mu.Lock()
-	s.counter++
-	s.mu.Unlock()
-}
-
 // CreateGameHandle creates new game
 func (s *Server) CreateGameHandle(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
@@ -113,19 +80,6 @@ func (s *Server) CreateGameHandle(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Server if full", http.StatusTooManyRequests)
 		return
 	}
-
-	// bytes, err := ioutil.ReadAll(r.Body)
-	// if err != nil {
-	// 	http.Error(w, err.Error(), http.StatusInternalServerError)
-	// 	return
-	// }
-
-	// var query CreateRequest
-	// err = json.Unmarshal(bytes, &query)
-	// if err != nil {
-	// 	http.Error(w, err.Error(), http.StatusInternalServerError)
-	// 	return
-	// }
 
 	query, err := getQuery(r.Body)
 	if err != nil {
@@ -138,39 +92,15 @@ func (s *Server) CreateGameHandle(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Invalid data", http.StatusInternalServerError)
 		return
 	}
-
 	s.updateCounter()
-	// if s.counter >= 10000 {
-	// 	s.counter = 0
-	// }
-	// s.mu.Lock()
-	// s.counter++
-	// s.mu.Unlock()
-
-	var course *game.Course
-	for _, info := range s.courses {
-		m := geo.Distance(query.Lat, query.Lon, info.Lat, info.Lon)
-		if m < 1000 && m > 0 {
-			course = game.CreateExistingCourse(query.Players, query.BasketCount, s.counter, info.Pars, info.ShortName)
-			fmt.Println("created", info.ShortName)
-			break
-		}
-	}
-
-	if course == nil {
-		course = game.CreateCourse(query.Players, query.BasketCount, s.counter)
-		fmt.Println("created default (all par 3)")
-	}
-
-	bytes, err := json.Marshal(course)
-	var c *game.Course
-	json.Unmarshal(bytes, &c)
+	course := s.makeCourse(query)
+	courseJSON, err := json.Marshal(course)
 	if err != nil {
 		fmt.Fprintf(w, "{}")
 		return
 	}
 	s.games[course.ID] = course
-	fmt.Fprintf(w, string(bytes))
+	fmt.Fprintf(w, string(courseJSON))
 }
 
 // EditGameHandle updates game on server
@@ -220,6 +150,57 @@ func (s *Server) CleanGames() {
 		time.Sleep(20 * time.Minute)
 		s.remove()
 	}
+}
+
+func isValid(query CreateRequest) bool {
+	if len(query.Players) > maxPlayers || query.BasketCount > maxBaskets {
+		return false
+	}
+
+	for _, player := range query.Players {
+		if len(player) > maxPlayerLen {
+			return false
+		}
+	}
+	return true
+}
+
+func getQuery(body io.ReadCloser) (CreateRequest, error) {
+	bytes, err := ioutil.ReadAll(body)
+	var query CreateRequest
+	if err != nil {
+		return query, err
+	}
+	err = json.Unmarshal(bytes, &query)
+	if err != nil {
+		return query, err
+	}
+	return query, nil
+}
+
+func (s *Server) updateCounter() {
+	if s.counter >= maxGames {
+		s.counter = 0
+	}
+	s.mu.Lock()
+	s.counter++
+	s.mu.Unlock()
+}
+
+func (s *Server) makeCourse(query CreateRequest) *game.Course {
+	var course *game.Course
+	for _, info := range s.courses {
+		m := geo.Distance(query.Lat, query.Lon, info.Lat, info.Lon)
+		if m < near && m > 0 {
+			course = game.CreateExistingCourse(query.Players, query.BasketCount, s.counter, info.Pars, info.ShortName)
+			fmt.Println("created", info.ShortName)
+			return course
+		}
+	}
+
+	course = game.CreateCourse(query.Players, query.BasketCount, s.counter)
+	fmt.Println("created default (all par 3)")
+	return course
 }
 
 func (s *Server) remove() {

@@ -7,8 +7,6 @@ import (
 	"time"
 )
 
-var counter int
-
 // Course ...
 type Course struct {
 	ID          string `json:"id"`
@@ -23,7 +21,7 @@ type Course struct {
 
 // Basket ...
 type Basket struct {
-	// Lets save ordernumber also here
+	// Lets save ordernumber also here just in case
 	OrderNum int `json:"orderNum"`
 	Par      int `json:"par"`
 	// Key is player name
@@ -33,18 +31,21 @@ type Basket struct {
 // BasketScore ...
 type BasketScore struct {
 	Score int `json:"score"`
-	// For graph
+	// For graph / stats ?
 	Total int `json:"total"`
 	OB    int `json:"ob"`
 }
 
-// NewCourse returns new *Course
+// NewCourse returns new Course
 func NewCourse() *Course {
 	// TODO: Check errors
-	counter++
-	c := &Course{ID: strconv.Itoa(counter)}
+	c := &Course{}
 	baskets := make(map[int]*Basket)
 	c.Baskets = baskets
+	c.Active = 1
+	c.CreatedAt = time.Now()
+	c.EditedAt = time.Now()
+	c.Name = "Default"
 	c.Active = 1
 	return c
 }
@@ -74,16 +75,12 @@ func createID(players []string, counter int) string {
 	return id
 }
 
-// CreateCourse ...
+// CreateCourse creates course and sets all pars to 3
 func CreateCourse(players []string, baskets int, counter int) *Course {
 	// TODO: check bad input
 	course := NewCourse()
-	course.CreatedAt = time.Now()
-	course.EditedAt = time.Now()
 	course.ID = createID(players, counter)
 	course.BasketCount = baskets
-	course.Name = "Default"
-	course.Active = 1
 	for i := 1; i <= baskets; i++ {
 		basket := NewBasket()
 		basket.Par = 3
@@ -99,15 +96,12 @@ func CreateCourse(players []string, baskets int, counter int) *Course {
 	return course
 }
 
-// CreateExistingCourse ...
+// CreateExistingCourse take's pars from real course
 func CreateExistingCourse(players []string, baskets int, counter int, pars []int, name string) *Course {
 	course := NewCourse()
-	course.CreatedAt = time.Now()
-	course.EditedAt = time.Now()
 	course.ID = createID(players, counter)
-	course.BasketCount = baskets
 	course.Name = name
-	course.Active = 1
+	course.BasketCount = baskets
 	for i := 1; i <= baskets; i++ {
 		basket := NewBasket()
 		basket.Par = pars[i-1]

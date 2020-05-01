@@ -68,7 +68,7 @@ export default {
       fetch(BASE + id)
         .then(response => {
           if (response.status != 200) {
-            // TODO: Error
+            // TODO: Show error
           }
           return response.json();
         })
@@ -109,7 +109,6 @@ export default {
       );
     },
     navigate(num) {
-      // this.course.action = "next";
       this.course.active = num;
       const now = new Date().toJSON();
       this.course.editedAt = now;
