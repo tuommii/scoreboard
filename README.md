@@ -63,7 +63,6 @@ Go to: http://localhost:8081
   "id": "jt1",
   "basketCount": 1,
   "active": 1,
-  "action": "",
   "baskets": {
     "1": {
       "orderNum": 1,
@@ -82,8 +81,8 @@ Go to: http://localhost:8081
       }
     }
   },
-  "createdAt": "2020-05-01T10:35:53.081406828+03:00",
-  "editedAt": "2020-05-01T10:35:53.081407094+03:00",
+  "createdAt": "2020-05-01T20:06:42.283050923+03:00",
+  "editedAt": "2020-05-01T20:06:42.283052041+03:00",
   "name": "Default"
 }
 ```

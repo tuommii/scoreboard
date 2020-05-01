@@ -120,8 +120,8 @@ func (s *Server) CreateGameHandle(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if course == nil {
-		fmt.Println("creating default (all par 3)")
 		course = game.CreateCourse(query.Players, query.BasketCount, s.counter)
+		fmt.Println("created default (all par 3)")
 	}
 
 	bytes, err = json.Marshal(course)
@@ -135,7 +135,7 @@ func (s *Server) CreateGameHandle(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, string(bytes))
 }
 
-// EditGameHandle updates game on server also
+// EditGameHandle updates game on server
 func (s *Server) EditGameHandle(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 

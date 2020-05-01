@@ -68,12 +68,7 @@ export default {
       fetch(BASE + id)
         .then(response => {
           if (response.status != 200) {
-            // this.errors.join = "ID Not Found";
-            // this.locked++;
-            // this.gameID = "";
-            // if (this.locked >= 3) {
-            //   this.isDisabled = true;
-            // }
+            // TODO: Error
           }
           return response.json();
         })
