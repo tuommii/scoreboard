@@ -181,15 +181,7 @@ func (s *Server) TestEdit(w http.ResponseWriter, r *http.Request) {
 	s.mu.Lock()
 	temp := s.games[id].CreatedAt
 	s.games[id] = c
-	if s.games[id].Action == "back" {
-		if s.games[id].Active > 1 {
-			s.games[id].Active--
-		}
-	} else if s.games[id].Action == "next" {
-		if s.games[id].Active < s.games[id].BasketCount {
-			s.games[id].Active++
-		}
-	}
+	// TODO: Validate active?
 	s.games[id].CreatedAt = temp
 	log.Println(s.games[id].EditedAt.Sub(s.games[id].CreatedAt))
 	s.mu.Unlock()

@@ -1,36 +1,36 @@
 <template>
   <div id="app" v-bind:class="{ 'dark': course.active}" v-cloak>
-
-  <div class="section">
+    <div class="section">
       <div class="container">
+        <!-- HOME -->
+        <div v-if="!course.active">
+          <a href="/" class="logo">
+            <img src="prize-144.png" width="60" height="60" />
+            <h1 class="title is-5">Scoreboard</h1>
+          </a>
+          <JoinGame @joinGame="joinGame($event)" />
+          <PlayersList @startGame="startGame($event)" />
+        </div>
 
-      <!-- HOME -->
-      <div v-if="!course.active">
-      <a href="/" class="logo">
-        <img src="prize-144.png" width="60" height="60">
-        <h1 class="title is-5">Scoreboard</h1>
-      </a>
-        <JoinGame @joinGame="joinGame($event)" />
-        <PlayersList @startGame="startGame($event)" />
+        <!-- SCOREBOARD -->
+        <div class="scoreboard" v-else>
+          <ParHeader
+            @incPar="incPar"
+            @decPar="decPar"
+            @exit="exit"
+            :par="course.baskets[course.active].par"
+            :active="course.active"
+            :id="course.id"
+            :name="course.name"
+          />
+          <ScoreList @incScore="incScore" @decScore="decScore" :course="course" />
+          <Navigation
+            @navigate="navigate"
+            :active="course.active"
+            :basketCount="course.basketCount"
+          />
+        </div>
       </div>
-
-      <!-- SCOREBOARD -->
-      <div class="scoreboard" v-else>
-        <ParHeader
-          @incPar="incPar"
-          @decPar="decPar"
-          @exit="exit"
-          :par="course.baskets[course.active].par"
-          :active="course.active"
-          :id="course.id"
-          :name="course.name" />
-        <ScoreList
-        @incScore="incScore"
-        @decScore="decScore"
-        :course="course"/>
-        <Navigation @navigate="navigate" :active="course.active" :basketCount="course.basketCount" />
-      </div>
-    </div>
     </div>
   </div>
 </template>
@@ -62,12 +62,29 @@ export default {
   },
   methods: {
     joinGame(id) {
-      console.log("PARENT:", id);
+      if (!id.length) return;
+
+      fetch("/games/" + id)
+        .then(response => {
+          if (response.status != 200) {
+            // this.errors.join = "ID Not Found";
+            // this.locked++;
+            // this.gameID = "";
+            // if (this.locked >= 3) {
+            //   this.isDisabled = true;
+            // }
+          }
+          return response.json();
+        })
+        .then(data => {
+          this.course = data;
+          localStorage.setItem("id", this.course.id);
+        });
     },
     createGame(query) {
       postData(CREATE_GAME, query).then(data => {
         this.course = data;
-        localStorage.setItem('id', this.course.id);
+        localStorage.setItem("id", this.course.id);
         console.log(data);
         window.scrollTo({
           top: 0
@@ -84,20 +101,29 @@ export default {
       };
 
       navigator.geolocation.getCurrentPosition(
-        (pos) => {
+        pos => {
           query.lat = pos.coords.latitude;
           query.lon = pos.coords.longitude;
           this.createGame(query);
         },
-        (err) => {
+        err => {
           console.log(err);
           this.createGame(query);
         }
       );
     },
     navigate(num) {
-      console.log('Navigate', num);
+      // this.course.action = "next";
       this.course.active = num;
+      const now = new Date().toJSON();
+      this.course.editedAt = now;
+      postData("/test_edit", this.course).then(data => {
+        this.course = data;
+        window.scrollTo({
+          top: 0
+        });
+        this.course.action = "";
+      });
     },
     incPar() {
       this.course.baskets[this.course.active].par++;
@@ -116,13 +142,33 @@ export default {
       }
     },
     exit() {
-      if (!confirm('The games remain on the server for a few hours. You can still come back with ID.'))
+      if (
+        !confirm(
+          "The games remain on the server for a few hours. You can still come back with ID."
+        )
+      )
         return;
-      localStorage.removeItem('id');
+      localStorage.removeItem("id");
       this.course = {
         active: 0
       };
     }
+  },
+  mounted() {
+    console.log("MOUNTED");
+
+    const id = localStorage.getItem("id");
+    if (id == null) return;
+    const URL = `/games/${id}`;
+    fetch(URL)
+      .then(response => {
+        return response.json();
+      })
+      .then(data => {
+        this.course = data;
+        console.log("DATA");
+        console.log(data);
+      });
   }
 };
 
@@ -145,7 +191,8 @@ async function postData(url = "", data = {}) {
 
 <style>
 #app {
-  font-family: -apple-system, BlinkMacSystemFont, Ubuntu, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, Ubuntu, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   /* text-align: center; */
@@ -162,7 +209,7 @@ h1 {
 
 a.logo {
   display: flex;
-  align-items: center
+  align-items: center;
 }
 
 .dark {
