@@ -91,17 +91,20 @@ func (s *Server) CreateGameHandle(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if len(query.Players) > maxPlayers || query.BasketCount > maxBaskets {
-		http.Error(w, "Ivalid data", http.StatusInternalServerError)
+		http.Error(w, "Invalid data", http.StatusInternalServerError)
 		return
 	}
 
 	for _, player := range query.Players {
 		if len(player) > maxPlayerLen {
-			http.Error(w, "Ivalid data", http.StatusInternalServerError)
+			http.Error(w, "Invalid data", http.StatusInternalServerError)
 			return
 		}
 	}
 
+	if s.counter >= 10000 {
+		s.counter = 0
+	}
 	s.mu.Lock()
 	s.counter++
 	s.mu.Unlock()
@@ -135,14 +138,13 @@ func (s *Server) CreateGameHandle(w http.ResponseWriter, r *http.Request) {
 // EditGameHandle updates game on server also
 func (s *Server) EditGameHandle(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	// Read body
+
 	bytes, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	// Make course from body
 	var c *game.Course
 	err = json.Unmarshal(bytes, &c)
 	if err != nil {
@@ -150,32 +152,21 @@ func (s *Server) EditGameHandle(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Check if game is found
 	id := c.ID
 	if _, found := s.games[id]; !found {
 		http.Error(w, "Game not found", http.StatusInternalServerError)
 		return
 	}
 
-	// TODO: Check ip or?
-	// Posted by someone else
-	// if c.CreatedAt != s.games[id].CreatedAt {
-	// 	http.Error(w, "Hmm...", http.StatusInternalServerError)
-	// 	return
-	// }
-
-	// Not going over last basket
-	if s.games[id].Active > s.games[id].BasketCount {
+	if s.games[id].Active > s.games[id].BasketCount || s.games[id].Active < 1 {
 		fmt.Fprintf(w, string(bytes))
 		return
 	}
 
-	s.mu.Lock()
+	// If editedAt is fraud, we can still delete game with orginal createdAt
 	temp := s.games[id].CreatedAt
 	s.games[id] = c
 	s.games[id].CreatedAt = temp
-	log.Println(s.games[id].EditedAt.Sub(s.games[id].CreatedAt))
-	s.mu.Unlock()
 
 	resp, err := json.Marshal(s.games[id])
 	if err != nil {
@@ -185,7 +176,7 @@ func (s *Server) EditGameHandle(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, string(resp))
 }
 
-// CleanGames ...
+// CleanGames removes old games
 func (s *Server) CleanGames() {
 	for {
 		time.Sleep(20 * time.Minute)
@@ -195,12 +186,7 @@ func (s *Server) CleanGames() {
 
 func (s *Server) remove() {
 	for id, game := range s.games {
-		if time.Since(game.EditedAt) > time.Hour*1 {
-			log.Println(id, "deleted")
-			s.mu.Lock()
-			delete(s.games, id)
-			s.mu.Unlock()
-		} else if time.Since(game.CreatedAt) > (time.Hour * 5) {
+		if time.Since(game.EditedAt) > time.Hour*1 || time.Since(game.CreatedAt) > (time.Hour*5) {
 			log.Println(id, "deleted")
 			s.mu.Lock()
 			delete(s.games, id)
