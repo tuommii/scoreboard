@@ -9,20 +9,11 @@ func TestDistance(t *testing.T) {
 	hermanniLat := 60.195099
 	hermanniLon := 24.966789
 
-	woltLat := 60.1704502
-	woltLon := 24.929392
-
 	hiveLat := 60.180771
 	hiveLon := 24.9560864
 
 	dist := Distance(taliLat, taliLon, hermanniLat, hermanniLon)
 	wanted := 1.0
-	if dist != wanted {
-		t.Errorf("got: %f, wanted: %f", dist, wanted)
-	}
-
-	dist = Distance(hiveLat, hiveLon, woltLat, woltLon)
-	wanted = 1.0
 	if dist != wanted {
 		t.Errorf("got: %f, wanted: %f", dist, wanted)
 	}

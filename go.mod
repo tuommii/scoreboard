@@ -1,4 +1,4 @@
-module miikka.xyz/sgoreboard
+module miikka.xyz/scoreboard
 
 go 1.14
 

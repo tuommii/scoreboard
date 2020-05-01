@@ -5,7 +5,7 @@ run: build
 	./run
 
 build:
-	go build -o run cmd/sgoreboard/main.go
+	go build -o run cmd/scoreboard/main.go
 
 # Runs test and bench: both go test -bench . ./...
 # Now only tests

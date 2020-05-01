@@ -1,77 +1,48 @@
-# Score tracker for discgolf and golf
+## Score tracker for discgolf and golf
 
-- En käytä vuex koska toistaiseksi se tuntuu lisäävän liikaa
+Live demo: https://games.miikka.xyz/
 
-## Things to consider
-- PWA (Offline support)
-- Great UX
-- HTML Router
-- Random avatars
-- User cookies to set id and createdAt
-- Measure time spent (holes also)
-- GPS Nearest course in Helsinki
-- After action report with linegraph if total is saved for each basket
-- Take care if course aint played in right order
-- Mutex
-- Secure cookie
-- If cookie is found but no game, fix that injecting starttime or something
-- Updating stats require hold button
-- Sound effects
-- Copy id to clipboard
-- Multiple languages
-- Delete based on updated at
-- User specific friends
+For best usability [add app to homescreen](https://www.howtogeek.com/196087/how-to-add-websites-to-the-home-screen-on-any-smartphone-or-tablet/).
 
-## UI
-- Star icon to leader
-- Round plus and inc buttons
-- Avatars
+### Things to consider (contributions are more than welcome)
+- [x] Create MVP
+- [x] Split frontend to Vue-components
+- [x] Create most played courses automatically based on location
+- [ ] Use global style guide for .vue-files
+- [ ] Create courses automatically in Helsinki/Findland/World
+- [ ] Add a lot of tests
+- [ ] Frontend router
+- [ ] If project grows much, refactor to vuex
+- [ ] PWA (Offline support)
+- [ ] User specific friends
+- [ ] Fix typos
+- [ ] UI improvements
+- [ ] More organized CSS
+- [ ] CSS Animations
+- [ ] Random or selected avatars
+- [ ] Secure cookie
+- [ ] Sound effects
+- [ ] Copy id to clipboard
 
-## Create new course
+#### Finishing game
+- [ ] Create some graph
+- [ ] For some users add possibility store game to database
 
-### POST
-```json
-{
-	"basketCount": 2,
-	"players": ["Tiger King", "Ying Yang"]
-}
+### Dev
+Clone repo
+
+`git clone URL`
+
+Start server
+
+```
+cd scoreboard
+make
 ```
 
-### Server responses
-```json
-{
-  "id": "2ty",
-  "basketCount": 2,
-  "active": 1,
-  "Baskets": {
-    "1": {
-      "OrderNum": 1,
-      "Par": 0,
-      "Scores": {
-        "Tiger King": {
-          "Score": 0,
-          "OB": 0
-        },
-        "Ying Yang": {
-          "Score": 0,
-          "OB": 0
-        }
-      }
-    },
-    "2": {
-      "OrderNum": 2,
-      "Par": 0,
-      "Scores": {
-        "Tiger King": {
-          "Score": 0,
-          "OB": 0
-        },
-        "Ying Yang": {
-          "Score": 0,
-          "OB": 0
-        }
-      }
-    }
-  }
-}
+Start dev-server in a new terminal window
+
+```
+cd frontend
+npm run serve
 ```

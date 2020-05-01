@@ -9,8 +9,8 @@ import (
 	"time"
 
 	"github.com/gorilla/mux"
-	"miikka.xyz/sgoreboard/game"
-	"miikka.xyz/sgoreboard/geo"
+	"miikka.xyz/scoreboard/game"
+	"miikka.xyz/scoreboard/geo"
 )
 
 const (

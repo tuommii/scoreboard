@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"sync"
 
-	"miikka.xyz/sgoreboard/game"
+	"miikka.xyz/scoreboard/game"
 )
 
 // Server ...

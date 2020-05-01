@@ -2,6 +2,8 @@ package geo
 
 import "math"
 
+// https://gist.github.com/cdipaolo/d3f8db3848278b49db68
+
 // haversin(θ) function
 func hsin(theta float64) float64 {
 	return math.Pow(math.Sin(theta/2), 2)

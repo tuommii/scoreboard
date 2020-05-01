@@ -1,107 +1,14 @@
 
-### UPDATE
-POST http://localhost:8080/test_edit HTTP/1.1
-content-type: application/json
-
-
-{
-	"id": "1mp",
-	"basketCount": 300,
-	"active": 1,
-	"baskets": {
-		"1": {
-			"orderNum": 1,
-			"par": 3,
-			"scores": {
-				"Miikka": {
-					"score": 0,
-					"ob": 0
-				},
-				"Player 2": {
-					"score": 0,
-					"ob": 0
-				}
-			}
-		},
-		"2": {
-			"orderNum": 2,
-			"par": 3,
-			"scores": {
-				"Miikka": {
-					"score": 0,
-					"ob": 0
-				},
-				"Player 2": {
-					"score": 0,
-					"ob": 0
-				}
-			}
-		},
-		"3": {
-			"orderNum": 3,
-			"par": 3,
-			"scores": {
-				"Miikka": {
-					"score": 0,
-					"ob": 0
-				},
-				"Player 2": {
-					"score": 0,
-					"ob": 0
-				}
-			}
-		}
-	}
-}
-
-###
+### CREATE GAME
 POST http://localhost:8080/test_create HTTP/1.1
 content-type: application/json
 
 {
 	"basketCount": 2,
+	"lat": 0,
+	"lon": 0,
 	"players": [
 		"Tiger King",
-		"Ying Yang"
+		"Jing Yang"
 	]
 }
-
-### Create another new game, as
-POST http://localhost:8080/game HTTP/1.1
-content-type: application/json
-
-{
-	"basketCount": 7,
-	"players": [
-		"Samu",
-		"Ari"
-	]
-}
-
-### Create/Edit course scores
-PUT http://localhost:8080/game/1as HTTP/1.1
-content-type: application/json
-
-{
-	"course": 2,
-	"players": {
-		"Samu": {
-			"par": 3,
-			"score": 5,
-			"ob": 0
-		},
-		"Ari": {
-			"par": 3,
-			"score": 4,
-			"ob": 0
-		}
-	}
-}
-
-### GET
-GET http://localhost:8080/game/1as HTTP/1.1
-content-type: text/plain
-
-### GET
-GET http://localhost:8080/game/1jmp HTTP/1.1
-content-type: text/plain

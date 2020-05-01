@@ -4,7 +4,7 @@ import (
 	"flag"
 	"log"
 
-	"miikka.xyz/sgoreboard/server"
+	"miikka.xyz/scoreboard/server"
 )
 
 func main() {
