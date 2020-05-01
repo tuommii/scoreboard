@@ -15,7 +15,7 @@
       </div>
       <div class="column is-4 name">
         <a @click="handleExit">
-          <p class="id">{{id}}</p>
+          <p class="id">{{id}} (<span class="error">X</span>)</p>
         </a>
       </div>
       <div class="column is-4 right">
@@ -33,7 +33,7 @@ export default {
   props: ["par", "active", "name", "id"],
   methods: {
     handleExit() {
-      console.log("EXIT");
+      this.$emit('exit');
     },
     handleInc() {
       if (this.par < 5) {
@@ -65,6 +65,10 @@ p {
 
 .heading {
   padding-top: 1rem;
+}
+
+.error {
+  color: #d63c3c;
 }
 
 .lane-title, .name-title, .par-title {

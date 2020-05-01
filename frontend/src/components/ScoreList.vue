@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="cont">
     <!-- <div class="card" v-for="(i, player) in course.baskets[1].scores" v-bind:key="player">
       <div class="card-content">
         <div class="content">
@@ -74,14 +74,19 @@ export default {
 </script>
 
 <style>
+
 .score-card {
   color: #000 !important;
   /* background: #fff; */
-  background-image: linear-gradient(#f1f2f3, #ddd) !important;
+  background-image: linear-gradient(#fff, #eee) !important;
   border-radius: 4px;
   border-top: 1px solid #fff;
   border-bottom: 1px solid rgba(0, 0, 0, 0.8);
   margin-top: 1rem !important;
+}
+
+.cont:nth-child(odd) {
+  background: #ccc;
 }
 
 .name-col, .score-col, .total-col {
@@ -118,7 +123,7 @@ export default {
     margin-top: 0;
     /* border: 1px solid rgba(0,0,0,0.9); */
     /* background: linear-gradient(135deg, #62a8ff, #5146ff); */
-    background: #1199a2 !important;
+    background: #a6dbb0 !important;
     border: 0 !important;
     color: #fff;
 }

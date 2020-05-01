@@ -12,6 +12,7 @@
         <ParHeader
           @incPar="incPar"
           @decPar="decPar"
+          @exit="exit"
           :par="course.baskets[course.active].par"
           :active="course.active"
           :id="course.id"
@@ -58,7 +59,7 @@ export default {
     createGame(query) {
       postData(CREATE_GAME, query).then(data => {
         this.course = data;
-        // localStorage.setItem('id', this.course.id);
+        localStorage.setItem('id', this.course.id);
         console.log(data);
         window.scrollTo({
           top: 0
@@ -105,6 +106,14 @@ export default {
       if (this.course.baskets[this.course.active].scores[player].score > 1) {
         this.course.baskets[this.course.active].scores[player].score--;
       }
+    },
+    exit() {
+      if (!confirm('The games remain on the server for a few hours. You can still come back with ID.'))
+        return;
+      localStorage.removeItem('id');
+      this.course = {
+        active: 0
+      };
     }
   }
 };
