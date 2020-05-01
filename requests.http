@@ -4,7 +4,7 @@ POST http://localhost:8080/test_create HTTP/1.1
 content-type: application/json
 
 {
-	"basketCount": 2,
+	"basketCount": 1,
 	"lat": 0,
 	"lon": 0,
 	"players": [

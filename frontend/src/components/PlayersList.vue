@@ -63,8 +63,8 @@ export default {
       if (this.name.length < 1) {
         this.showErr("add", "At least one character needed");
         return;
-      } else if (this.name.length > 8) {
-        this.showErr("add", "Max length is 8");
+      } else if (this.name.length > 10) {
+        this.showErr("add", "Max length is 10");
         return;
       }
       if (isUniq(this.name, this.players) === false) {
