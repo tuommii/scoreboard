@@ -1,8 +1,15 @@
 <template>
-  <div id="app">
-    <div class="section">
+  <div id="app" v-bind:class="{ 'dark': course.active}" v-cloak>
+
+  <div class="section">
+      <div class="container">
+
       <!-- HOME -->
       <div v-if="!course.active">
+      <a href="/" class="logo">
+        <img src="prize-144.png" width="60" height="60">
+        <h1 class="title is-5">Scoreboard</h1>
+      </a>
         <JoinGame @joinGame="joinGame($event)" />
         <PlayersList @startGame="startGame($event)" />
       </div>
@@ -23,6 +30,7 @@
         :course="course"/>
         <Navigation @navigate="navigate" :active="course.active" :basketCount="course.basketCount" />
       </div>
+    </div>
     </div>
   </div>
 </template>
@@ -143,11 +151,40 @@ async function postData(url = "", data = {}) {
   /* text-align: center; */
   color: #2c3e50;
   /* margin-top: 60px; */
-  background: #222;
-  background: radial-gradient(#1e6a84, #033148);
+  background: #eee;
+  min-height: 100vh;
+  max-width: 480px;
+}
+
+h1 {
+  padding-left: 1rem;
+}
+
+a.logo {
+  display: flex;
+  align-items: center
+}
+
+.dark {
+  color: #2c3e50;
+  /* margin-top: 60px; */
+  background: #033148 !important;
+  background: radial-gradient(#1e6a84, #033148) !important;
   min-height: 100vh;
 }
 .section {
   padding-top: 1rem;
+}
+
+@media only screen and (min-width: 481px) {
+  #app {
+    /* width: 480px; */
+    margin: 0 auto;
+    /* background: #eee; */
+  }
+  .section {
+    width: 480px;
+    margin: 0 auto;
+  }
 }
 </style>

@@ -20,7 +20,7 @@
         </div>
       </div>
 
-      <div class="field has-addons">
+      <div class="field has-addons add">
         <div class="control">
           <input type="text" class="input" placeholder="Name" v-model="name" />
           <p class="help err">{{errors.add}}</p>
@@ -125,11 +125,21 @@ function isUniq(name, arr) {
 </script>
 
 <style>
-
+.form {
+  margin-top: 1rem;
+}
 .width-160 {
   min-width: 160px;
 }
+
+.selected-count {
+  margin: 0.5rem 0;
+}
 .delete {
   margin-left: 10px;
+}
+
+.add {
+  margin-top: 1.5rem;
 }
 </style>

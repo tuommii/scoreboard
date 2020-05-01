@@ -1,0 +1,26 @@
+{
+	"name": "Scoreboard",
+	"short_name": "Scoreboard",
+	"icons": [
+		{
+			"src": "prize-144.png",
+			"sizes": "144x144",
+			"type": "image/png"
+		},
+		{
+			"src": "prize-192.png",
+			"sizes": "192x192",
+			"type": "image/png"
+		},
+		{
+			"src": "prize-512.png",
+			"sizes": "512x512",
+			"type": "image/png"
+		}
+	],
+	"start_url": "./",
+	"display": "standalone",
+	"orientation": "natural",
+	"background_color": "#FFFFFF",
+	"theme_color": "#3F51B5"
+}

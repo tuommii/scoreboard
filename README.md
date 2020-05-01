@@ -1,11 +1,14 @@
-# Score tracker for discgolf and golf
+# Scoreboard
+Simple score tracker for golf and discgolf. Made with Go & Vue.js
 
 Live demo: https://games.miikka.xyz/
 
 Created for mobile use. For best usability [add app to homescreen](https://www.howtogeek.com/196087/how-to-add-websites-to-the-home-screen-on-any-smartphone-or-tablet/).
 
-## Things to consider (contributions are more than welcome)
+## Things to consider
+_Contributions are more than welcome_
 - [x] Create MVP
+- [x] Circular navigation
 - [x] Split frontend to Vue-components
 - [x] Create most played courses automatically based on location
 - [ ] Make UI suitable for desktop also
@@ -20,6 +23,7 @@ Created for mobile use. For best usability [add app to homescreen](https://www.h
 - [ ] User specific friends
 - [ ] Fix typos
 - [ ] UI improvements
+- [ ] Show spinner when waiting response
 - [ ] More organized CSS
 - [ ] CSS Animations
 - [ ] Random or selected avatars

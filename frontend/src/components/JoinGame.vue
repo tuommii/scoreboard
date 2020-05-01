@@ -2,9 +2,9 @@
   <div class="form">
     <div class="field has-addons">
       <div class="control">
-        <input type="text" class="input" placeholder="ID" v-model="id" />
+        <input type="text" class="input mb" placeholder="ID" v-model="id" />
         <p class="help err">{{err}}</p>
-        <p class="help">Your turn to keep the score.</p>
+        <p class="help slogan">Your turn to keep the score.</p>
       </div>
       <div class="control">
         <button class="button is-link lila" @click="handleJoin">Join</button>
@@ -41,6 +41,13 @@ export default {
 .err {
   color: red;
 }
+
+
+
+.mb {
+  margin-bottom: .25rem;
+}
+
 .lila {
     border-color: #6257c4 !important;
     background-color: #6257c4 !important;
