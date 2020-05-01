@@ -43,8 +43,9 @@ import ScoreList from "./components/ScoreList.vue";
 import Navigation from "./components/Navigation.vue";
 import "../node_modules/bulma/css/bulma.min.css";
 
-const CREATE_GAME = "/test_create";
-// const EDIT_GAME = "/test_edit";
+const BASE = "/games/"
+const CREATE_GAME = BASE + "/create"
+const EDIT_GAME = BASE + "/edit"
 
 export default {
   name: "App",
@@ -64,7 +65,7 @@ export default {
     joinGame(id) {
       if (!id.length) return;
 
-      fetch("/games/" + id)
+      fetch(BASE + id)
         .then(response => {
           if (response.status != 200) {
             // this.errors.join = "ID Not Found";
@@ -117,7 +118,7 @@ export default {
       this.course.active = num;
       const now = new Date().toJSON();
       this.course.editedAt = now;
-      postData("/test_edit", this.course).then(data => {
+      postData(EDIT_GAME, this.course).then(data => {
         this.course = data;
         window.scrollTo({
           top: 0
@@ -159,7 +160,7 @@ export default {
 
     const id = localStorage.getItem("id");
     if (id == null) return;
-    const URL = `/games/${id}`;
+    const URL = `${BASE}${id}`;
     fetch(URL)
       .then(response => {
         return response.json();

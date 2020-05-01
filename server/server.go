@@ -14,8 +14,9 @@ import (
 )
 
 const (
-	maxBaskets = 36
-	maxPlayers = 5
+	maxBaskets   = 36
+	maxPlayers   = 5
+	maxPlayerLen = 10
 )
 
 // New ...
@@ -28,7 +29,6 @@ func New(path string) *Server {
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
-	// Our games/courses
 	server.games = make(map[string]*game.Course)
 
 	file, err := ioutil.ReadFile(path + "courses.json")
@@ -36,33 +36,24 @@ func New(path string) *Server {
 		log.Fatal(err)
 	}
 
-	err2 := json.Unmarshal([]byte(file), &server.courses)
-	if err2 != nil {
-		log.Fatal(err2)
+	err = json.Unmarshal([]byte(file), &server.courses)
+	if err != nil {
+		log.Fatal(err)
 	}
-	fmt.Printf("%+v", server.courses)
 
+	router.HandleFunc("/games/create", server.CreateGameHandle).Methods("POST")
+	router.HandleFunc("/games/edit", server.EditGameHandle).Methods("POST")
 	router.HandleFunc("/games/{id}", server.GetGameHandle).Methods("GET")
-	router.HandleFunc("/test_create", server.TestCreate).Methods("POST")
-	router.HandleFunc("/test_edit", server.TestEdit).Methods("POST")
-	router.HandleFunc("/test", test).Methods("GET")
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir(path + "public")))
 
 	return server
 }
 
-func test(w http.ResponseWriter, r *http.Request) {
-	log.Println("REQUEST")
-	fmt.Fprintf(w, "OK!")
-}
-
-// GetGameHandle ...
+// GetGameHandle returns game by id
 func (s *Server) GetGameHandle(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	vars := mux.Vars(r)
 	id := vars["id"]
-
-	log.Println("VUE-CLI!")
 
 	if _, exist := s.games[id]; !exist {
 		http.Error(w, "Error", http.StatusInternalServerError)
@@ -77,8 +68,8 @@ func (s *Server) GetGameHandle(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, string(bytes))
 }
 
-// TestCreate ...
-func (s *Server) TestCreate(w http.ResponseWriter, r *http.Request) {
+// CreateGameHandle creates new game
+func (s *Server) CreateGameHandle(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
 	if len(s.games) > 10000 {
@@ -86,61 +77,63 @@ func (s *Server) TestCreate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var query StartingRequest
 	bytes, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+
+	var query StartingRequest
 	err = json.Unmarshal(bytes, &query)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	fmt.Printf("%+v\n", query)
-
-	// Validate
-	if len(query.Players) > maxPlayers && query.BasketCount > maxBaskets {
+	if len(query.Players) > maxPlayers || query.BasketCount > maxBaskets {
 		http.Error(w, "Ivalid data", http.StatusInternalServerError)
 		return
 	}
 
-	s.mu.Lock()
-	// TODO: Inc only if all is legal
-	s.counter++
+	for _, player := range query.Players {
+		if len(player) > maxPlayerLen {
+			http.Error(w, "Ivalid data", http.StatusInternalServerError)
+			return
+		}
+	}
 
-	// Calc distances
+	s.mu.Lock()
+	s.counter++
+	s.mu.Unlock()
+
 	var course *game.Course
 	for _, info := range s.courses {
 		m := geo.Distance(query.Lat, query.Lon, info.Lat, info.Lon)
 		if m < 1000 && m > 0 {
 			course = game.CreateExistingCourse(query.Players, query.BasketCount, s.counter, info.Pars, info.ShortName)
+			fmt.Println("created", info.ShortName)
 			break
 		}
-		fmt.Println(info.ShortName, m)
 	}
+
 	if course == nil {
-		fmt.Println("PAR 3 COURSE")
+		fmt.Println("creating default (all par 3)")
 		course = game.CreateCourse(query.Players, query.BasketCount, s.counter)
 	}
-	s.mu.Unlock()
 
 	bytes, err = json.Marshal(course)
 	var c *game.Course
 	json.Unmarshal(bytes, &c)
-	log.Println(c)
 	if err != nil {
 		fmt.Fprintf(w, "{}")
 		return
 	}
-	// log.Println(string(bytes))
 	s.games[course.ID] = course
 	fmt.Fprintf(w, string(bytes))
 }
 
-// TestEdit ...
-func (s *Server) TestEdit(w http.ResponseWriter, r *http.Request) {
+// EditGameHandle updates game on server also
+func (s *Server) EditGameHandle(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	// Read body
 	bytes, err := ioutil.ReadAll(r.Body)
@@ -177,11 +170,9 @@ func (s *Server) TestEdit(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Update our internal game
 	s.mu.Lock()
 	temp := s.games[id].CreatedAt
 	s.games[id] = c
-	// TODO: Validate active?
 	s.games[id].CreatedAt = temp
 	log.Println(s.games[id].EditedAt.Sub(s.games[id].CreatedAt))
 	s.mu.Unlock()
