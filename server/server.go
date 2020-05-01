@@ -3,6 +3,7 @@ package server
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -69,17 +70,39 @@ func (s *Server) GetGameHandle(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, string(bytes))
 }
 
-func isValid(createQuery CreateRequest, maxPlayers int, maxBaskets int, maxPlayerLen int) bool {
-	if len(createQuery.Players) > maxPlayers || createQuery.BasketCount > maxBaskets {
+func isValid(query CreateRequest) bool {
+	if len(query.Players) > maxPlayers || query.BasketCount > maxBaskets {
 		return false
 	}
 
-	for _, player := range createQuery.Players {
+	for _, player := range query.Players {
 		if len(player) > maxPlayerLen {
 			return false
 		}
 	}
 	return true
+}
+
+func getQuery(body io.ReadCloser) (CreateRequest, error) {
+	bytes, err := ioutil.ReadAll(body)
+	var query CreateRequest
+	if err != nil {
+		return query, err
+	}
+	err = json.Unmarshal(bytes, &query)
+	if err != nil {
+		return query, err
+	}
+	return query, nil
+}
+
+func (s *Server) updateCounter() {
+	if s.counter >= 10000 {
+		s.counter = 0
+	}
+	s.mu.Lock()
+	s.counter++
+	s.mu.Unlock()
 }
 
 // CreateGameHandle creates new game
@@ -91,30 +114,38 @@ func (s *Server) CreateGameHandle(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	bytes, err := ioutil.ReadAll(r.Body)
+	// bytes, err := ioutil.ReadAll(r.Body)
+	// if err != nil {
+	// 	http.Error(w, err.Error(), http.StatusInternalServerError)
+	// 	return
+	// }
+
+	// var query CreateRequest
+	// err = json.Unmarshal(bytes, &query)
+	// if err != nil {
+	// 	http.Error(w, err.Error(), http.StatusInternalServerError)
+	// 	return
+	// }
+
+	query, err := getQuery(r.Body)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		log.Println(err.Error())
+		http.Error(w, "Invalid body", http.StatusInternalServerError)
 		return
 	}
 
-	var query CreateRequest
-	err = json.Unmarshal(bytes, &query)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	if !isValid(query, maxPlayers, maxBaskets, maxPlayerLen) {
+	if !isValid(query) {
 		http.Error(w, "Invalid data", http.StatusInternalServerError)
 		return
 	}
 
-	if s.counter >= 10000 {
-		s.counter = 0
-	}
-	s.mu.Lock()
-	s.counter++
-	s.mu.Unlock()
+	s.updateCounter()
+	// if s.counter >= 10000 {
+	// 	s.counter = 0
+	// }
+	// s.mu.Lock()
+	// s.counter++
+	// s.mu.Unlock()
 
 	var course *game.Course
 	for _, info := range s.courses {
@@ -131,7 +162,7 @@ func (s *Server) CreateGameHandle(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("created default (all par 3)")
 	}
 
-	bytes, err = json.Marshal(course)
+	bytes, err := json.Marshal(course)
 	var c *game.Course
 	json.Unmarshal(bytes, &c)
 	if err != nil {

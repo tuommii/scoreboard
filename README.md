@@ -11,6 +11,7 @@ _Contributions are more than welcome_
 - [x] Circular navigation
 - [x] Split frontend to Vue-components
 - [x] Create most played courses automatically based on location
+- [x] Light theme because of sunshine
 - [ ] Make UI suitable for desktop also
 - [ ] Use forced style guide for .vue-files
 - [ ] Create courses automatically in Helsinki/Findland/World

@@ -151,8 +151,6 @@ export default {
     }
   },
   mounted() {
-    console.log("MOUNTED");
-
     const id = localStorage.getItem("id");
     if (id == null) return;
     const URL = `${BASE}${id}`;
@@ -162,8 +160,6 @@ export default {
       })
       .then(data => {
         this.course = data;
-        console.log("DATA");
-        console.log(data);
       });
   }
 };
