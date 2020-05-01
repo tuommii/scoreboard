@@ -17,8 +17,8 @@ type Server struct {
 	mu      sync.Mutex
 }
 
-// StartingRequest holds data thats needed for starting new game
-type StartingRequest struct {
+// CreateRequest holds data thats needed for starting new game
+type CreateRequest struct {
 	BasketCount int      `json:"basketCount"`
 	Players     []string `json:"players"`
 	Lat         float64  `json:"lat"`

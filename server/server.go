@@ -17,9 +17,10 @@ const (
 	maxBaskets   = 36
 	maxPlayers   = 5
 	maxPlayerLen = 10
+	maxGames     = 10000
 )
 
-// New ...
+// New creates new server
 func New(path string) *Server {
 	server := &Server{}
 	router := mux.NewRouter()
@@ -68,11 +69,24 @@ func (s *Server) GetGameHandle(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, string(bytes))
 }
 
+func isValid(createQuery CreateRequest, maxPlayers int, maxBaskets int, maxPlayerLen int) bool {
+	if len(createQuery.Players) > maxPlayers || createQuery.BasketCount > maxBaskets {
+		return false
+	}
+
+	for _, player := range createQuery.Players {
+		if len(player) > maxPlayerLen {
+			return false
+		}
+	}
+	return true
+}
+
 // CreateGameHandle creates new game
 func (s *Server) CreateGameHandle(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
-	if len(s.games) > 10000 {
+	if len(s.games) > maxGames {
 		http.Error(w, "Server if full", http.StatusTooManyRequests)
 		return
 	}
@@ -83,23 +97,16 @@ func (s *Server) CreateGameHandle(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var query StartingRequest
+	var query CreateRequest
 	err = json.Unmarshal(bytes, &query)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	if len(query.Players) > maxPlayers || query.BasketCount > maxBaskets {
+	if !isValid(query, maxPlayers, maxBaskets, maxPlayerLen) {
 		http.Error(w, "Invalid data", http.StatusInternalServerError)
 		return
-	}
-
-	for _, player := range query.Players {
-		if len(player) > maxPlayerLen {
-			http.Error(w, "Invalid data", http.StatusInternalServerError)
-			return
-		}
 	}
 
 	if s.counter >= 10000 {
