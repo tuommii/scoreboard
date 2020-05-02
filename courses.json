@@ -3,7 +3,7 @@
 		"id" : "1",
 		"countryCode" : "FI",
 		"city" : "Helsinki",
-		"Lanes": 18,
+		"lanes": 18,
 		"lon" : 24.846823667701187,
 		"lat" : 60.21315136048605,
 		"shortName": "Tali",
