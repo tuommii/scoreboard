@@ -80,8 +80,11 @@ a, a:visited {
 }
 @media only screen and (min-width: 481px) {
   .navbar {
-    width: 480px;
+    padding: 0.75rem;
+    max-width: 480px;
+    width: 100%;
     margin: 0 auto;
+    display: block;
   }
 }
 </style>
