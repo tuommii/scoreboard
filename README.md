@@ -1,5 +1,5 @@
 # Scoreboard
-Simple score tracker for golf and disc golf. Made with **Go** & **Vue.js**
+Simple score tracker for golf and disc golf. WIP. Made with *Go* & *Vue.js*
 
 Live demo: https://games.miikka.xyz/
 
