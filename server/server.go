@@ -59,7 +59,7 @@ func (s *Server) AutoClean() {
 }
 
 func (s *Server) loadCourseTemplates(path string) {
-	file, err := ioutil.ReadFile(path + "courses.json")
+	file, err := ioutil.ReadFile(path + "assets/courses.json")
 	if err != nil {
 		log.Fatal(err)
 	}

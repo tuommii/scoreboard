@@ -97,7 +97,6 @@ func (s *Server) ExitGameHandle(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Error", http.StatusInternalServerError)
 		return
 	}
-	log.Println("ADASDSADSDSDSA")
 	s.games[id].HasBooker = false
 	fmt.Fprintf(w, "{}")
 }

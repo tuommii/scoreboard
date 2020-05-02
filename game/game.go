@@ -44,7 +44,7 @@ func CreateFromRequest(body io.ReadCloser, templates []CourseInfo, counter int) 
 	return createCourse(query.Players, query.BasketCount, counter), nil
 }
 
-// CourseFromJSON creates a Course from JSON
+// CourseFromJSON creates a Course from json
 func CourseFromJSON(body io.ReadCloser) (*Course, []byte, error) {
 	var c *Course
 	bytes, err := ioutil.ReadAll(body)
@@ -88,7 +88,7 @@ func newBasketScore() *BasketScore {
 	return basketScore
 }
 
-// CreateID ...
+// CreateID creates unique id
 func createID(players []string, counter int) string {
 	sort.Strings(players)
 	var id string
@@ -120,7 +120,7 @@ func createCourse(players []string, baskets int, counter int) *Course {
 	return course
 }
 
-// createExistingCourse take's pars from real course
+// createExistingCourse takes pars from real course
 func createExistingCourse(players []string, baskets int, counter int, pars []int, name string) *Course {
 	course := newCourse()
 	course.ID = createID(players, counter)
@@ -133,7 +133,6 @@ func createExistingCourse(players []string, baskets int, counter int, pars []int
 		for _, player := range players {
 			basketScore := newBasketScore()
 			basketScore.Score = basket.Par
-			// basketScore.Total = basket.Par
 			basket.Scores[player] = basketScore
 		}
 		course.Baskets[i] = basket
