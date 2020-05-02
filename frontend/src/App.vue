@@ -43,9 +43,10 @@ import ScoreList from "./components/ScoreList.vue";
 import Navigation from "./components/Navigation.vue";
 import "../node_modules/bulma/css/bulma.min.css";
 
-const BASE = "/games/"
-const CREATE_GAME = BASE + "create"
-const EDIT_GAME = BASE + "edit"
+const BASE = "/games/";
+const CREATE_GAME = BASE + "create";
+const EDIT_GAME = BASE + "edit";
+const EXIT_GAME = "/exit/"
 
 export default {
   name: "App",
@@ -73,7 +74,14 @@ export default {
           return response.json();
         })
         .then(data => {
+          if (data.hasBooker) {
+            console.log("Game has a booker already!");
+            return;
+          }
+          console.log('NO BOOKER', data);
           this.course = data;
+          // TODO: Small window when someone can join
+          this.course.hasBooker = true;
           localStorage.setItem("id", this.course.id);
         });
     },
@@ -141,12 +149,20 @@ export default {
         !confirm(
           "The games remain on the server for a few hours. You can still come back with ID."
         )
-      )
+      ) {
         return;
-      localStorage.removeItem("id");
-      this.course = {
-        active: 0
-      };
+      }
+      fetch(EXIT_GAME + this.course.id)
+        .then(response => {
+          return response.json();
+        })
+        .then(() => {
+          localStorage.removeItem("id");
+          this.course = {
+            active: 0,
+            // hasBooker: false
+          };
+        });
     }
   },
   mounted() {

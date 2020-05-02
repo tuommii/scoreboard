@@ -70,6 +70,7 @@ func newCourse() *Course {
 	c.EditedAt = time.Now()
 	c.Name = "Default"
 	c.Active = 1
+	c.HasBooker = true
 	return c
 }
 

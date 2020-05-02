@@ -44,6 +44,7 @@ func New(path string) *Server {
 	router.HandleFunc("/games/create", server.CreateGameHandle).Methods("POST")
 	router.HandleFunc("/games/edit", server.EditGameHandle).Methods("POST")
 	router.HandleFunc("/games/{id}", server.GetGameHandle).Methods("GET")
+	router.HandleFunc("/exit/{id}", server.ExitGameHandle).Methods("GET")
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir(path + "public")))
 
 	return server

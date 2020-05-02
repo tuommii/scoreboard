@@ -1,6 +1,8 @@
 # Scoreboard
 Simple score tracker for golf and disc golf. WIP. Made with *Go* & *Vue.js*
 
+I wrote this so that the accountant can be switched in the middle of the game.
+
 Live demo: https://games.miikka.xyz/
 
 Created for mobile use. For best usability [add app to homescreen](https://www.howtogeek.com/196087/how-to-add-websites-to-the-home-screen-on-any-smartphone-or-tablet/).
@@ -68,6 +70,7 @@ Go to: http://localhost:8081
   "id": "jt1",
   "basketCount": 1,
   "active": 1,
+  "hasBooker": true,
   "baskets": {
     "1": {
       "orderNum": 1,

@@ -87,3 +87,17 @@ func (s *Server) EditGameHandle(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	fmt.Fprintf(w, string(resp))
 }
+
+// ExitGameHandle sets HasBooker to false
+func (s *Server) ExitGameHandle(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id := vars["id"]
+
+	if _, exist := s.games[id]; !exist {
+		http.Error(w, "Error", http.StatusInternalServerError)
+		return
+	}
+	log.Println("ADASDSADSDSDSA")
+	s.games[id].HasBooker = false
+	fmt.Fprintf(w, "{}")
+}

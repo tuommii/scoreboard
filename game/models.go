@@ -11,6 +11,7 @@ type Course struct {
 	CreatedAt   time.Time       `json:"createdAt"`
 	EditedAt    time.Time       `json:"editedAt"`
 	Name        string          `json:"name"`
+	HasBooker   bool            `json:"hasBooker"`
 }
 
 // Basket has a Score struct fro each player
