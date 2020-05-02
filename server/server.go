@@ -70,10 +70,10 @@ func (s *Server) loadCourseTemplates(path string) {
 }
 
 func (s *Server) updateCounter() {
-	if s.counter > maxGames {
-		s.counter = 0
-	}
 	s.mu.Lock()
+	if s.counter > maxGames {
+		s.counter = 1
+	}
 	s.counter++
 	s.mu.Unlock()
 }
@@ -81,10 +81,10 @@ func (s *Server) updateCounter() {
 func (s *Server) clean() {
 	for id, game := range s.games {
 		if time.Since(game.EditedAt) > time.Hour*1 || time.Since(game.CreatedAt) > (time.Hour*5) {
-			log.Println(id, "deleted")
-			s.mu.Lock()
+			log.Println("deleted", id, game.Name)
+			// s.mu.Lock()
 			delete(s.games, id)
-			s.mu.Unlock()
+			// s.mu.Unlock()
 		}
 	}
 }

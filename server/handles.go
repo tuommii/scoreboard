@@ -3,6 +3,7 @@ package server
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -48,6 +49,7 @@ func (s *Server) CreateGameHandle(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	s.games[course.ID] = course
+	log.Println("created: ", course.Name, "\ngames total:", len(s.games))
 	w.Header().Set("Content-Type", "application/json")
 	fmt.Fprintf(w, string(courseJSON))
 }
