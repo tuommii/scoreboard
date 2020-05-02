@@ -10,8 +10,8 @@ import (
 func main() {
 	dir := flag.String("dir", "./", "Path to static dir")
 	flag.Parse()
-	log.Println("Server started...")
 	server := server.New(*dir)
-	go server.CleanGames()
+	go server.AutoClean()
+	log.Println("Starting server...")
 	server.HTTP.ListenAndServe()
 }
