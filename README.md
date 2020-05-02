@@ -40,7 +40,7 @@ _Contributions are more than welcome_
 ## Dev
 Clone repo
 
-`git clone URL`
+`git clone https://github.com/tuommii/scoreboard.git`
 
 Start server
 
