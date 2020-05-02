@@ -14,7 +14,7 @@ _Contributions are more than welcome_
 - [x] Light theme because of sunshine
 - [ ] Make UI suitable for desktop also
 - [ ] Use forced style guide for .vue-files
-- [ ] Create courses automatically in Helsinki/Findland/World
+- [ ] Create courses automatically in Helsinki/Finland/World
 - [ ] Add a lot of tests
 - [ ] Frontend router
 - [ ] Github actions
