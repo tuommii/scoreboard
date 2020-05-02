@@ -38,18 +38,20 @@ _Contributions are more than welcome_
 - [ ] When stats is implemented add support for marking OB (out of bounds)
 
 ## Dev
-Clone repo
+**Clone repo**
 
-`git clone https://github.com/tuommii/scoreboard.git`
+```
+git clone https://github.com/tuommii/scoreboard.git
+```
 
-Start server
+**Start server**
 
 ```
 cd scoreboard
 make
 ```
 
-Start dev-server in a new terminal window
+**Start dev-server in a new terminal window**
 
 ```
 cd frontend
