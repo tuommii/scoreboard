@@ -19,10 +19,12 @@ const (
 
 // Server ...
 type Server struct {
-	// This gets passed to Game for creating ID
+	// counter gets passed to game for creating unique ID
 	counter int
 	HTTP    *http.Server
-	games   map[string]*game.Course
+	// User created courses
+	games map[string]*game.Course
+	// Existing courses, if user is near a course, create that
 	courses []game.CourseInfo
 	mu      sync.Mutex
 }
@@ -39,16 +41,7 @@ func New(path string) *Server {
 	}
 	server.games = make(map[string]*game.Course)
 
-	file, err := ioutil.ReadFile(path + "courses.json")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	err = json.Unmarshal([]byte(file), &server.courses)
-	if err != nil {
-		log.Fatal(err)
-	}
-
+	server.loadCourseTemplates(path)
 	router.HandleFunc("/games/create", server.CreateGameHandle).Methods("POST")
 	router.HandleFunc("/games/edit", server.EditGameHandle).Methods("POST")
 	router.HandleFunc("/games/{id}", server.GetGameHandle).Methods("GET")
@@ -102,16 +95,7 @@ func (s *Server) CreateGameHandle(w http.ResponseWriter, r *http.Request) {
 
 // EditGameHandle updates game on server
 func (s *Server) EditGameHandle(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-
-	bytes, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	var c *game.Course
-	err = json.Unmarshal(bytes, &c)
+	c, orginal, err := game.CourseFromJSON(r.Body)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -124,11 +108,12 @@ func (s *Server) EditGameHandle(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if s.games[id].Active > s.games[id].BasketCount || s.games[id].Active < 1 {
-		fmt.Fprintf(w, string(bytes))
+		w.Header().Set("Content-Type", "application/json")
+		fmt.Fprintf(w, string(orginal))
 		return
 	}
 
-	// If editedAt is fraud, we can still delete game with orginal createdAt
+	// If editedAt is fraud, we can still delete game with createdAt
 	temp := s.games[id].CreatedAt
 	s.games[id] = c
 	s.games[id].CreatedAt = temp
@@ -138,7 +123,28 @@ func (s *Server) EditGameHandle(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	w.Header().Set("Content-Type", "application/json")
 	fmt.Fprintf(w, string(resp))
+}
+
+// CleanGames removes old games
+func (s *Server) CleanGames() {
+	for {
+		time.Sleep(20 * time.Minute)
+		s.remove()
+	}
+}
+
+func (s *Server) loadCourseTemplates(path string) {
+	file, err := ioutil.ReadFile(path + "courses.json")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = json.Unmarshal([]byte(file), &s.courses)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func (s *Server) updateCounter() {
@@ -148,14 +154,6 @@ func (s *Server) updateCounter() {
 	s.mu.Lock()
 	s.counter++
 	s.mu.Unlock()
-}
-
-// CleanGames removes old games
-func (s *Server) CleanGames() {
-	for {
-		time.Sleep(20 * time.Minute)
-		s.remove()
-	}
 }
 
 func (s *Server) remove() {

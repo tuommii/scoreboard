@@ -25,7 +25,7 @@ func TestCreateID(t *testing.T) {
 }
 
 func TestCreateCourse(t *testing.T) {
-	course := CreateCourse([]string{"TigerKing", "Pesukarhu", "Ying Jang"}, 18, 1)
+	course := createCourse([]string{"TigerKing", "Pesukarhu", "Ying Jang"}, 18, 1)
 
 	wanted := 1
 	if course.Active != wanted {

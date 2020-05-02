@@ -21,7 +21,7 @@ const (
 	near = 1000
 )
 
-// CreateFromRequest creates a new course from request
+// CreateFromRequest creates a new course from http request
 func CreateFromRequest(body io.ReadCloser, templates []CourseInfo, counter int) (*Course, error) {
 	var course *Course
 
@@ -42,6 +42,21 @@ func CreateFromRequest(body io.ReadCloser, templates []CourseInfo, counter int) 
 		}
 	}
 	return createCourse(query.Players, query.BasketCount, counter), nil
+}
+
+// CourseFromJSON creates a Course from JSON
+func CourseFromJSON(body io.ReadCloser) (*Course, []byte, error) {
+	var c *Course
+	bytes, err := ioutil.ReadAll(body)
+	if err != nil {
+		return c, bytes, err
+	}
+
+	err = json.Unmarshal(bytes, &c)
+	if err != nil {
+		return c, bytes, err
+	}
+	return c, bytes, nil
 }
 
 // newCourse returns new Course
