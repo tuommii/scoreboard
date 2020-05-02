@@ -78,4 +78,10 @@ a, a:visited {
   background: #000;
   margin-left: 5px;
 }
+@media only screen and (min-width: 481px) {
+  .navbar {
+    width: 480px;
+    margin: 0 auto;
+  }
+}
 </style>
