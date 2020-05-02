@@ -35,7 +35,7 @@ _Contributions are more than welcome_
 
 ### Finishing game
 - [ ] Create some graph
-- [ ] For some users add possibility store game to database
+- [ ] For some users add possibility store game to database (validate time spent)
 - [ ] When stats is implemented add support for marking OB (out of bounds)
 
 ## Dev
