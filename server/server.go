@@ -3,29 +3,33 @@ package server
 import (
 	"encoding/json"
 	"fmt"
-	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"sync"
 	"time"
 
 	"github.com/gorilla/mux"
 	"miikka.xyz/scoreboard/game"
-	"miikka.xyz/scoreboard/geo"
 )
 
 const (
-	maxBaskets   = 36
-	maxPlayers   = 5
-	maxPlayerLen = 10
-	maxGames     = 10000
-	// max distance for existing course in meters
-	near = 1000
+	maxGames = 10000
 )
 
-// New creates new server
+// Server ...
+type Server struct {
+	// This gets passed to Game for creating ID
+	counter int
+	HTTP    *http.Server
+	games   map[string]*game.Course
+	courses []game.CourseInfo
+	mu      sync.Mutex
+}
+
+// New creates a server
 func New(path string) *Server {
-	server := &Server{}
+	server := &Server{counter: 1}
 	router := mux.NewRouter()
 	server.HTTP = &http.Server{
 		Handler:      router,
@@ -55,7 +59,6 @@ func New(path string) *Server {
 
 // GetGameHandle returns game by id
 func (s *Server) GetGameHandle(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
 	vars := mux.Vars(r)
 	id := vars["id"]
 
@@ -69,37 +72,31 @@ func (s *Server) GetGameHandle(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	w.Header().Set("Content-Type", "application/json")
 	fmt.Fprintf(w, string(bytes))
 }
 
 // CreateGameHandle creates new game
 func (s *Server) CreateGameHandle(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-
 	if len(s.games) > maxGames {
 		http.Error(w, "Server if full", http.StatusTooManyRequests)
 		return
 	}
 
-	query, err := getQuery(r.Body)
+	course, err := game.CreateFromRequest(r.Body, s.courses, s.counter)
 	if err != nil {
-		log.Println(err.Error())
-		http.Error(w, "Invalid body", http.StatusInternalServerError)
-		return
-	}
-
-	if !isValid(query) {
-		http.Error(w, "Invalid data", http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	s.updateCounter()
-	course := s.makeCourse(query)
+
 	courseJSON, err := json.Marshal(course)
 	if err != nil {
-		fmt.Fprintf(w, "{}")
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	s.games[course.ID] = course
+	w.Header().Set("Content-Type", "application/json")
 	fmt.Fprintf(w, string(courseJSON))
 }
 
@@ -144,42 +141,8 @@ func (s *Server) EditGameHandle(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, string(resp))
 }
 
-// CleanGames removes old games
-func (s *Server) CleanGames() {
-	for {
-		time.Sleep(20 * time.Minute)
-		s.remove()
-	}
-}
-
-func isValid(query CreateRequest) bool {
-	if len(query.Players) > maxPlayers || query.BasketCount > maxBaskets {
-		return false
-	}
-
-	for _, player := range query.Players {
-		if len(player) > maxPlayerLen {
-			return false
-		}
-	}
-	return true
-}
-
-func getQuery(body io.ReadCloser) (CreateRequest, error) {
-	bytes, err := ioutil.ReadAll(body)
-	var query CreateRequest
-	if err != nil {
-		return query, err
-	}
-	err = json.Unmarshal(bytes, &query)
-	if err != nil {
-		return query, err
-	}
-	return query, nil
-}
-
 func (s *Server) updateCounter() {
-	if s.counter >= maxGames {
+	if s.counter > maxGames {
 		s.counter = 0
 	}
 	s.mu.Lock()
@@ -187,20 +150,12 @@ func (s *Server) updateCounter() {
 	s.mu.Unlock()
 }
 
-func (s *Server) makeCourse(query CreateRequest) *game.Course {
-	var course *game.Course
-	for _, info := range s.courses {
-		m := geo.Distance(query.Lat, query.Lon, info.Lat, info.Lon)
-		if m < near && m > 0 {
-			course = game.CreateExistingCourse(query.Players, query.BasketCount, s.counter, info.Pars, info.ShortName)
-			fmt.Println("created", info.ShortName)
-			return course
-		}
+// CleanGames removes old games
+func (s *Server) CleanGames() {
+	for {
+		time.Sleep(20 * time.Minute)
+		s.remove()
 	}
-
-	course = game.CreateCourse(query.Players, query.BasketCount, s.counter)
-	fmt.Println("created default (all par 3)")
-	return course
 }
 
 func (s *Server) remove() {
