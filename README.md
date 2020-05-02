@@ -1,5 +1,5 @@
 # Scoreboard
-Simple score tracker for golf and discgolf. Made with Go & Vue.js
+Simple score tracker for golf and discgolf. Made with **Go** & **Vue.js**
 
 Live demo: https://games.miikka.xyz/
 
@@ -35,6 +35,7 @@ _Contributions are more than welcome_
 ### Finishing game
 - [ ] Create some graph
 - [ ] For some users add possibility store game to database
+- [ ] When stats is implemented add support for marking OB (out of bounds)
 
 ## Dev
 Clone repo
