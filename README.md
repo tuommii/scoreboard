@@ -76,7 +76,7 @@ Go to: http://localhost:8081
       "orderNum": 1,
       "par": 3,
       "scores": {
-        "Jing Yang": {
+        "Jian Yang": {
           "score": 3,
           "total": 0,
           "ob": 0
