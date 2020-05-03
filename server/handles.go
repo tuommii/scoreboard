@@ -41,14 +41,15 @@ func (s *Server) CreateGameHandle(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	go s.Worker()
-
 	course, query, err := game.CreateFromRequest(r.Body, s.courses, s.counter)
 	if err != nil {
 		http.Error(w, jsonErr(err.Error()), http.StatusInternalServerError)
 		return
 	}
 	s.updateCounter()
+
+	// Example for future use
+	go s.Worker(query.Lat, query.Lon)
 
 	courseJSON, err := json.Marshal(course)
 	if err != nil {

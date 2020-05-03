@@ -98,9 +98,9 @@ func jsonErr(msg string) string {
 }
 
 // Worker ...
-func (s *Server) Worker() {
-	log.Println("working...")
-	time.Sleep(time.Second * 20)
-	log.Println("done!")
+func (s *Server) Worker(lat float64, lon float64) {
+	log.Println("simulating api request with:", lat, lon)
+	time.Sleep(time.Second * 10)
+	log.Println("api simulation done!")
 	s.Done <- true
 }
