@@ -98,8 +98,8 @@ func (s *Server) ExitGameHandle(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id := vars["id"]
 
-	s.rw.RLock()
-	defer s.rw.RUnlock()
+	s.rw.Lock()
+	defer s.rw.Unlock()
 	if _, exist := s.games[id]; !exist {
 		http.Error(w, jsonErr("Not found"), http.StatusInternalServerError)
 		return
