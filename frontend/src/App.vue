@@ -10,6 +10,7 @@
           </a>
           <JoinGame @joinGame="joinGame($event)" />
           <PlayersList @startGame="startGame($event)" />
+          <p class="help">Source code on <a href="https://github.com/tuommii/scoreboard">Github</a></p>
         </div>
 
         <!-- SCOREBOARD -->
