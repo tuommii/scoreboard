@@ -14,6 +14,30 @@ Live demo: https://games.miikka.xyz/
 
 Created for mobile use. For best usability [add app to homescreen](https://www.howtogeek.com/196087/how-to-add-websites-to-the-home-screen-on-any-smartphone-or-tablet/).
 
+## Dev
+**Clone repo**
+
+```
+git clone https://github.com/tuommii/scoreboard.git
+```
+
+**Start server**
+
+```
+cd scoreboard
+make
+```
+
+**Start dev-server in a new terminal window**
+
+```
+cd frontend
+npm i
+npm run serve
+```
+
+Go to: http://localhost:8081
+
 ## Things to consider
 _Contributions are more than welcome_
 - [x] Create MVP
@@ -46,30 +70,6 @@ _Contributions are more than welcome_
 - [ ] Create some graph
 - [ ] For some users add possibility store game to database (validate time spent)
 - [ ] When stats is implemented add support for marking OB (out of bounds)
-
-## Dev
-**Clone repo**
-
-```
-git clone https://github.com/tuommii/scoreboard.git
-```
-
-**Start server**
-
-```
-cd scoreboard
-make
-```
-
-**Start dev-server in a new terminal window**
-
-```
-cd frontend
-npm i
-npm run serve
-```
-
-Go to: http://localhost:8081
 
 ## Example json
 ```json
