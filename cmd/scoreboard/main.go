@@ -17,7 +17,7 @@ func main() {
 	dir := flag.String("dir", "./", "Path to static dir")
 	flag.Parse()
 	server := server.New(*dir)
-	go server.AutoClean()
+	go server.AutoClean(time.Minute*20, time.Hour*1, time.Hour*5)
 
 	go func() {
 		log.Println("Starting server...")

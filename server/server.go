@@ -19,15 +19,14 @@ const (
 
 // Server ...
 type Server struct {
+	HTTP *http.Server
+	rw   sync.RWMutex
 	// counter gets passed to game for creating unique ID
 	counter int
-	HTTP    *http.Server
 	// User created courses
 	games map[string]*game.Course
 	// Existing courses, if user is near a course, create that
 	courses []game.CourseInfo
-	// mu      sync.Mutex
-	rw sync.RWMutex
 }
 
 // New creates a server
@@ -47,15 +46,39 @@ func New(path string) *Server {
 	router.HandleFunc("/games/{id}", server.GetGameHandle).Methods("GET")
 	router.HandleFunc("/exit/{id}", server.ExitGameHandle).Methods("GET")
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir(path + "public")))
-
 	return server
 }
 
-// AutoClean removes old games
-func (s *Server) AutoClean() {
+// AutoClean removes old games from memory
+func (s *Server) AutoClean(interval time.Duration, editedAgo time.Duration, createdAgo time.Duration) {
 	for {
-		time.Sleep(20 * time.Minute)
-		s.clean()
+		time.Sleep(interval)
+		s.clean(editedAgo, createdAgo)
+	}
+}
+
+// Worker for future use
+func (s *Server) Worker(lat float64, lon float64) {
+	log.Println("simulating api request with:", lat, lon)
+	time.Sleep(time.Second * 10)
+	log.Println("api simulation done!")
+}
+
+func (s *Server) updateCounter() {
+	if s.counter > maxGames {
+		s.counter = 1
+	}
+	s.counter++
+}
+
+func (s *Server) clean(editedAgo time.Duration, createdAgo time.Duration) {
+	s.rw.Lock()
+	defer s.rw.Unlock()
+	for id, game := range s.games {
+		if time.Since(game.EditedAt) > editedAgo || time.Since(game.CreatedAt) > createdAgo {
+			delete(s.games, id)
+			log.Println("deleted", id, game.Name)
+		}
 	}
 }
 
@@ -71,31 +94,6 @@ func (s *Server) loadCourseTemplates(path string) {
 	}
 }
 
-func (s *Server) updateCounter() {
-	if s.counter > maxGames {
-		s.counter = 1
-	}
-	s.counter++
-}
-
-func (s *Server) clean() {
-	s.rw.Lock()
-	defer s.rw.Unlock()
-	for id, game := range s.games {
-		if time.Since(game.EditedAt) > time.Hour*1 || time.Since(game.CreatedAt) > (time.Hour*5) {
-			log.Println("deleted", id, game.Name)
-			delete(s.games, id)
-		}
-	}
-}
-
 func jsonErr(msg string) string {
 	return fmt.Sprintf(`{"err":"%s"}`, msg)
-}
-
-// Worker ...
-func (s *Server) Worker(lat float64, lon float64) {
-	log.Println("simulating api request with:", lat, lon)
-	time.Sleep(time.Second * 10)
-	log.Println("api simulation done!")
 }
