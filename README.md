@@ -12,7 +12,7 @@ _Contributions are more than welcome_
 - [x] Create MVP
 - [x] Circular navigation
 - [x] Split frontend to Vue-components
-- [x] Create most played courses automatically based on location
+- [x] Create my most played courses automatically based on location
 - [x] Light theme because of sunshine
 - [ ] Let user choose basket count
 - [ ] Make UI suitable for desktop also
