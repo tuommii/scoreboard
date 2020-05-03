@@ -68,9 +68,6 @@ export default {
 
       fetch(BASE + id)
         .then(response => {
-          if (response.status != 200) {
-            // TODO: Show error
-          }
           return response.json();
         })
         .then(data => {
@@ -83,6 +80,9 @@ export default {
           // TODO: Small window when someone can join
           this.course.hasBooker = true;
           localStorage.setItem("id", this.course.id);
+        })
+        .catch(err => {
+          console.log(err.msg);
         });
     },
     createGame(query) {

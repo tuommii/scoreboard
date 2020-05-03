@@ -2,6 +2,7 @@ package server
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -88,4 +89,8 @@ func (s *Server) clean() {
 			// s.mu.Unlock()
 		}
 	}
+}
+
+func jsonErr(msg string) string {
+	return fmt.Sprintf(`{"err":"%s"}`, msg)
 }

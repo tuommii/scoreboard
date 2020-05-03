@@ -12,64 +12,64 @@ import (
 
 // GetGameHandle returns game by id
 func (s *Server) GetGameHandle(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	vars := mux.Vars(r)
 	id := vars["id"]
 
 	if _, exist := s.games[id]; !exist {
-		http.Error(w, "Error", http.StatusInternalServerError)
+		http.Error(w, jsonErr("Not found"), http.StatusInternalServerError)
 		return
 	}
 
 	bytes, err := json.Marshal(s.games[id])
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, jsonErr(err.Error()), http.StatusInternalServerError)
 		return
 	}
-	w.Header().Set("Content-Type", "application/json")
 	fmt.Fprintf(w, string(bytes))
 }
 
 // CreateGameHandle creates new game
 func (s *Server) CreateGameHandle(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	if len(s.games) > maxGames {
-		http.Error(w, "Server if full", http.StatusTooManyRequests)
+		http.Error(w, jsonErr("Server is full"), http.StatusTooManyRequests)
 		return
 	}
 
 	course, err := game.CreateFromRequest(r.Body, s.courses, s.counter)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, jsonErr(err.Error()), http.StatusInternalServerError)
 		return
 	}
 	s.updateCounter()
 
 	courseJSON, err := json.Marshal(course)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, jsonErr(err.Error()), http.StatusInternalServerError)
 		return
 	}
 	s.games[course.ID] = course
 	log.Println("created: ", course.Name, "\ngames total:", len(s.games))
-	w.Header().Set("Content-Type", "application/json")
 	fmt.Fprintf(w, string(courseJSON))
 }
 
 // EditGameHandle updates game on server
 func (s *Server) EditGameHandle(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	c, orginal, err := game.CourseFromJSON(r.Body)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, jsonErr(err.Error()), http.StatusInternalServerError)
 		return
 	}
 
 	id := c.ID
 	if _, found := s.games[id]; !found {
-		http.Error(w, "Game not found", http.StatusInternalServerError)
+		http.Error(w, jsonErr("Game not found"), http.StatusInternalServerError)
 		return
 	}
 
 	if s.games[id].Active > s.games[id].BasketCount || s.games[id].Active < 1 {
-		w.Header().Set("Content-Type", "application/json")
 		fmt.Fprintf(w, string(orginal))
 		return
 	}
@@ -81,10 +81,9 @@ func (s *Server) EditGameHandle(w http.ResponseWriter, r *http.Request) {
 
 	resp, err := json.Marshal(s.games[id])
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, jsonErr(err.Error()), http.StatusInternalServerError)
 		return
 	}
-	w.Header().Set("Content-Type", "application/json")
 	fmt.Fprintf(w, string(resp))
 }
 
@@ -94,7 +93,7 @@ func (s *Server) ExitGameHandle(w http.ResponseWriter, r *http.Request) {
 	id := vars["id"]
 
 	if _, exist := s.games[id]; !exist {
-		http.Error(w, "Error", http.StatusInternalServerError)
+		http.Error(w, jsonErr("Not found"), http.StatusInternalServerError)
 		return
 	}
 	s.games[id].HasBooker = false
