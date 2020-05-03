@@ -26,7 +26,8 @@ type Server struct {
 	games map[string]*game.Course
 	// Existing courses, if user is near a course, create that
 	courses []game.CourseInfo
-	mu      sync.Mutex
+	// mu      sync.Mutex
+	rw sync.RWMutex
 }
 
 // New creates a server
@@ -72,23 +73,25 @@ func (s *Server) loadCourseTemplates(path string) {
 }
 
 func (s *Server) updateCounter() {
-	s.mu.Lock()
+	// s.mu.Lock()
+	// s.rw.Lock()
 	if s.counter > maxGames {
 		s.counter = 1
 	}
 	s.counter++
-	s.mu.Unlock()
+	// s.rw.Unlock()
+	// s.mu.Unlock()
 }
 
 func (s *Server) clean() {
+	s.rw.Lock()
 	for id, game := range s.games {
 		if time.Since(game.EditedAt) > time.Hour*1 || time.Since(game.CreatedAt) > (time.Hour*5) {
 			log.Println("deleted", id, game.Name)
-			// s.mu.Lock()
 			delete(s.games, id)
-			// s.mu.Unlock()
 		}
 	}
+	s.rw.Unlock()
 }
 
 func jsonErr(msg string) string {
