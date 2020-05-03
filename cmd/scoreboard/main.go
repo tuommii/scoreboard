@@ -18,11 +18,13 @@ func main() {
 	flag.Parse()
 	server := server.New(*dir)
 	go server.AutoClean()
+
 	go func() {
 		log.Println("Starting server...")
 		if err := server.HTTP.ListenAndServe(); err != nil {
 			log.Fatal(err)
 		}
+		<-server.Done
 	}()
 	shutdown(server.HTTP)
 }

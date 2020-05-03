@@ -41,6 +41,8 @@ func (s *Server) CreateGameHandle(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	go s.Worker()
+
 	course, query, err := game.CreateFromRequest(r.Body, s.courses, s.counter)
 	if err != nil {
 		http.Error(w, jsonErr(err.Error()), http.StatusInternalServerError)

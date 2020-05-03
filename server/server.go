@@ -27,7 +27,8 @@ type Server struct {
 	// Existing courses, if user is near a course, create that
 	courses []game.CourseInfo
 	// mu      sync.Mutex
-	rw sync.RWMutex
+	rw   sync.RWMutex
+	Done chan bool
 }
 
 // New creates a server
@@ -41,6 +42,8 @@ func New(path string) *Server {
 		ReadTimeout:  15 * time.Second,
 	}
 	server.games = make(map[string]*game.Course)
+
+	server.Done = make(chan bool)
 
 	server.loadCourseTemplates(path)
 	router.HandleFunc("/games/create", server.CreateGameHandle).Methods("POST")
@@ -92,4 +95,12 @@ func (s *Server) clean() {
 
 func jsonErr(msg string) string {
 	return fmt.Sprintf(`{"err":"%s"}`, msg)
+}
+
+// Worker ...
+func (s *Server) Worker() {
+	log.Println("working...")
+	time.Sleep(time.Second * 20)
+	log.Println("done!")
+	s.Done <- true
 }
