@@ -15,7 +15,7 @@ _Contributions are more than welcome_
 - [x] Create my most played courses automatically based on location
 - [x] Light theme because of sunshine
 - [ ] Let user choose basket count
-- [ ] Make UI suitable for desktop also
+- [x] Make UI suitable for desktop also
 - [ ] Use forced style guide for .vue-files
 - [ ] Create courses automatically in Helsinki/Finland/World
 - [ ] Add a lot of tests
@@ -24,7 +24,7 @@ _Contributions are more than welcome_
 - [ ] More server-side validations
 - [ ] If project grows much, refactor to vuex
 - [ ] PWA (Offline support)
-- [ ] User specific friends
+- [x] User specific friends
 - [ ] Fix typos
 - [ ] UI improvements
 - [ ] Show spinner when waiting response

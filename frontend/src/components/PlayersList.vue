@@ -38,12 +38,7 @@ export default {
   data() {
     return {
       name: "",
-      players: [
-        { name: "Miikka", selected: true },
-        { name: "Pasi", selected: true },
-        { name: "Sande", selected: false },
-        { name: "Joni", selected: false }
-      ],
+      players: [],
       errors: {
         start: "",
         add: ""
@@ -58,6 +53,11 @@ export default {
       this.players = this.players.filter(player => {
         return player.name != name;
       });
+      if (!this.players.length) {
+        localStorage.removeItem('players');
+      }
+      const obj = JSON.stringify(this.players);
+      localStorage.setItem("players", obj);
     },
     handleAdd() {
       if (this.name.length < 1) {
@@ -71,7 +71,15 @@ export default {
         this.showErr("add", "Player already exists");
         return;
       }
+
+      // const id = localStorage.getItem("id");
+      // localStorage.removeItem("id");
+
       this.players.push({ name: this.name, selected: true });
+      const obj = JSON.stringify(this.players);
+      localStorage.setItem("players", obj);
+
+      console.log("OBJ:", obj);
       this.name = "";
     },
     handleStart() {
@@ -109,6 +117,16 @@ export default {
       });
       return count;
     }
+  },
+  mounted() {
+    let players = localStorage.getItem('players');
+
+    if (players != null) {
+      this.players = JSON.parse(players);
+      return
+    }
+    this.players = [{ name: "Miikka", selected: true }];
+    localStorage.setItem('players', JSON.stringify(this.players));
   }
 };
 
