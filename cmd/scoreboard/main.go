@@ -24,7 +24,6 @@ func main() {
 		if err := server.HTTP.ListenAndServe(); err != nil {
 			log.Fatal(err)
 		}
-		<-server.Done
 	}()
 	shutdown(server.HTTP)
 }
