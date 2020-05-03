@@ -1,6 +1,11 @@
 # (WIP) Scoreboard
 > Simple score tracker for golf and disc golf. WIP. Made with *Go* & *Vue.js*
 
+<p float="left">
+<img src="/assets/screenshot1.png" height="200" />
+<img src="/assets/screenshot2.png" height="200" />
+</p>
+
 ## Motivation
 
 It seems no one wants to be an accountant when we are playing so I wrote this so that the accountant can be switched in the middle of the game.
