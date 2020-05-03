@@ -41,7 +41,7 @@ func (s *Server) CreateGameHandle(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	course, err := game.CreateFromRequest(r.Body, s.courses, s.counter)
+	course, query, err := game.CreateFromRequest(r.Body, s.courses, s.counter)
 	if err != nil {
 		http.Error(w, jsonErr(err.Error()), http.StatusInternalServerError)
 		return
@@ -53,8 +53,8 @@ func (s *Server) CreateGameHandle(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, jsonErr(err.Error()), http.StatusInternalServerError)
 		return
 	}
-	log.Println("created: ", course.ID, course.Name, "\ngames total:", len(s.games))
 	s.games[course.ID] = course
+	log.Println("created: #", course.ID, course.Name, "\n[lat:", query.Lat, "lon:", query.Lon, "]", "games total:", len(s.games))
 	fmt.Fprintf(w, string(courseJSON))
 }
 

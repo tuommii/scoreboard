@@ -22,26 +22,26 @@ const (
 )
 
 // CreateFromRequest creates a new course from http request
-func CreateFromRequest(body io.ReadCloser, templates []CourseInfo, counter int) (*Course, error) {
+func CreateFromRequest(body io.ReadCloser, templates []CourseInfo, counter int) (*Course, CreateRequest, error) {
 	var course *Course
 
 	query, err := getStartingQuery(body)
 	if err != nil {
-		return nil, err
+		return nil, query, err
 	}
 
 	if !isValid(query) {
-		return nil, errors.New("Invalid data")
+		return nil, query, errors.New("Invalid data")
 	}
 
 	for _, temp := range templates {
 		m := geo.Distance(query.Lat, query.Lon, temp.Lat, temp.Lon)
 		if m < near && m > 0 {
 			course = createExistingCourse(query.Players, query.BasketCount, counter, temp.Pars, temp.ShortName)
-			return course, nil
+			return course, query, nil
 		}
 	}
-	return createCourse(query.Players, query.BasketCount, counter), nil
+	return createCourse(query.Players, query.BasketCount, counter), query, nil
 }
 
 // CourseFromJSON creates a Course from json
