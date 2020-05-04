@@ -1,9 +1,7 @@
 package server
 
 import (
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"sync"
@@ -40,7 +38,7 @@ func New(path string) *Server {
 		ReadTimeout:  15 * time.Second,
 	}
 	server.games = make(map[string]*game.Course)
-	server.loadCourseTemplates(path)
+	server.courses = game.LoadCourseTemplates(path)
 	router.HandleFunc("/games/create", server.CreateGameHandle).Methods("POST")
 	router.HandleFunc("/games/edit", server.EditGameHandle).Methods("POST")
 	router.HandleFunc("/games/{id}", server.GetGameHandle).Methods("GET")
@@ -79,18 +77,6 @@ func (s *Server) clean(editedAgo time.Duration, createdAgo time.Duration) {
 			delete(s.games, id)
 			log.Println("deleted", id, game.Name)
 		}
-	}
-}
-
-func (s *Server) loadCourseTemplates(path string) {
-	file, err := ioutil.ReadFile(path + "assets/courses.json")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	err = json.Unmarshal([]byte(file), &s.courses)
-	if err != nil {
-		log.Fatal(err)
 	}
 }
 

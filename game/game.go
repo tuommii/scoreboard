@@ -5,6 +5,7 @@ import (
 	"errors"
 	"io"
 	"io/ioutil"
+	"log"
 	"sort"
 	"strconv"
 	"strings"
@@ -23,8 +24,6 @@ const (
 
 // CreateFromRequest creates a new course from http request
 func CreateFromRequest(body io.ReadCloser, templates []CourseInfo, counter int) (*Course, CreateRequest, error) {
-	var course *Course
-
 	query, err := getStartingQuery(body)
 	if err != nil {
 		return nil, query, err
@@ -34,14 +33,15 @@ func CreateFromRequest(body io.ReadCloser, templates []CourseInfo, counter int) 
 		return nil, query, errors.New("Invalid data")
 	}
 
-	for _, temp := range templates {
-		m := geo.Distance(query.Lat, query.Lon, temp.Lat, temp.Lon)
-		if m < near && m > 0 {
-			course = createExistingCourse(query.Players, query.BasketCount, counter, temp.Pars, temp.ShortName)
-			return course, query, nil
-		}
-	}
-	return createCourse(query.Players, query.BasketCount, counter), query, nil
+	return create(templates, query.Lat, query.Lon, query.Players, query.BasketCount, counter), query, nil
+	// for _, temp := range templates {
+	// 	m := geo.Distance(query.Lat, query.Lon, temp.Lat, temp.Lon)
+	// 	if m < near && m > 0 {
+	// 		course = createExistingCourse(query.Players, counter, temp.Pars, temp.ShortName)
+	// 		return course, query, nil
+	// 	}
+	// }
+	// return createCourse(query.Players, query.BasketCount, counter), query, nil
 }
 
 // CourseFromJSON creates a Course from json
@@ -99,6 +99,18 @@ func createID(players []string, counter int) string {
 	return id
 }
 
+// TODO: Refactor more, too many params
+// create new course, if existing basketCount doesn't matter
+func create(templates []CourseInfo, lat float64, lon float64, players []string, basketCount int, counter int) *Course {
+	for _, temp := range templates {
+		m := geo.Distance(lat, lon, temp.Lat, temp.Lon)
+		if m < near && m >= 0 {
+			return createExistingCourse(players, counter, temp.Pars, temp.ShortName)
+		}
+	}
+	return createCourse(players, basketCount, counter)
+}
+
 // CreateCourse creates course and sets all pars to 3
 func createCourse(players []string, baskets int, counter int) *Course {
 	// TODO: check bad input
@@ -121,23 +133,16 @@ func createCourse(players []string, baskets int, counter int) *Course {
 }
 
 // createExistingCourse takes pars from real course
-func createExistingCourse(players []string, baskets int, counter int, pars []int, name string) *Course {
-	course := newCourse()
-	course.ID = createID(players, counter)
-	course.Name = name
-	course.BasketCount = baskets
-	for i := 1; i <= baskets; i++ {
-		basket := newBasket()
-		basket.Par = pars[i-1]
-		basket.OrderNum = i
-		for _, player := range players {
-			basketScore := newBasketScore()
-			basketScore.Score = basket.Par
-			basket.Scores[player] = basketScore
-		}
-		course.Baskets[i] = basket
+func createExistingCourse(players []string, counter int, pars []int, name string) *Course {
+	basketCount := len(pars)
+	c := createCourse(players, basketCount, counter)
+	c.Name = name
+	c.BasketCount = basketCount
+	c.Name = name
+	for i := 1; i <= c.BasketCount; i++ {
+		c.Baskets[i].Par = pars[i-1]
 	}
-	return course
+	return c
 }
 
 func isValid(query CreateRequest) bool {
@@ -165,4 +170,19 @@ func getStartingQuery(body io.ReadCloser) (CreateRequest, error) {
 		return query, err
 	}
 	return query, nil
+}
+
+// LoadCourseTemplates ...
+func LoadCourseTemplates(path string) []CourseInfo {
+	var templates []CourseInfo
+	file, err := ioutil.ReadFile(path + "assets/courses.json")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = json.Unmarshal([]byte(file), &templates)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return templates
 }

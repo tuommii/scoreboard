@@ -49,7 +49,7 @@ func (s *Server) CreateGameHandle(w http.ResponseWriter, r *http.Request) {
 	s.updateCounter()
 
 	// Example for future use
-	go s.Worker(query.Lat, query.Lon)
+	// go s.Worker(query.Lat, query.Lon)
 
 	courseJSON, err := json.Marshal(course)
 	if err != nil {
