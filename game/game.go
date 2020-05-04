@@ -18,6 +18,7 @@ const (
 	maxBaskets   = 36
 	maxPlayers   = 5
 	maxPlayerLen = 10
+	maxSize      = 1048576
 	// max distance for existing course in meters
 	near = 1000
 )
@@ -34,20 +35,12 @@ func CreateFromRequest(body io.ReadCloser, templates []CourseInfo, counter int) 
 	}
 
 	return create(templates, query.Lat, query.Lon, query.Players, query.BasketCount, counter), query, nil
-	// for _, temp := range templates {
-	// 	m := geo.Distance(query.Lat, query.Lon, temp.Lat, temp.Lon)
-	// 	if m < near && m > 0 {
-	// 		course = createExistingCourse(query.Players, counter, temp.Pars, temp.ShortName)
-	// 		return course, query, nil
-	// 	}
-	// }
-	// return createCourse(query.Players, query.BasketCount, counter), query, nil
 }
 
 // CourseFromJSON creates a Course from json
 func CourseFromJSON(body io.ReadCloser) (*Course, []byte, error) {
 	var c *Course
-	bytes, err := ioutil.ReadAll(body)
+	bytes, err := ioutil.ReadAll(io.LimitReader(body, maxSize))
 	if err != nil {
 		return c, bytes, err
 	}
@@ -164,7 +157,8 @@ func isValid(query CreateRequest) bool {
 func getStartingQuery(body io.ReadCloser) (CreateRequest, error) {
 	var query CreateRequest
 
-	bytes, err := ioutil.ReadAll(body)
+	// 1MB
+	bytes, err := ioutil.ReadAll(io.LimitReader(body, maxSize))
 	if err != nil {
 		return query, err
 	}

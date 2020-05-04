@@ -43,6 +43,7 @@ func New(path string) *Server {
 	router.HandleFunc("/games/edit", server.EditGameHandle).Methods("POST")
 	router.HandleFunc("/games/{id}", server.GetGameHandle).Methods("GET")
 	router.HandleFunc("/exit/{id}", server.ExitGameHandle).Methods("GET")
+	router.HandleFunc("/_status", server.StatusHandle).Methods("GET")
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir(path + "public")))
 	return server
 }
@@ -82,4 +83,10 @@ func (s *Server) clean(editedAgo time.Duration, createdAgo time.Duration) {
 
 func jsonErr(msg string) string {
 	return fmt.Sprintf(`{"err":"%s"}`, msg)
+}
+
+func text(w http.ResponseWriter, code int, msg string) {
+	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
+	w.WriteHeader(code)
+	fmt.Fprintln(w, msg)
 }

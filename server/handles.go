@@ -42,6 +42,7 @@ func (s *Server) CreateGameHandle(w http.ResponseWriter, r *http.Request) {
 	}
 
 	course, query, err := game.CreateFromRequest(r.Body, s.courses, s.counter)
+	defer r.Body.Close()
 	if err != nil {
 		http.Error(w, jsonErr(err.Error()), http.StatusInternalServerError)
 		return
@@ -110,4 +111,9 @@ func (s *Server) ExitGameHandle(w http.ResponseWriter, r *http.Request) {
 
 	s.games[id].HasBooker = false
 	fmt.Fprintf(w, "{}")
+}
+
+// StatusHandle for health checking
+func (s *Server) StatusHandle(w http.ResponseWriter, r *http.Request) {
+	text(w, http.StatusOK, "OK")
 }

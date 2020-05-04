@@ -13,11 +13,17 @@ import (
 	"miikka.xyz/scoreboard/server"
 )
 
+var (
+	cleanInterval = time.Minute * 20
+	editedAlive   = time.Hour * 1
+	createdAlive  = time.Hour * 5
+)
+
 func main() {
 	dir := flag.String("dir", "./", "Path to static dir")
 	flag.Parse()
 	server := server.New(*dir)
-	go server.AutoClean(time.Minute*20, time.Hour*1, time.Hour*5)
+	go server.AutoClean(cleanInterval, editedAlive, createdAlive)
 
 	go func() {
 		log.Println("Starting server...")
