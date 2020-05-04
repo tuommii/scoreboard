@@ -14,6 +14,14 @@ Live demo: https://games.miikka.xyz/
 
 Created for mobile use. For best usability [add app to homescreen](https://www.howtogeek.com/196087/how-to-add-websites-to-the-home-screen-on-any-smartphone-or-tablet/).
 
+## Features
+- [x] [Live demo](https://games.miikka.xyz/)
+- [x] Easy to use ( buttons are big enough, circular navigation )
+- [x] Accountant can be switched in the middle of the game
+- [x] Creates my most played courses automatically if user is near
+- [x] Hosted on DigitalOcean behind nginx
+- [x] Github actions
+
 ## Dev
 **Clone repo**
 
@@ -51,7 +59,7 @@ _Contributions are more than welcome_
 - [ ] Create courses automatically in Helsinki/Finland/World
 - [ ] Add a lot of tests
 - [ ] Frontend router
-- [ ] Github actions
+- [x] Github actions
 - [ ] More server-side validations
 - [ ] If project grows much, refactor to vuex
 - [ ] PWA (Offline support)
