@@ -31,5 +31,16 @@
 		"lon" : 24.98101690223271,
 		"lat" : 60.27245380664016,
 		"pars": [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2]
-	 }
+	 },
+	{
+		"id" : "4",
+		"countryCode" : "FI",
+		"city" : "Helsinki",
+		"lanes": 16,
+		"fullName" : "Meilahden frisbeegolfrata",
+		"shortName" : "Meilahti",
+		"lon" : 24.8974871635437,
+		"lat" : 60.19052408181046,
+		"pars": [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3]
+	}
 ]
