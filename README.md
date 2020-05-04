@@ -19,7 +19,8 @@ Created for mobile use. For best usability [add app to homescreen](https://www.h
 - [x] [Live demo](https://games.miikka.xyz/)
 - [x] Easy to use ( buttons are big enough, circular navigation )
 - [x] Accountant can be switched in the middle of the game
-- [x] Creates my most played courses automatically if user is near
+- [x] Creates my most played courses **automatically** if user is near
+- [x] Fast rendering time
 - [x] Hosted on DigitalOcean behind nginx
 - [x] Github actions
 
