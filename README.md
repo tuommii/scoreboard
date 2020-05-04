@@ -8,7 +8,7 @@
 </h1>
 
 <h4 align="center">Simple score tracker for golf and disc golf. Made with Go & Vue</h4>
-
+<br>
 
 ## Motivation
 
