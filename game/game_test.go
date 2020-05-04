@@ -70,10 +70,10 @@ func TestCreate(t *testing.T) {
 		t.Errorf("got: %d, wanted: %d", course.Baskets[18].Par, wanted)
 	}
 
-	tLat := 60.2124424
-	tLon := 24.8446608
+	taliLat := 60.2124424
+	taliLon := 24.8446608
 	// course = create(templates, 60.21315136048604, 24.846823667701181, players, 10, 1)
-	course = create(templates, tLat, tLon, players, 10, 1)
+	course = create(templates, taliLat, taliLon, players, 10, 1)
 
 	wantedName := "Tali"
 	if course.Name != wantedName {
@@ -84,4 +84,18 @@ func TestCreate(t *testing.T) {
 	if course.Baskets[1].Par != wanted {
 		t.Errorf("got: %d, wanted: %d", course.Baskets[1].Par, wanted)
 	}
+
+	smakiLat := 60.27245380664016
+	smakiLon := 24.98101690223271
+	course = create(templates, smakiLat, smakiLon, players, 10, 1)
+	wanted = 2
+	if course.Baskets[18].Par != wanted {
+		t.Errorf("got: %d, wanted: %d", course.Baskets[18].Par, wanted)
+	}
+
+	wanted = 2
+	if course.Baskets[18].Scores["Miikka"].Score != wanted {
+		t.Errorf("got: %d, wanted: %d", course.Baskets[18].Scores["Miikka"].Score, wanted)
+	}
+
 }

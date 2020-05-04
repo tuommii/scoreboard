@@ -141,6 +141,9 @@ func createExistingCourse(players []string, counter int, pars []int, name string
 	c.Name = name
 	for i := 1; i <= c.BasketCount; i++ {
 		c.Baskets[i].Par = pars[i-1]
+		for _, player := range players {
+			c.Baskets[i].Scores[player].Score = pars[i-1]
+		}
 	}
 	return c
 }
