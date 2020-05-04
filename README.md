@@ -1,6 +1,8 @@
 # (WIP) Scoreboard
 > Simple score tracker for golf and disc golf. Made with *Go* & *Vue.js*
 
+![build](https://github.com/tuommii/scoreboard/workflows/build/badge.svg)
+
 <p float="left">
 <img src="/assets/screenshot1.png" height="200" />
 <img src="/assets/screenshot2.png" height="200" />

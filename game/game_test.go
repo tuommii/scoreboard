@@ -52,7 +52,7 @@ func TestCreate(t *testing.T) {
 	// var templates []CourseInfo
 	templates := LoadCourseTemplates("../")
 
-	wanted := 3
+	wanted := 4
 	if len(templates) != wanted {
 		t.Errorf("got: %d, wanted: %d", len(templates), wanted)
 	}
