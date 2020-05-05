@@ -10,8 +10,7 @@ import (
 	"miikka.xyz/scoreboard/game"
 )
 
-// GetGameHandle returns game by id
-func (s *Server) GetGameHandle(w http.ResponseWriter, r *http.Request) {
+func (s *Server) getGameHandle(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	vars := mux.Vars(r)
 	id := vars["id"]
@@ -31,8 +30,7 @@ func (s *Server) GetGameHandle(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, string(bytes))
 }
 
-// CreateGameHandle creates new game
-func (s *Server) CreateGameHandle(w http.ResponseWriter, r *http.Request) {
+func (s *Server) createGameHandle(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	s.rw.RLock()
 	defer s.rw.RUnlock()
@@ -62,8 +60,7 @@ func (s *Server) CreateGameHandle(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, string(courseJSON))
 }
 
-// EditGameHandle updates game on server
-func (s *Server) EditGameHandle(w http.ResponseWriter, r *http.Request) {
+func (s *Server) editGameHandle(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	c, orginal, err := game.CourseFromJSON(r.Body)
 	if err != nil {
@@ -84,7 +81,7 @@ func (s *Server) EditGameHandle(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// If editedAt is fraud, we can still delete game with createdAt
+	// If editedAt is a fraud, we can still delete game with createdAt
 	temp := s.games[id].CreatedAt
 	s.games[id] = c
 	s.games[id].CreatedAt = temp
@@ -97,8 +94,7 @@ func (s *Server) EditGameHandle(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, string(resp))
 }
 
-// ExitGameHandle sets HasBooker to false
-func (s *Server) ExitGameHandle(w http.ResponseWriter, r *http.Request) {
+func (s *Server) exitGameHandle(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id := vars["id"]
 
@@ -113,7 +109,6 @@ func (s *Server) ExitGameHandle(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "{}")
 }
 
-// StatusHandle for health checking
-func (s *Server) StatusHandle(w http.ResponseWriter, r *http.Request) {
+func (s *Server) statusHandle(w http.ResponseWriter, r *http.Request) {
 	text(w, http.StatusOK, "OK")
 }

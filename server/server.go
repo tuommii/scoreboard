@@ -39,11 +39,11 @@ func New(path string) *Server {
 	}
 	server.games = make(map[string]*game.Course)
 	server.courses = game.LoadCourseTemplates(path)
-	router.HandleFunc("/games/create", server.CreateGameHandle).Methods("POST")
-	router.HandleFunc("/games/edit", server.EditGameHandle).Methods("POST")
-	router.HandleFunc("/games/{id}", server.GetGameHandle).Methods("GET")
-	router.HandleFunc("/exit/{id}", server.ExitGameHandle).Methods("GET")
-	router.HandleFunc("/_status", server.StatusHandle).Methods("GET")
+	router.HandleFunc("/games/create", server.createGameHandle).Methods("POST")
+	router.HandleFunc("/games/edit", server.editGameHandle).Methods("POST")
+	router.HandleFunc("/games/{id}", server.getGameHandle).Methods("GET")
+	router.HandleFunc("/exit/{id}", server.exitGameHandle).Methods("GET")
+	router.HandleFunc("/_status", server.statusHandle).Methods("GET")
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir(path + "public")))
 	return server
 }
