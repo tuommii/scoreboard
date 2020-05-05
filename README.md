@@ -1,13 +1,14 @@
-![build](https://github.com/tuommii/scoreboard/workflows/build/badge.svg)
+![build](https://github.com/tuommii/scoreboard/workflows/build/badge.svg?branch=master)
 
-# (WIP) Scoreboard
-> Simple score tracker for golf and disc golf. Made with *Go* & *Vue.js*
+<h1 align="center">
+    <img src="/assets/screenshot1.png" height="200" />
+    <img src="/assets/screenshot2.png" height="200" />
 
+  <br>(WIP) Scoreboard
+</h1>
 
-<p float="left">
-<img src="/assets/screenshot1.png" height="200" />
-<img src="/assets/screenshot2.png" height="200" />
-</p>
+<h4 align="center">Simple score tracker for golf and disc golf. Made with Go & Vue</h4>
+<br>
 
 ## Motivation
 
