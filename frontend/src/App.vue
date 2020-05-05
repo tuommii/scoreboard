@@ -73,31 +73,26 @@ export default {
         })
         .then(data => {
           if (data.hasBooker) {
-            console.log("Game has a booker already!");
             return;
           }
-          console.log('NO BOOKER', data);
           this.course = data;
           // TODO: Small window when someone can join
           this.course.hasBooker = true;
           localStorage.setItem("id", this.course.id);
         })
-        .catch(err => {
-          console.log(err.msg);
+        .catch(() => {
         });
     },
     createGame(query) {
       postData(CREATE_GAME, query).then(data => {
         this.course = data;
         localStorage.setItem("id", this.course.id);
-        console.log(data);
         window.scrollTo({
           top: 0
         });
       });
     },
     startGame(players) {
-      console.log(players);
       const query = {
         players: players,
         basketCount: 18,
@@ -111,21 +106,17 @@ export default {
           query.lon = pos.coords.longitude;
           this.createGame(query);
         },
-        err => {
-          console.log(err);
+        () => {
           this.createGame(query);
         }
       );
     },
     navigate(num) {
       this.course.active = num;
-      const now = new Date().toJSON();
-      this.course.editedAt = now;
+      this.course.editedAt = new Date().toJSON();
       postData(EDIT_GAME, this.course).then(data => {
         this.course = data;
-        window.scrollTo({
-          top: 0
-        });
+        window.scrollTo({ top: 0 });
         this.course.action = "";
       });
     },
@@ -146,11 +137,7 @@ export default {
       }
     },
     exit() {
-      if (
-        !confirm(
-          "The games remain on the server for a few hours. You can still come back with ID."
-        )
-      ) {
+      if (!confirm("The games remain on the server for a few hours. You can still come back with ID.")) {
         return;
       }
       fetch(EXIT_GAME + this.course.id)
@@ -161,7 +148,6 @@ export default {
           localStorage.removeItem("id");
           this.course = {
             active: 0,
-            // hasBooker: false
           };
         });
     }
