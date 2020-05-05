@@ -1,14 +1,6 @@
 <template>
 <div class="cont">
-    <!-- <div class="card" v-for="(i, player) in course.baskets[1].scores" v-bind:key="player">
-      <div class="card-content">
-        <div class="content">
-              <span class="name">{{player}}</span>
-                <button class="button round" @click="decScore(player)">-</button>
-                <span class="current">{{course.baskets[course.active].scores[player].score}}</span>
-                <button class="button round" @click="incScore(player)">+</button>
-                <span class="sign" v-if="(totalScore(player) - totalPars()) >= 0">+</span>
-                <span class="total">{{totalScore(player) - totalPars()}}</span> -->
+
 <div class="columns is-mobile score-card" v-for="(i, player) in course.baskets[1].scores" v-bind:key="player">
   <div class="column name-col is-3">
     <span class="name-val">{{player}}</span>
@@ -22,17 +14,7 @@
   <div class="column is-2">
       <button class="button round" @click="incScore(player)">+</button>
   </div>
-  <!-- <div class="column cur-col">
-    <div class="columns is-mobile">
-      <div class="minus-col">
-        <button class="button round" @click="decScore(player)">-</button>
-      </div>
-      <div class="score-col">
-      </div>
-      <div class="plus-col">
-      </div>
-    </div>
-  </div> -->
+
   <div class="column is-3 total-col">
     <span class="sign" v-if="(totalScore(player) - totalPars()) >= 0">+</span>
     <span class="total">{{totalScore(player) - totalPars()}}</span>
@@ -80,13 +62,16 @@ export default {
   /* background: #fff; */
   background-image: linear-gradient(#fff, #eee) !important;
   border-radius: 4px;
-  border-top: 1px solid #fff;
+  /* border-top: 1px solid #fff; */
   border-bottom: 1px solid rgba(0, 0, 0, 0.8);
+  box-shadow: 0 2px 1px 0 rgba(30, 30, 30, 0.5);
+
   margin-top: 1rem !important;
 }
 
-.cont:nth-child(odd) {
-  background: #ccc;
+.score-card:nth-of-type(2n) {
+  background: #f6f0e4 !important;
+  /* background-image: linear-gradient(#f5f6f7, #e5e6e7) !important; */
 }
 
 .name-col, .score-col, .total-col {
