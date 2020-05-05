@@ -13,7 +13,7 @@ import (
 	"miikka.xyz/scoreboard/server"
 )
 
-var (
+const (
 	cleanInterval = time.Minute * 20
 	editedAlive   = time.Hour * 1
 	createdAlive  = time.Hour * 5
