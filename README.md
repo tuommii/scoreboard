@@ -22,7 +22,6 @@ Created for mobile use. For best usability [add app to homescreen](https://www.h
 - [x] Creates my most played courses **automatically** if user is near
 - [x] Fast rendering time
 - [x] Hosted on DigitalOcean behind nginx
-- [x] Github actions
 
 ## Dev
 **Clone repo**
