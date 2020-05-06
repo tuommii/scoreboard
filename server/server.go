@@ -1,8 +1,6 @@
 package server
 
 import (
-	"fmt"
-	"log"
 	"net/http"
 	"sync"
 	"time"
@@ -12,7 +10,8 @@ import (
 )
 
 const (
-	maxGames = 10000
+	maxGames    = 10000
+	maxBodySize = 1048576
 )
 
 // Server ...
@@ -54,39 +53,4 @@ func (s *Server) AutoClean(interval time.Duration, editedAgo time.Duration, crea
 		time.Sleep(interval)
 		s.clean(editedAgo, createdAgo)
 	}
-}
-
-// Worker for future use
-func (s *Server) Worker(lat float64, lon float64) {
-	log.Println("simulating api request with:", lat, lon)
-	time.Sleep(time.Second * 10)
-	log.Println("api simulation done!")
-}
-
-func (s *Server) updateCounter() {
-	if s.counter > maxGames {
-		s.counter = 1
-	}
-	s.counter++
-}
-
-func (s *Server) clean(editedAgo time.Duration, createdAgo time.Duration) {
-	s.rw.Lock()
-	defer s.rw.Unlock()
-	for id, game := range s.games {
-		if time.Since(game.EditedAt) > editedAgo || time.Since(game.CreatedAt) > createdAgo {
-			delete(s.games, id)
-			log.Println("deleted", id, game.Name)
-		}
-	}
-}
-
-func jsonErr(msg string) string {
-	return fmt.Sprintf(`{"err":"%s"}`, msg)
-}
-
-func text(w http.ResponseWriter, code int, msg string) {
-	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
-	w.WriteHeader(code)
-	fmt.Fprintln(w, msg)
 }

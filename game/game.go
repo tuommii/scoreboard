@@ -3,7 +3,6 @@ package game
 import (
 	"encoding/json"
 	"errors"
-	"io"
 	"io/ioutil"
 	"log"
 	"sort"
@@ -18,39 +17,46 @@ const (
 	maxBaskets   = 36
 	maxPlayers   = 5
 	maxPlayerLen = 10
-	maxSize      = 1048576
 	// max distance for existing course in meters
 	near = 1000
 )
 
 // CreateFromRequest creates a new course from http request
-func CreateFromRequest(body io.ReadCloser, templates []CourseInfo, counter int) (*Course, CreateRequest, error) {
-	query, err := getStartingQuery(body)
-	if err != nil {
-		return nil, query, err
-	}
+// func CreateFromRequest(body io.ReadCloser, templates []CourseInfo, counter int) (*Course, CreateRequest, error) {
+// 	query, err := getStartingQuery(body)
+// 	if err != nil {
+// 		return nil, query, err
+// 	}
 
-	if !isValid(query) {
-		return nil, query, errors.New("Invalid data")
-	}
+// 	if !isValid(query) {
+// 		return nil, query, errors.New("Invalid data")
+// 	}
 
-	return create(templates, query.Lat, query.Lon, query.Players, query.BasketCount, counter), query, nil
+// 	return create(templates, query.Lat, query.Lon, query.Players, query.BasketCount, counter), query, nil
+// }
+
+// Create ...
+func Create(basis Basis, templates []CourseInfo, counter int) (*Course, error) {
+	if !isValid(basis) {
+		return nil, errors.New("Invalid data")
+	}
+	return create(templates, basis.Lat, basis.Lon, basis.Players, basis.BasketCount, counter), nil
 }
 
 // CourseFromJSON creates a Course from json
-func CourseFromJSON(body io.ReadCloser) (*Course, []byte, error) {
-	var c *Course
-	bytes, err := ioutil.ReadAll(io.LimitReader(body, maxSize))
-	if err != nil {
-		return c, bytes, err
-	}
+// func FromJSON(body io.ReadCloser) (*Course, []byte, error) {
+// 	var c *Course
+// 	bytes, err := ioutil.ReadAll(io.LimitReader(body, maxSize))
+// 	if err != nil {
+// 		return c, bytes, err
+// 	}
 
-	err = json.Unmarshal(bytes, &c)
-	if err != nil {
-		return c, bytes, err
-	}
-	return c, bytes, nil
-}
+// 	err = json.Unmarshal(bytes, &c)
+// 	if err != nil {
+// 		return c, bytes, err
+// 	}
+// 	return c, bytes, nil
+// }
 
 // newCourse returns new Course
 func newCourse() *Course {
@@ -141,32 +147,17 @@ func createExistingCourse(players []string, counter int, pars []int, name string
 	return c
 }
 
-func isValid(query CreateRequest) bool {
-	if len(query.Players) > maxPlayers || query.BasketCount > maxBaskets {
+func isValid(basis Basis) bool {
+	if len(basis.Players) > maxPlayers || basis.BasketCount > maxBaskets {
 		return false
 	}
 
-	for _, player := range query.Players {
+	for _, player := range basis.Players {
 		if len(player) > maxPlayerLen {
 			return false
 		}
 	}
 	return true
-}
-
-func getStartingQuery(body io.ReadCloser) (CreateRequest, error) {
-	var query CreateRequest
-
-	// 1MB
-	bytes, err := ioutil.ReadAll(io.LimitReader(body, maxSize))
-	if err != nil {
-		return query, err
-	}
-	err = json.Unmarshal(bytes, &query)
-	if err != nil {
-		return query, err
-	}
-	return query, nil
 }
 
 // LoadCourseTemplates ...

@@ -31,8 +31,8 @@ type BasketScore struct {
 	OB    int `json:"ob"`
 }
 
-// CreateRequest holds data that is needed for starting a new game
-type CreateRequest struct {
+// Basis holds data that is needed to create a new game
+type Basis struct {
 	BasketCount int      `json:"basketCount"`
 	Players     []string `json:"players"`
 	Lat         float64  `json:"lat"`

@@ -34,21 +34,24 @@ func (s *Server) createGameHandle(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	s.rw.RLock()
 	defer s.rw.RUnlock()
-	if len(s.games) > maxGames {
+
+	if len(s.games) >= maxGames {
 		http.Error(w, jsonErr("Server is full"), http.StatusTooManyRequests)
 		return
 	}
 
-	course, query, err := game.CreateFromRequest(r.Body, s.courses, s.counter)
-	defer r.Body.Close()
+	basis, err := parseBasis(r.Body)
 	if err != nil {
 		http.Error(w, jsonErr(err.Error()), http.StatusInternalServerError)
 		return
 	}
+	defer r.Body.Close()
+
+	course, err := game.Create(basis, s.courses, s.counter)
 	s.updateCounter()
 
 	// Example for future use
-	// go s.Worker(query.Lat, query.Lon)
+	// go s.worker(basis.Lat, basis.Lon)
 
 	courseJSON, err := json.Marshal(course)
 	if err != nil {
@@ -56,13 +59,13 @@ func (s *Server) createGameHandle(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	s.games[course.ID] = course
-	log.Println("created: #", course.ID, course.Name, "\n[lat:", query.Lat, "lon:", query.Lon, "]", "games total:", len(s.games))
+	log.Println("created: #", course.ID, course.Name, "\n[lat:", basis.Lat, "lon:", basis.Lon, "]", "games total:", len(s.games))
 	fmt.Fprintf(w, string(courseJSON))
 }
 
 func (s *Server) editGameHandle(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	c, orginal, err := game.CourseFromJSON(r.Body)
+	c, orginal, err := gameFromJSON(r.Body)
 	if err != nil {
 		http.Error(w, jsonErr(err.Error()), http.StatusInternalServerError)
 		return
