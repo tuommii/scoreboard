@@ -1,5 +1,8 @@
 <template>
   <div id="app" v-bind:class="{ 'dark': course.active}" v-cloak>
+    <loading :active.sync="isLoading"
+        :can-cancel="true"
+        :is-full-page="fullPage"></loading>
     <div class="section">
       <div class="container">
         <!-- HOME -->
@@ -42,6 +45,10 @@ import PlayersList from "./components/PlayersList.vue";
 import ParHeader from "./components/ParHeader.vue";
 import ScoreList from "./components/ScoreList.vue";
 import Navigation from "./components/Navigation.vue";
+
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
+
 import "../node_modules/bulma/css/bulma.min.css";
 
 const BASE = "/games/";
@@ -53,7 +60,9 @@ export default {
   name: "App",
   data() {
     return {
-      course: {}
+      isLoading: false,
+      course: {
+      }
     };
   },
   components: {
@@ -61,7 +70,8 @@ export default {
     PlayersList,
     ParHeader,
     ScoreList,
-    Navigation
+    Navigation,
+    Loading
   },
   methods: {
     joinGame(id) {
@@ -84,8 +94,10 @@ export default {
         });
     },
     createGame(query) {
+      this.isLoading = true;
       postData(CREATE_GAME, query).then(data => {
         this.course = data;
+        this.isLoading = false;
         localStorage.setItem("id", this.course.id);
         window.scrollTo({
           top: 0
@@ -112,12 +124,13 @@ export default {
       );
     },
     navigate(num) {
-      this.course.active = num;
+      this.isLoading = true;
       this.course.editedAt = new Date().toJSON();
       postData(EDIT_GAME, this.course).then(data => {
         this.course = data;
+        this.course.active = num;
+        this.isLoading = false;
         window.scrollTo({ top: 0 });
-        this.course.action = "";
       });
     },
     incPar() {
