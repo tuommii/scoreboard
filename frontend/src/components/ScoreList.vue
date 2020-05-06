@@ -104,12 +104,10 @@ export default {
 .round {
     border-radius: 50% !important;
     min-width: 41px;
-    padding-top: 0;
     margin-top: 0;
-    /* border: 1px solid rgba(0,0,0,0.9); */
-    /* background: linear-gradient(135deg, #62a8ff, #5146ff); */
     background: #a6dbb0 !important;
-    border: 0 !important;
-    color: #fff;
+    background: linear-gradient(135deg, #a6dbb0, #79b184) !important;
+    border: 1px solid #5d762c !important;
+    color: #000 !important;
 }
 </style>
