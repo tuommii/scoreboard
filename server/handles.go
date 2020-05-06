@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/gorilla/mux"
 	"miikka.xyz/scoreboard/game"
@@ -31,6 +32,7 @@ func (s *Server) getGameHandle(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) createGameHandle(w http.ResponseWriter, r *http.Request) {
+	start := time.Now()
 	w.Header().Set("Content-Type", "application/json")
 	s.rw.RLock()
 	defer s.rw.RUnlock()
@@ -59,7 +61,7 @@ func (s *Server) createGameHandle(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	s.games[course.ID] = course
-	log.Println("created: #", course.ID, course.Name, "\n[lat:", basis.Lat, "lon:", basis.Lon, "]", "games total:", len(s.games))
+	log.Println("took: ", time.Since(start), "created: #", course.ID, course.Name, "\n[lat:", basis.Lat, "lon:", basis.Lon, "]", "games total:", len(s.games))
 	fmt.Fprintf(w, string(courseJSON))
 }
 

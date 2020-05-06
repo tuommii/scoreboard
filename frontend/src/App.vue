@@ -124,9 +124,18 @@ export default {
       );
     },
     navigate(num) {
-      this.isLoading = true;
+
+      // Trying prevent screen flashing. Only show loader after x time
+      let gotResponse = false;
+      setTimeout(() => {
+        if (!gotResponse) {
+          this.isLoading = true;
+        }
+      }, 100);
+
       this.course.editedAt = new Date().toJSON();
       postData(EDIT_GAME, this.course).then(data => {
+        gotResponse = true;
         this.course = data;
         this.course.active = num;
         this.isLoading = false;
