@@ -4,7 +4,6 @@ import (
 	"context"
 	"flag"
 	"log"
-	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
@@ -22,26 +21,28 @@ const (
 func main() {
 	dir := flag.String("dir", "./", "Path to static dir")
 	flag.Parse()
-	server := server.New(*dir)
-	go server.AutoClean(cleanInterval, editedAlive, createdAlive)
+	s := server.New(*dir)
+	go s.AutoClean(cleanInterval, editedAlive, createdAlive)
 
 	go func() {
 		log.Println("Starting server...")
-		if err := server.HTTP.ListenAndServe(); err != nil {
+		if err := s.HTTP.ListenAndServe(); err != nil {
 			log.Fatal(err)
 		}
 	}()
-	shutdown(server.HTTP)
+	shutdown(s, *dir)
 }
 
-func shutdown(server *http.Server) {
+func shutdown(s *server.Server, path string) {
 	signalCh := make(chan os.Signal, 1)
 	signal.Notify(signalCh, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
 
+	s.LoadMemory(path)
 	<-signalCh
+	s.SaveMemory(path)
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*15)
 	defer cancel()
-	server.Shutdown(ctx)
+	s.HTTP.Shutdown(ctx)
 	log.Println("Exiting...")
 	os.Exit(0)
 }

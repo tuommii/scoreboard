@@ -1,6 +1,9 @@
 package server
 
 import (
+	"encoding/json"
+	"io/ioutil"
+	"log"
 	"net/http"
 	"sync"
 	"time"
@@ -53,4 +56,40 @@ func (s *Server) AutoClean(interval time.Duration, editedAgo time.Duration, crea
 		time.Sleep(interval)
 		s.clean(editedAgo, createdAgo)
 	}
+}
+
+// SaveMemory saves data in memory to json-file
+// TODO: Make this database
+// TODO: Take cear of hasBooker
+func (s *Server) SaveMemory(path string) {
+	file, err := json.Marshal(s.games)
+	if err != nil {
+		log.Println("Marshaling memory data failed!", err)
+		return
+	}
+
+	err = ioutil.WriteFile(path+"assets/memory.json", file, 0644)
+	if err != nil {
+		log.Println("Saving memory failed!", err)
+	}
+	log.Println(len(s.games), "games saved")
+}
+
+// LoadMemory ...
+// TODO: Take cear of counter value
+func (s *Server) LoadMemory(path string) {
+	log.Println("Loading 0 games from previous memory")
+	// file, err := ioutil.ReadFile(path + "assets/memory.json")
+	// if err != nil {
+	// 	log.Println("Error while opening file", err)
+	// 	return
+	// }
+
+	// err = json.Unmarshal(file, &s.games)
+	// if err != nil {
+	// 	log.Println("Error while unmarshaling previous memory", err)
+	// 	return
+	// }
+
+	// log.Println("loaded ", len(s.games))
 }
