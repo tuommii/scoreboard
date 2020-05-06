@@ -21,6 +21,7 @@ Created for mobile use. For best usability [add app to homescreen](https://www.h
 - [x] Easy to use ( buttons are big enough, circular navigation )
 - [x] Accountant can be switched in the middle of the game
 - [x] Creates my most played courses **automatically** if user is near
+- [x] Server can [save and restore](https://github.com/tuommii/scoreboard/blob/5f94a56bc176ee400d26629b3763bf936ec6ccc6/cmd/scoreboard/main.go#L40) it's state
 - [x] JSON structure is designed to be easily upgradable
 - [x] Fast rendering time
 - [x] Hosted on DigitalOcean behind nginx
@@ -69,7 +70,7 @@ _Contributions are more than welcome_
 - [x] User specific friends
 - [ ] Fix typos
 - [ ] UI improvements
-- [ ] Show spinner when waiting response
+- [x] Show spinner when waiting response
 - [ ] More organized CSS
 - [ ] CSS Animations
 - [ ] Random or selected avatars
