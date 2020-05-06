@@ -21,20 +21,6 @@ const (
 	near = 1000
 )
 
-// CreateFromRequest creates a new course from http request
-// func CreateFromRequest(body io.ReadCloser, templates []CourseInfo, counter int) (*Course, CreateRequest, error) {
-// 	query, err := getStartingQuery(body)
-// 	if err != nil {
-// 		return nil, query, err
-// 	}
-
-// 	if !isValid(query) {
-// 		return nil, query, errors.New("Invalid data")
-// 	}
-
-// 	return create(templates, query.Lat, query.Lon, query.Players, query.BasketCount, counter), query, nil
-// }
-
 // Create ...
 func Create(basis Basis, templates []CourseInfo, counter int) (*Course, error) {
 	if !isValid(basis) {
@@ -42,21 +28,6 @@ func Create(basis Basis, templates []CourseInfo, counter int) (*Course, error) {
 	}
 	return create(templates, basis.Lat, basis.Lon, basis.Players, basis.BasketCount, counter), nil
 }
-
-// CourseFromJSON creates a Course from json
-// func FromJSON(body io.ReadCloser) (*Course, []byte, error) {
-// 	var c *Course
-// 	bytes, err := ioutil.ReadAll(io.LimitReader(body, maxSize))
-// 	if err != nil {
-// 		return c, bytes, err
-// 	}
-
-// 	err = json.Unmarshal(bytes, &c)
-// 	if err != nil {
-// 		return c, bytes, err
-// 	}
-// 	return c, bytes, nil
-// }
 
 // newCourse returns new Course
 func newCourse() *Course {
