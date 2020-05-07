@@ -18,7 +18,7 @@ It seems no one wants to be an accountant when we are playing so I wrote this so
 Created for mobile use. For best usability [add app to homescreen](https://www.howtogeek.com/196087/how-to-add-websites-to-the-home-screen-on-any-smartphone-or-tablet/).
 
 ## Features
-- [x] [Live demo](https://games.miikka.xyz/)
+- [x] [Live](https://games.miikka.xyz/)
 - [x] Creates pars **automatically** if the user is close to a [supported](https://github.com/tuommii/scoreboard/blob/master/assets/courses.json) course
 - [x] Accountant can be switched in the middle of the game
 - [x] Easy to use
