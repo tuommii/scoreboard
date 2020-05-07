@@ -16,16 +16,13 @@ func (s *Server) getGameHandle(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id := vars["id"]
 
-	// s.rw.RLock()
-	// defer s.rw.RUnlock()
-	temp, exist := s.games2.Get(id)
+	course, exist := s.games.Get(id)
 	if !exist {
 		http.Error(w, jsonErr("Not found"), http.StatusInternalServerError)
 		return
 	}
 
-	// tmp := temp.(*game.Course)
-	bytes, err := json.Marshal(temp.(*game.Course))
+	bytes, err := json.Marshal(course.(*game.Course))
 	if err != nil {
 		http.Error(w, jsonErr(err.Error()), http.StatusInternalServerError)
 		return
@@ -36,10 +33,8 @@ func (s *Server) getGameHandle(w http.ResponseWriter, r *http.Request) {
 func (s *Server) createGameHandle(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	start := time.Now()
-	// s.rw.RLock()
-	// defer s.rw.RUnlock()
 
-	if s.games2.Count() >= maxGames {
+	if s.games.Count() >= maxGames {
 		http.Error(w, jsonErr("Server is full"), http.StatusTooManyRequests)
 		return
 	}
@@ -62,9 +57,8 @@ func (s *Server) createGameHandle(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, jsonErr(err.Error()), http.StatusInternalServerError)
 		return
 	}
-	s.games2.Set(course.ID, course)
-	// s.games[course.ID] = course
-	log.Printf("%s #%s created, [%dms] len(%d)", course.Name, course.ID, time.Since(start).Milliseconds(), s.games2.Count())
+	s.games.Set(course.ID, course)
+	log.Printf("%s #%s created, [%dms] len(%d)", course.Name, course.ID, time.Since(start).Milliseconds(), s.games.Count())
 	fmt.Fprintf(w, string(courseJSON))
 }
 
@@ -76,33 +70,24 @@ func (s *Server) editGameHandle(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	id := c.ID
-	// s.rw.Lock()
-	// defer s.rw.Unlock()
-	// if _, found := s.games[id]; !found {
-	// 	http.Error(w, jsonErr("Game not found"), http.StatusInternalServerError)
-	// 	return
-	// }
-	tmp, exist := s.games2.Get(id)
-	g := tmp.(*game.Course)
+	tmp, exist := s.games.Get(c.ID)
 	if !exist {
 		http.Error(w, jsonErr("Not found"), http.StatusInternalServerError)
 		return
 	}
+	course := tmp.(*game.Course)
 
-	if g.Active > g.BasketCount || g.Active < 1 {
+	if course.Active > course.BasketCount || course.Active < 1 {
 		fmt.Fprintf(w, string(orginal))
 		return
 	}
 
 	// If editedAt is a fraud, we can still delete game with createdAt
-	// temp := g.CreatedAt
-	c.CreatedAt = g.CreatedAt
-	s.games2.Set(id, c)
-	// s.games[id] = c
-	// s.games[id].CreatedAt = temp
+	c.CreatedAt = course.CreatedAt
+	c.HasBooker = true
+	s.games.Set(c.ID, c)
 
-	resp, err := json.Marshal(g)
+	resp, err := json.Marshal(c)
 	if err != nil {
 		http.Error(w, jsonErr(err.Error()), http.StatusInternalServerError)
 		return
@@ -114,16 +99,14 @@ func (s *Server) exitGameHandle(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id := vars["id"]
 
-	// s.rw.Lock()
-	// defer s.rw.Unlock()
-	temp, exist := s.games2.Get(id)
+	temp, exist := s.games.Get(id)
 	if !exist {
 		http.Error(w, jsonErr("Not found"), http.StatusInternalServerError)
 		return
 	}
 	g := temp.(*game.Course)
 	g.HasBooker = false
-	s.games2.Set(id, g)
+	s.games.Set(id, g)
 	fmt.Fprintf(w, "{}")
 }
 

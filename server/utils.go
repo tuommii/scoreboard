@@ -67,28 +67,17 @@ func (s *Server) updateCounter() {
 }
 
 func (s *Server) clean(editedAgo time.Duration, createdAgo time.Duration) {
-	// s.rw.Lock()
-	// defer s.rw.Unlock()
-
 	// easier id
-	if s.games2.Count() == 0 {
+	if s.games.Count() == 0 {
 		s.counter = 1
 		return
 	}
 
-	for temp := range s.games2.IterBuffered() {
+	for temp := range s.games.IterBuffered() {
 		game := temp.Val.(*game.Course)
 		if time.Since(game.EditedAt) > editedAgo || time.Since(game.CreatedAt) > createdAgo {
-			s.games2.Remove(temp.Key)
-			// delete(s.games, id)
+			s.games.Remove(temp.Key)
 			log.Println("deleted", temp.Key, game.Name)
 		}
 	}
-	// for id, temp := range s.games2 {
-	// 	game := temp.(*game.Course)
-	// 	if time.Since(game.EditedAt) > editedAgo || time.Since(game.CreatedAt) > createdAgo {
-	// 		delete(s.games, id)
-	// 		log.Println("deleted", id, game.Name)
-	// 	}
-	// }
 }

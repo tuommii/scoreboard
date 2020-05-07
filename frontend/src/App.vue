@@ -135,10 +135,10 @@ export default {
       }, 100);
 
       this.course.editedAt = new Date().toJSON();
+      this.course.active = num;
       postData(EDIT_GAME, this.course).then(data => {
         gotResponse = true;
         this.course = data;
-        this.course.active = num;
         this.isLoading = false;
         window.scrollTo({ top: 0 });
       });

@@ -25,8 +25,7 @@ type Server struct {
 	// counter gets passed to game for creating unique ID
 	counter int
 	// User created courses
-	games  map[string]*game.Course
-	games2 cmap.ConcurrentMap
+	games cmap.ConcurrentMap
 	// Existing courses, if user is near a course, create that
 	courses []game.CourseInfo
 }
@@ -34,7 +33,7 @@ type Server struct {
 // New creates a server
 func New(path string) *Server {
 	server := &Server{counter: 1}
-	server.games2 = cmap.New()
+	server.games = cmap.New()
 	router := mux.NewRouter()
 	server.HTTP = &http.Server{
 		Handler:      router,
@@ -42,7 +41,6 @@ func New(path string) *Server {
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
-	server.games = make(map[string]*game.Course)
 	server.courses = game.LoadCourseTemplates(path)
 	router.HandleFunc("/games/create", server.createGameHandle).Methods("POST")
 	router.HandleFunc("/games/edit", server.editGameHandle).Methods("POST")
@@ -75,7 +73,7 @@ func (s *Server) SaveMemory(path string) {
 	if err != nil {
 		log.Println("Saving memory failed!", err)
 	}
-	log.Println(s.games2.Count(), "games saved")
+	log.Println(s.games.Count(), "games saved")
 }
 
 // LoadMemory ...
