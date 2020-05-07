@@ -32,8 +32,8 @@ func (s *Server) getGameHandle(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) createGameHandle(w http.ResponseWriter, r *http.Request) {
-	start := time.Now()
 	w.Header().Set("Content-Type", "application/json")
+	start := time.Now()
 	s.rw.RLock()
 	defer s.rw.RUnlock()
 
@@ -61,7 +61,7 @@ func (s *Server) createGameHandle(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	s.games[course.ID] = course
-	log.Println("took: ", time.Since(start), "created: #", course.ID, course.Name, "\n[lat:", basis.Lat, "lon:", basis.Lon, "]", "games total:", len(s.games))
+	log.Printf("%s #%s created, [%dms] len(%d)", course.Name, course.ID, time.Since(start).Milliseconds(), len(s.games))
 	fmt.Fprintf(w, string(courseJSON))
 }
 
