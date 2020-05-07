@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/gorilla/mux"
+	cmap "github.com/orcaman/concurrent-map"
 	"miikka.xyz/scoreboard/game"
 )
 
@@ -20,11 +21,12 @@ const (
 // Server ...
 type Server struct {
 	HTTP *http.Server
-	rw   sync.RWMutex
+	mu   sync.Mutex
 	// counter gets passed to game for creating unique ID
 	counter int
 	// User created courses
-	games map[string]*game.Course
+	games  map[string]*game.Course
+	games2 cmap.ConcurrentMap
 	// Existing courses, if user is near a course, create that
 	courses []game.CourseInfo
 }
@@ -32,6 +34,7 @@ type Server struct {
 // New creates a server
 func New(path string) *Server {
 	server := &Server{counter: 1}
+	server.games2 = cmap.New()
 	router := mux.NewRouter()
 	server.HTTP = &http.Server{
 		Handler:      router,
@@ -72,7 +75,7 @@ func (s *Server) SaveMemory(path string) {
 	if err != nil {
 		log.Println("Saving memory failed!", err)
 	}
-	log.Println(len(s.games), "games saved")
+	log.Println(s.games2.Count(), "games saved")
 }
 
 // LoadMemory ...

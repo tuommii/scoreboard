@@ -61,6 +61,7 @@ export default {
   data() {
     return {
       isLoading: false,
+      fullPage: true,
       course: {
       }
     };
