@@ -162,11 +162,21 @@ export default {
       if (!confirm("The games remain on the server for a few hours. You can still come back with ID.")) {
         return;
       }
+
+      let gotResponse = false;
+      setTimeout(() => {
+        if (!gotResponse) {
+          this.isLoading = true;
+        }
+      }, 100);
+
       fetch(EXIT_GAME + this.course.id)
         .then(response => {
           return response.json();
         })
         .then(() => {
+          gotResponse = true;
+          this.isLoading = false;
           localStorage.removeItem("id");
           this.course = {
             active: 0,
