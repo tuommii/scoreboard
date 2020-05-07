@@ -7,7 +7,8 @@
   <br>(WIP) Scoreboard
 </h1>
 
-<h4 align="center">Simple score tracker for golf and disc golf. Made with Go & Vue</h4>
+<h4 align="center">Simple score tracker for golf and disc golf. Made with :heart:
+Go & Vue</h4>
 <br>
 
 ## Motivation
@@ -22,6 +23,7 @@ Created for mobile use. For best usability [add app to homescreen](https://www.h
 - [x] Accountant can be switched in the middle of the game
 - [x] Easy to use
 ## Technical features
+- [x] Demonstrates Go's concurrency features nicely
 - [x] Server can [save and restore](https://github.com/tuommii/scoreboard/blob/5f94a56bc176ee400d26629b3763bf936ec6ccc6/cmd/scoreboard/main.go#L40) it's state
 - [x] Each game in memory has it's own mutex instead of one global for all games
 - [x] JSON structure is designed to be easily upgradable
