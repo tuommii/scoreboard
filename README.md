@@ -7,8 +7,7 @@
   <br>(WIP) Scoreboard
 </h1>
 
-<h4 align="center">Simple score tracker for golf and disc golf. Made with :heart:
-Go & Vue</h4>
+<h4 align="center">Simple score tracker for golf and disc golf. Made with Vue & Go :heart:</h4>
 <br>
 
 ## Motivation
