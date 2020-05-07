@@ -159,7 +159,7 @@ export default {
       }
     },
     exit() {
-      if (!confirm("The games remain on the server for a few hours. You can still come back with ID.")) {
+      if (!confirm("Games remain on the server for a few hours. You can still come back with ID.")) {
         return;
       }
 
