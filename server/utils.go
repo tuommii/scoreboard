@@ -67,6 +67,13 @@ func (s *Server) updateCounter() {
 func (s *Server) clean(editedAgo time.Duration, createdAgo time.Duration) {
 	s.rw.Lock()
 	defer s.rw.Unlock()
+
+	// easier id
+	if len(s.games) == 0 {
+		s.counter = 1
+		return
+	}
+
 	for id, game := range s.games {
 		if time.Since(game.EditedAt) > editedAgo || time.Since(game.CreatedAt) > createdAgo {
 			delete(s.games, id)
