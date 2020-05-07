@@ -18,10 +18,12 @@ Created for mobile use. For best usability [add app to homescreen](https://www.h
 
 ## Features
 - [x] [Live demo](https://games.miikka.xyz/)
-- [x] Easy to use ( buttons are big enough, circular navigation )
+- [x] Creates pars **automatically** if the user is close to a [supported](https://github.com/tuommii/scoreboard/blob/master/assets/courses.json) course
 - [x] Accountant can be switched in the middle of the game
-- [x] Creates my most played courses **automatically** if user is near
+- [x] Easy to use
+## Technical features
 - [x] Server can [save and restore](https://github.com/tuommii/scoreboard/blob/5f94a56bc176ee400d26629b3763bf936ec6ccc6/cmd/scoreboard/main.go#L40) it's state
+- [x] Each game in memory has it's own mutex instead of one global for all games
 - [x] JSON structure is designed to be easily upgradable
 - [x] Fast rendering time
 - [x] Hosted on DigitalOcean behind nginx
