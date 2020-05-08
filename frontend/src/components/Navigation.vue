@@ -92,5 +92,8 @@ a.button {
     margin: 0 auto;
     display: block;
   }
+  a.button {
+    padding-bottom: 0.4rem;
+  }
 }
 </style>
