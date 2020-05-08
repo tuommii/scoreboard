@@ -1,7 +1,7 @@
 <template>
   <div class="navbar is-fixed-bottom has-text-centered">
 
-    <div class="columns is-mobile">
+    <div class="columns is-gapless is-mobile">
       <div class="column left"><a class="button bold" @click="navigate(showPrev)">
         Prev <span class="tag">{{showPrev}}</span></a>
       </div>
@@ -47,15 +47,18 @@ a, a:visited {
 .navbar {
   min-height: 0 !important;
   background: #000 !important;
+  /* overflow:hidden; */
   /* background: red !important; */
 }
 
 a.button {
+  box-sizing: border-box;
   border: 0;
   background : inherit;
   width: 100%;
   height: 100%;
-  padding-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  padding-top: 0.75rem;
 }
 
 
@@ -69,8 +72,8 @@ a.button {
 .column {
   border: 1px solid #2a7390;
   background: #1f2743;
-  padding: 0.35rem;
 }
+
 .left {
   border: 1px solid #2a7390;
   border-right: 0;
@@ -86,14 +89,14 @@ a.button {
 }
 @media only screen and (min-width: 481px) {
   .navbar {
-    padding: 0.75rem;
+    /* padding: 0.75rem; */
     max-width: 480px;
     width: 100%;
     margin: 0 auto;
     display: block;
   }
   a.button {
-    padding-bottom: 0.4rem;
+    /* padding-bottom: 0.4rem; */
   }
 }
 </style>
