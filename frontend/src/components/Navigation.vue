@@ -44,16 +44,20 @@ a, a:visited {
   color: #fff !important;
 }
 
-.button {
-  border: 0;
-  background: inherit;
-  width: 100%;
-  height: 100%;
+.navbar {
+  min-height: 0 !important;
+  background: #000 !important;
+  /* background: red !important; */
 }
 
-.bold {
-  /* font-weight: 700; */
+a.button {
+  border: 0;
+  background : inherit;
+  width: 100%;
+  height: 100%;
+  padding-bottom: 1rem;
 }
+
 
 .active {
   padding: 0;
