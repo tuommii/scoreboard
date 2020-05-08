@@ -46,7 +46,7 @@ func (s *Server) createGameHandle(w http.ResponseWriter, r *http.Request) {
 	}
 	defer r.Body.Close()
 
-	course, err := game.Create(basis, s.courses, s.counter)
+	course, err := game.Create(basis, s.designs, s.counter)
 	s.updateCounter()
 
 	// Example for future use

@@ -22,11 +22,11 @@ const (
 )
 
 // Create ...
-func Create(basis Basis, templates []CourseInfo, counter int) (*Course, error) {
+func Create(basis Basis, designs []Design, counter int) (*Course, error) {
 	if !isValid(basis) {
 		return nil, errors.New("Invalid data")
 	}
-	return create(templates, basis.Lat, basis.Lon, basis.Players, basis.BasketCount, counter), nil
+	return create(designs, basis.Lat, basis.Lon, basis.Players, basis.BasketCount, counter), nil
 }
 
 // newCourse returns new Course
@@ -71,8 +71,8 @@ func createID(players []string, counter int) string {
 
 // TODO: Refactor more, too many params
 // create new course, if existing basketCount doesn't matter
-func create(templates []CourseInfo, lat float64, lon float64, players []string, basketCount int, counter int) *Course {
-	for _, temp := range templates {
+func create(designs []Design, lat float64, lon float64, players []string, basketCount int, counter int) *Course {
+	for _, temp := range designs {
 		m := geo.Distance(lat, lon, temp.Lat, temp.Lon)
 		if m < near && m >= 0 {
 			return createExistingCourse(players, counter, temp.Pars, temp.ShortName)
@@ -131,17 +131,17 @@ func isValid(basis Basis) bool {
 	return true
 }
 
-// LoadCourseTemplates ...
-func LoadCourseTemplates(path string) []CourseInfo {
-	var templates []CourseInfo
+// LoadDesigns loads pre-made course data
+func LoadDesigns(path string) []Design {
+	var designs []Design
 	file, err := ioutil.ReadFile(path + "assets/courses.json")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	err = json.Unmarshal([]byte(file), &templates)
+	err = json.Unmarshal([]byte(file), &designs)
 	if err != nil {
 		log.Fatal(err)
 	}
-	return templates
+	return designs
 }

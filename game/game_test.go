@@ -49,16 +49,16 @@ func TestCreateCourse(t *testing.T) {
 }
 
 func TestCreate(t *testing.T) {
-	// var templates []CourseInfo
-	templates := LoadCourseTemplates("../")
+	// var designs []CourseInfo
+	designs := LoadDesigns("../")
 
 	wanted := 4
-	if len(templates) != wanted {
-		t.Errorf("got: %d, wanted: %d", len(templates), wanted)
+	if len(designs) != wanted {
+		t.Errorf("got: %d, wanted: %d", len(designs), wanted)
 	}
 
 	players := []string{"Miikka", "Pasi"}
-	course := create(templates, 0, 0, players, 18, 1)
+	course := create(designs, 0, 0, players, 18, 1)
 
 	wanted = 18
 	if course.BasketCount != wanted {
@@ -72,8 +72,8 @@ func TestCreate(t *testing.T) {
 
 	taliLat := 60.2124424
 	taliLon := 24.8446608
-	// course = create(templates, 60.21315136048604, 24.846823667701181, players, 10, 1)
-	course = create(templates, taliLat, taliLon, players, 10, 1)
+	// course = create(designs, 60.21315136048604, 24.846823667701181, players, 10, 1)
+	course = create(designs, taliLat, taliLon, players, 10, 1)
 
 	wantedName := "Tali"
 	if course.Name != wantedName {
@@ -87,7 +87,7 @@ func TestCreate(t *testing.T) {
 
 	smakiLat := 60.27245380664016
 	smakiLon := 24.98101690223271
-	course = create(templates, smakiLat, smakiLon, players, 10, 1)
+	course = create(designs, smakiLat, smakiLon, players, 10, 1)
 	wanted = 2
 	if course.Baskets[18].Par != wanted {
 		t.Errorf("got: %d, wanted: %d", course.Baskets[18].Par, wanted)

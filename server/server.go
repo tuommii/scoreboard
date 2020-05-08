@@ -21,13 +21,14 @@ const (
 // Server ...
 type Server struct {
 	HTTP *http.Server
-	mu   sync.Mutex
 	// counter gets passed to game for creating unique ID
 	counter int
-	// User created courses
+	mu      sync.Mutex
+	// User created courses, each item has its own mutex
 	games cmap.ConcurrentMap
 	// Existing courses, if user is near a course, create that
-	courses []game.CourseInfo
+	// temmplates name is usually reserved for other use so
+	designs []game.Design
 }
 
 // New creates a server
@@ -41,7 +42,7 @@ func New(path string) *Server {
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
-	server.courses = game.LoadCourseTemplates(path)
+	server.designs = game.LoadDesigns(path)
 	router.HandleFunc("/games/create", server.createGameHandle).Methods("POST")
 	router.HandleFunc("/games/edit", server.editGameHandle).Methods("POST")
 	router.HandleFunc("/games/{id}", server.getGameHandle).Methods("GET")

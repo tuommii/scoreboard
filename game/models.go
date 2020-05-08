@@ -39,8 +39,8 @@ type Basis struct {
 	Lon         float64  `json:"lon"`
 }
 
-// CourseInfo holds course related data
-type CourseInfo struct {
+// Design holds course related data
+type Design struct {
 	ID          string  `json:"id,omitempty"`
 	CountryCode string  `json:"countryCode,omitempty"`
 	City        string  `json:"city,omitempty"`
