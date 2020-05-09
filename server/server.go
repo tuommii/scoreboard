@@ -27,7 +27,6 @@ type Server struct {
 	// User created courses, each item has its own mutex
 	games cmap.ConcurrentMap
 	// Existing courses, if user is near a course, create that
-	// temmplates name is usually reserved for other use so
 	designs []game.Design
 }
 
