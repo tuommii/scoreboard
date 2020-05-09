@@ -28,7 +28,7 @@ Created for mobile use. For best usability [add app to homescreen](https://www.h
 - [x] JSON structure is designed to be easily upgradable
 - [x] Good rendering time
 - [x] Hosted on DigitalOcean behind nginx
-- [x] nginx gzip & cache
+- [x] nginx gzip & cache (may vary during development)
 
 ## Dev
 **Clone repo**
