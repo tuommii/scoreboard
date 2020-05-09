@@ -26,8 +26,9 @@ Created for mobile use. For best usability [add app to homescreen](https://www.h
 - [x] Server can [save and restore](https://github.com/tuommii/scoreboard/blob/5f94a56bc176ee400d26629b3763bf936ec6ccc6/cmd/scoreboard/main.go#L40) it's state
 - [x] Each game in memory has it's own mutex instead of one global for all games
 - [x] JSON structure is designed to be easily upgradable
-- [x] Fast rendering time
+- [x] Good rendering time
 - [x] Hosted on DigitalOcean behind nginx
+- [x] nginx gzip & cache
 
 ## Dev
 **Clone repo**
