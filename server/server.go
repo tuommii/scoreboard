@@ -52,10 +52,10 @@ func New(path string) *Server {
 }
 
 // AutoClean removes old games from memory
-func (s *Server) AutoClean(interval time.Duration, editedAgo time.Duration, createdAgo time.Duration) {
+func (s *Server) AutoClean(interval time.Duration, editedAlive time.Duration, createdAlive time.Duration) {
 	for {
 		time.Sleep(interval)
-		s.clean(editedAgo, createdAgo)
+		s.clean(editedAlive, createdAlive)
 	}
 }
 
