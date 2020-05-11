@@ -1,6 +1,7 @@
 package game
 
 import (
+	"regexp"
 	"testing"
 )
 
@@ -97,5 +98,12 @@ func TestCreate(t *testing.T) {
 	if course.Baskets[18].Scores["Miikka"].Score != wanted {
 		t.Errorf("got: %d, wanted: %d", course.Baskets[18].Scores["Miikka"].Score, wanted)
 	}
+}
 
+func TestAtoiID(t *testing.T) {
+	wanted := 42
+	got := AtoiID("abc42", regexp.MustCompile("[0-9]+"))
+	if got != wanted {
+		t.Errorf("got: %d, wanted: %d", got, wanted)
+	}
 }

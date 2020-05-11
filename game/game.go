@@ -5,6 +5,7 @@ import (
 	"errors"
 	"io/ioutil"
 	"log"
+	"regexp"
 	"sort"
 	"strconv"
 	"strings"
@@ -144,4 +145,14 @@ func LoadDesigns(path string) []Design {
 		log.Fatal(err)
 	}
 	return designs
+}
+
+// re := regexp.MustCompile("[0-9]+")
+func AtoiID(id string, re *regexp.Regexp) int {
+	i, err := strconv.Atoi(re.FindString(id))
+	if err != nil {
+		i = 0
+		log.Println(err, i)
+	}
+	return i
 }

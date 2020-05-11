@@ -1,8 +1,6 @@
 package server
 
 import (
-	"encoding/json"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"sync"
@@ -63,34 +61,54 @@ func (s *Server) AutoClean(interval time.Duration, editedAlive time.Duration, cr
 // TODO: Make this database
 // TODO: Take cear of hasBooker
 func (s *Server) SaveMemory(path string) {
-	file, err := json.Marshal(s.games)
-	if err != nil {
-		log.Println("Marshaling memory data failed!", err)
-		return
-	}
+	// file, err := s.games.MarshalJSON()
+	// if err != nil {
+	// 	log.Println("Marshaling memory data failed!", err)
+	// 	return
+	// }
 
-	err = ioutil.WriteFile(path+"assets/memory.json", file, 0644)
-	if err != nil {
-		log.Println("Saving memory failed!", err)
-	}
+	// err = ioutil.WriteFile(path+"assets/memory.json", file, 0644)
+	// if err != nil {
+	// 	log.Println("Saving memory failed!", err)
+	// }
 	log.Println(s.games.Count(), "games saved")
 }
 
 // LoadMemory ...
 // TODO: Take cear of counter value
 func (s *Server) LoadMemory(path string) {
-	log.Println("Loading 0 games from previous memory")
+	// var largest int
+	// re := regexp.MustCompile("[0-9]+")
 	// file, err := ioutil.ReadFile(path + "assets/memory.json")
 	// if err != nil {
 	// 	log.Println("Error while opening file", err)
 	// 	return
 	// }
 
+	// // s.games.MarshalJSON()
 	// err = json.Unmarshal(file, &s.games)
 	// if err != nil {
 	// 	log.Println("Error while unmarshaling previous memory", err)
 	// 	return
 	// }
 
-	// log.Println("loaded ", len(s.games))
+	// for temp := range s.games.IterBuffered() {
+	// 	g := temp.Val.(*game.Course)
+	// 	g.HasBooker = false
+	// 	id := game.AtoiID(g.ID, re)
+	// 	if id > largest {
+	// 		largest = id
+	// 	}
+	// }
+
+	// // TODO: change implementation so used IDs are stored
+	// s.mu.Lock()
+	// s.counter = largest + 1
+	// if largest >= maxGames {
+	// 	s.counter = 1
+	// }
+	// s.mu.Unlock()
+
+	log.Println("Loaded", s.games.Count(), "games from previous memory")
+	log.Println("Counter is", s.counter)
 }
