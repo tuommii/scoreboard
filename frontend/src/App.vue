@@ -52,9 +52,6 @@ import 'vue-loading-overlay/dist/vue-loading.css';
 import "../node_modules/bulma/css/bulma.min.css";
 
 const URL = "/games";
-// const CREATE_GAME = BASE + "create";
-// const EDIT_GAME = BASE + "edit";
-// const EXIT_GAME = "/exit/"
 
 export default {
   name: "App",
@@ -126,7 +123,7 @@ export default {
     },
     navigate(num) {
 
-      // Trying prevent screen flashing. Only show loader after x time
+      // Trying prevent screen flashing. Only show spinner after x time
       let gotResponse = false;
       setTimeout(() => {
         if (!gotResponse) {
@@ -172,9 +169,6 @@ export default {
       }, 100);
 
       postData(URL + "/" + this.course.id, "DELETE")
-        // .then(response => {
-        //   return response.json();
-        // })
         .then(() => {
           gotResponse = true;
           this.isLoading = false;
@@ -222,9 +216,7 @@ async function postData(url = "", method = "POST", data = {}) {
     Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* text-align: center; */
   color: #2c3e50;
-  /* margin-top: 60px; */
   background: #eee;
   min-height: 100vh;
   max-width: 480px;
@@ -241,7 +233,6 @@ a.logo {
 
 .dark {
   color: #2c3e50;
-  /* margin-top: 60px; */
   background: #033148 !important;
   background: radial-gradient(#1e6a84, #033148) !important;
   min-height: 100vh;
@@ -250,49 +241,9 @@ a.logo {
   padding-top: 1rem;
 }
 
-
-/* PurgeCSS problem with imported loading component */
-.vld-overlay {
-  bottom: 0;
-  left: 0;
-  position: absolute;
-  right: 0;
-  top: 0;
-  align-items: center;
-  display: none;
-  justify-content: center;
-  overflow: hidden;
-  z-index: 9999;
-}
-
-.vld-overlay.is-active {
-  display: flex;
-}
-
-.vld-overlay.is-full-page {
-  z-index: 9999;
-  position: fixed;
-}
-
-.vld-overlay .vld-background {
-  bottom: 0;
-  left: 0;
-  position: absolute;
-  right: 0;
-  top: 0;
-  background: #fff;
-  opacity: 0.5;
-}
-
-.vld-overlay .vld-icon, .vld-parent {
-  position: relative;
-}
-
 @media only screen and (min-width: 481px) {
   #app {
-    /* width: 480px; */
     margin: 0 auto;
-    /* background: #eee; */
   }
   .section {
     width: 480px;

@@ -61,13 +61,10 @@ func (s *Server) AutoClean(interval time.Duration, editedAlive time.Duration, cr
 }
 
 // SaveMemory saves data in memory to json-file
-// TODO: Make this database
-// TODO: Take cear of hasBooker
 func (s *Server) SaveMemory(path string) {
 	var arr []*game.Course
 
 	for temp := range s.games.IterBuffered() {
-		// g := temp.(*game.Course)
 		g := temp.Val.(*game.Course)
 		arr = append(arr, g)
 	}
@@ -77,12 +74,6 @@ func (s *Server) SaveMemory(path string) {
 		log.Println(err)
 	}
 
-	// file, err := s.games.MarshalJSON()
-	// if err != nil {
-	// 	log.Println("Marshaling memory data failed!", err)
-	// 	return
-	// }
-
 	err = ioutil.WriteFile(path+"assets/memory.json", file, 0644)
 	if err != nil {
 		log.Println("Saving memory failed!", err)
@@ -91,7 +82,6 @@ func (s *Server) SaveMemory(path string) {
 }
 
 // LoadMemory ...
-// TODO: Take cear of counter value
 func (s *Server) LoadMemory(path string) {
 	var largest int
 	games := make([]*game.Course, 0)
@@ -102,7 +92,6 @@ func (s *Server) LoadMemory(path string) {
 		return
 	}
 
-	// s.games.MarshalJSON()
 	err = json.Unmarshal(file, &games)
 	if err != nil {
 		log.Println("Error while unmarshaling previous memory", err)
@@ -110,7 +99,6 @@ func (s *Server) LoadMemory(path string) {
 	}
 
 	for _, g := range games {
-		// g := temp.Val.(*game.Course)
 		g.HasBooker = false
 		id := game.AtoiID(g.ID, re)
 		if id > largest {
@@ -119,7 +107,6 @@ func (s *Server) LoadMemory(path string) {
 		s.games.Set(g.ID, g)
 	}
 
-	// TODO: change implementation so used IDs are stored
 	s.mu.Lock()
 	s.counter = largest + 1
 	if largest >= maxGames {
