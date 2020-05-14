@@ -51,10 +51,10 @@ import 'vue-loading-overlay/dist/vue-loading.css';
 
 import "../node_modules/bulma/css/bulma.min.css";
 
-const BASE = "/games/";
-const CREATE_GAME = BASE + "create";
-const EDIT_GAME = BASE + "edit";
-const EXIT_GAME = "/exit/"
+const URL = "/games";
+// const CREATE_GAME = BASE + "create";
+// const EDIT_GAME = BASE + "edit";
+// const EXIT_GAME = "/exit/"
 
 export default {
   name: "App",
@@ -78,7 +78,7 @@ export default {
     joinGame(id) {
       if (!id.length) return;
 
-      fetch(BASE + id)
+      fetch(URL + "/" + id)
         .then(response => {
           return response.json();
         })
@@ -96,7 +96,7 @@ export default {
     },
     createGame(query) {
       this.isLoading = true;
-      postData(CREATE_GAME, query).then(data => {
+      postData(URL, "POST", query).then(data => {
         this.course = data;
         this.isLoading = false;
         localStorage.setItem("id", this.course.id);
@@ -136,7 +136,7 @@ export default {
 
       this.course.editedAt = new Date().toJSON();
       this.course.active = num;
-      postData(EDIT_GAME, this.course).then(data => {
+      postData(URL, "PUT", this.course).then(data => {
         gotResponse = true;
         this.course = data;
         this.isLoading = false;
@@ -171,10 +171,10 @@ export default {
         }
       }, 100);
 
-      fetch(EXIT_GAME + this.course.id)
-        .then(response => {
-          return response.json();
-        })
+      postData(URL + "/" + this.course.id, "DELETE")
+        // .then(response => {
+        //   return response.json();
+        // })
         .then(() => {
           gotResponse = true;
           this.isLoading = false;
@@ -188,8 +188,8 @@ export default {
   mounted() {
     const id = localStorage.getItem("id");
     if (id == null) return;
-    const URL = `${BASE}${id}`;
-    fetch(URL)
+    const url = `${URL}/${id}`;
+    fetch(url)
       .then(response => {
         return response.json();
       })
@@ -199,9 +199,9 @@ export default {
   }
 };
 
-async function postData(url = "", data = {}) {
+async function postData(url = "", method = "POST", data = {}) {
   const response = await fetch(url, {
-    method: "POST",
+    method: method,
     mode: "cors",
     cache: "no-cache",
     credentials: "same-origin",

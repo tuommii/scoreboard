@@ -48,7 +48,7 @@ func TestServer(t *testing.T) {
 	if err != nil {
 		t.Fatalf(err.Error())
 	}
-	resp, err = http.Post(server.URL+"/games/create", "application/json", bytes.NewBuffer(jsonStr))
+	resp, err = http.Post(server.URL+"/games", "application/json", bytes.NewBuffer(jsonStr))
 	if err != nil {
 		t.Errorf(err.Error())
 	}

@@ -43,10 +43,10 @@ func New(path string) *Server {
 		ReadTimeout:  15 * time.Second,
 	}
 	server.designs = game.LoadDesigns(path)
-	router.HandleFunc("/games/create", server.createGameHandle).Methods("POST")
-	router.HandleFunc("/games/edit", server.editGameHandle).Methods("POST")
 	router.HandleFunc("/games/{id}", server.getGameHandle).Methods("GET")
-	router.HandleFunc("/exit/{id}", server.exitGameHandle).Methods("GET")
+	router.HandleFunc("/games/{id}", server.exitGameHandle).Methods("DELETE")
+	router.HandleFunc("/games", server.createGameHandle).Methods("POST")
+	router.HandleFunc("/games", server.editGameHandle).Methods("PUT")
 	router.HandleFunc("/_status", server.statusHandle).Methods("GET")
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir(path + "public")))
 	return server
