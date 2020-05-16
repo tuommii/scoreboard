@@ -24,23 +24,21 @@ const (
 
 // Create ...
 func Create(basis Basis, designs []Design, counter int) (*Course, error) {
-	if !isValid(basis) {
-		return nil, errors.New("Invalid data")
+	if !validateBasis(basis) {
+		return nil, errors.New("Invalid basis")
 	}
 	return create(designs, basis.Lat, basis.Lon, basis.Players, basis.BasketCount, counter), nil
 }
 
 // newCourse returns new Course
 func newCourse() *Course {
-	// TODO: Check errors
 	c := &Course{}
 	baskets := make(map[int]*Basket)
 	c.Baskets = baskets
 	c.Active = 1
 	c.CreatedAt = time.Now()
-	c.EditedAt = time.Now()
+	c.EditedAt = c.CreatedAt
 	c.Name = "Default"
-	c.Active = 1
 	c.HasBooker = true
 	return c
 }
@@ -71,7 +69,7 @@ func createID(players []string, counter int) string {
 }
 
 // TODO: Refactor more, too many params
-// create new course, if existing basketCount doesn't matter
+// create new course
 func create(designs []Design, lat float64, lon float64, players []string, basketCount int, counter int) *Course {
 	for _, temp := range designs {
 		m := geo.Distance(lat, lon, temp.Lat, temp.Lon)
@@ -119,7 +117,7 @@ func createExistingCourse(players []string, counter int, pars []int, name string
 	return c
 }
 
-func isValid(basis Basis) bool {
+func validateBasis(basis Basis) bool {
 	if len(basis.Players) > maxPlayers || basis.BasketCount > maxBaskets {
 		return false
 	}
@@ -147,6 +145,7 @@ func LoadDesigns(path string) []Design {
 	return designs
 }
 
+// AtoiID should use following re:
 // re := regexp.MustCompile("[0-9]+")
 func AtoiID(id string, re *regexp.Regexp) int {
 	i, err := strconv.Atoi(re.FindString(id))

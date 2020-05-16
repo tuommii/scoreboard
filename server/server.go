@@ -15,8 +15,9 @@ import (
 )
 
 const (
-	maxGames    = 10000
-	maxBodySize = 1048576
+	maxGames = 10000
+	// 64KB
+	maxBodySize = 64_000
 )
 
 // Server ...
