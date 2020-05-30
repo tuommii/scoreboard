@@ -4,7 +4,7 @@
     <img src="/assets/screenshot1.png" height="200" />
     <img src="/assets/screenshot2.png" height="200" />
 
-  <br>(WIP) Scoreboard
+  <br>Scoreboard
 </h1>
 
 <h4 align="center">Simple score tracker for golf and disc golf. Made with Vue & Go :heart:</h4>
