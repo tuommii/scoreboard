@@ -3,8 +3,7 @@
 <h1 align="center">
     <img src="/assets/screenshot1.png" height="200" />
     <img src="/assets/screenshot2.png" height="200" />
-
-  <br>Scoreboard
+    <br><br>Scoreboard
 </h1>
 
 <h4 align="center">Simple score tracker for golf and disc golf. Made with Vue & Go :heart:</h4>
@@ -17,18 +16,18 @@ It seems no one wants to be an accountant when we are playing so I wrote this so
 Created for mobile use. For best usability [add app to homescreen](https://www.howtogeek.com/196087/how-to-add-websites-to-the-home-screen-on-any-smartphone-or-tablet/).
 
 ## Features
-- [x] [Live](https://games.miikka.xyz/)
-- [x] Creates pars **automatically** if the user is close to a [supported](https://github.com/tuommii/scoreboard/blob/master/assets/courses.json) course
-- [x] Accountant can be switched in the middle of the game
-- [x] Easy to use
+- :heavy_check_mark: [Live](https://games.miikka.xyz/)
+- :heavy_check_mark: Creates pars **automatically** if the user is close to a [supported](https://github.com/tuommii/scoreboard/blob/master/assets/courses.json) course
+- :heavy_check_mark: Accountant can be switched in the middle of the game
+- :heavy_check_mark: Easy to use
 ## Technical features
-- [x] Demonstrates Go's concurrency features nicely
-- [x] Server can [save and restore](https://github.com/tuommii/scoreboard/blob/5f94a56bc176ee400d26629b3763bf936ec6ccc6/cmd/scoreboard/main.go#L40) it's state
-- [x] Each game in memory has it's own mutex instead of one global for all games
-- [x] JSON structure is designed to be easily upgradable
-- [x] Good rendering time
-- [x] Hosted on DigitalOcean behind nginx
-- [x] nginx gzip & cache (may vary during development)
+- :heavy_check_mark: Demonstrates Go's concurrency features nicely
+- :heavy_check_mark: Server can [save and restore](https://github.com/tuommii/scoreboard/blob/5f94a56bc176ee400d26629b3763bf936ec6ccc6/cmd/scoreboard/main.go#L40) it's state
+- :heavy_check_mark: Each game in memory has it's own mutex instead of one global for all games
+- :heavy_check_mark: JSON structure is designed to be easily upgradable
+- :heavy_check_mark: Good rendering time
+- :heavy_check_mark: Hosted on DigitalOcean behind nginx
+- :heavy_check_mark: nginx gzip & cache (may vary during development)
 
 ## Dev
 **Clone repo**
