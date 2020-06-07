@@ -1,3 +1,4 @@
+[![Build Status](https://dev.azure.com/tuommii/tuommii/_apis/build/status/tuommii.scoreboard?branchName=master)](https://dev.azure.com/tuommii/tuommii/_build/latest?definitionId=1&branchName=master)
 ![build](https://github.com/tuommii/scoreboard/workflows/build/badge.svg?branch=master)
 
 <h1 align="center">
