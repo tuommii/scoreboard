@@ -29,6 +29,16 @@ Created for mobile use. For best usability [add app to homescreen](https://www.h
 - :heavy_check_mark: Hosted on DigitalOcean behind nginx
 - :heavy_check_mark: nginx gzip & cache (may vary during development)
 
+## Docker
+Build
+
+`docker build . -t scoreboard`
+
+Run
+
+`docker run -p 8080:8080 scoreboard`
+
+
 ## Dev
 **Clone repo**
 
