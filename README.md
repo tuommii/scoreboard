@@ -17,11 +17,14 @@ It seems no one wants to be an accountant when we are playing so I wrote this so
 Created for mobile use. For best usability [add app to homescreen](https://www.howtogeek.com/196087/how-to-add-websites-to-the-home-screen-on-any-smartphone-or-tablet/).
 
 ## Features
+
 :heavy_check_mark: [Live](https://games.miikka.xyz/)  
 :heavy_check_mark: Create pars **automatically** if the user is close to a [supported](https://github.com/tuommii/scoreboard/blob/master/assets/courses.json) course  
 :heavy_check_mark: Accountant can be switched in the middle of the game  
 :heavy_check_mark: Easy to use  
+
 ## Technical features
+
 :heavy_check_mark: Demonstrates Go's concurrency features nicely  
 :heavy_check_mark: Server can [save and restore](https://github.com/tuommii/scoreboard/blob/5f94a56bc176ee400d26629b3763bf936ec6ccc6/cmd/scoreboard/main.go#L40) it's state  
 :heavy_check_mark: Each game in memory has it's own mutex instead of one global for all games  
@@ -39,6 +42,7 @@ Created for mobile use. For best usability [add app to homescreen](https://www.h
 **Run**
 
 `docker run -p 8080:8080 scoreboard`
+
 
 
 
