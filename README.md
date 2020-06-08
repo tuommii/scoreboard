@@ -26,7 +26,7 @@ Created for mobile use. For best usability [add app to homescreen](https://www.h
 ## :memo: Technical features
 
 - :heavy_check_mark: Demonstrates Go's concurrency features nicely
-- :heavy_check_mark: Server can [save and restore](https://github.com/tuommii/scoreboard/blob/5f94a56bc176ee400d26629b3763bf936ec6ccc6/cmd/scoreboard/main.go#L40) it's state
+- :heavy_check_mark: Server can [save and restore](https://github.com/tuommii/scoreboard/blob/master/cmd/scoreboard/main.go#L40) it's state
 - :heavy_check_mark: Each game in memory has it's own mutex instead of one global for all games
 - :heavy_check_mark: JSON structure is designed to be easily upgradable
 - :heavy_check_mark: Azure Pipelines & Docker
