@@ -25,7 +25,7 @@ jobs:
     - name: Test
       env:
         GOPROXY: "https://proxy.golang.org"
-      run: go test -v .
+      run: go test -v ./...
 
     - name: Make directory
       run: mkdir -p deploy
