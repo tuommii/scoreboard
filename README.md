@@ -17,19 +17,19 @@ It seems no one wants to be an accountant when we are playing so I wrote this so
 Created for mobile use. For best usability [add app to homescreen](https://www.howtogeek.com/196087/how-to-add-websites-to-the-home-screen-on-any-smartphone-or-tablet/).
 
 ## Features
-- :heavy_check_mark: [Live](https://games.miikka.xyz/)
-- :heavy_check_mark: Creates pars **automatically** if the user is close to a [supported](https://github.com/tuommii/scoreboard/blob/master/assets/courses.json) course
-- :heavy_check_mark: Accountant can be switched in the middle of the game
-- :heavy_check_mark: Easy to use
+:heavy_check_mark: [Live](https://games.miikka.xyz/)  
+:heavy_check_mark: Create pars **automatically** if the user is close to a [supported](https://github.com/tuommii/scoreboard/blob/master/assets/courses.json) course  
+:heavy_check_mark: Accountant can be switched in the middle of the game  
+:heavy_check_mark: Easy to use  
 ## Technical features
-- :heavy_check_mark: Demonstrates Go's concurrency features nicely
-- :heavy_check_mark: Server can [save and restore](https://github.com/tuommii/scoreboard/blob/5f94a56bc176ee400d26629b3763bf936ec6ccc6/cmd/scoreboard/main.go#L40) it's state
-- :heavy_check_mark: Each game in memory has it's own mutex instead of one global for all games
-- :heavy_check_mark: JSON structure is designed to be easily upgradable
-- :heavy_check_mark: Azure Pipelines & Docker
-- :heavy_check_mark: Good rendering time
-- :heavy_check_mark: Hosted on DigitalOcean behind nginx
-- :heavy_check_mark: nginx gzip & cache (may vary during development)
+:heavy_check_mark: Demonstrates Go's concurrency features nicely  
+:heavy_check_mark: Server can [save and restore](https://github.com/tuommii/scoreboard/blob/5f94a56bc176ee400d26629b3763bf936ec6ccc6/cmd/scoreboard/main.go#L40) it's state  
+:heavy_check_mark: Each game in memory has it's own mutex instead of one global for all games  
+:heavy_check_mark: JSON structure is designed to be easily upgradable  
+:heavy_check_mark: Azure Pipelines & Docker  
+:heavy_check_mark: Good rendering time  
+:heavy_check_mark: Hosted on DigitalOcean behind nginx  
+:heavy_check_mark: nginx gzip & cache (may vary during development)  
 
 ## Docker
 **Build**
