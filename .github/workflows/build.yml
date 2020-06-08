@@ -1,24 +1,80 @@
-name: build
-on: [push, pull_request]
+name: Continuous Delivery
+on:
+  push:
+    branches:
+      - production
 jobs:
   build:
-    name: Build
     runs-on: ubuntu-latest
+    name: Compile binary file
     steps:
-      - name: Set up Go 1.14
-        uses: actions/setup-go@v1
+
+    - name: Set up Go 1.x
+      uses: actions/setup-go@v2
+      env:
+        GOPROXY: "https://proxy.golang.org"
+      with:
+        go-version: ^1.13
+      id: go
+
+    - name: Get code
+      uses: actions/checkout@v2
+      with:
+        ref: "production"
+
+    - name: Test
+      env:
+        GOPROXY: "https://proxy.golang.org"
+      run: go test -v .
+
+    - name: Make directory
+      run: mkdir -p deploy
+
+    - name: Copy courses.json
+      run: cp assets/courses.json deploy/
+
+    - name: Build
+      env:
+        GOPROXY: "https://proxy.golang.org"
+      run: go build -v -o ./deploy/run .
+
+    - name: Upload binary
+      uses: actions/upload-artifact@v1
+      with:
+        name: scoreboard
+        path: deploy
+
+
+  deploy:
+      runs-on: ubuntu-latest
+      name:  Deploy binary to Digital Ocean
+      needs: build
+      steps:
+
+      - name: Download uploaded binary
+        uses: actions/download-artifact@v1
         with:
-          go-version: 1.14
+          name: scoreboard
 
-      - name: Check out source code
-        uses: actions/checkout@v1
+      - name: Make executable
+        run: chmod +x my-dir-name/run
 
-      - name: Build
-        env:
-          GOPROXY: "https://proxy.golang.org"
-        run: make build
+      - name: Transfer with SCP
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          port: ${{ secrets.PORT }}
+          key: ${{ secrets.KEY }}
+          source: scoreboard
+          target: ${{ secrets.WORKDIR }}
 
-      - name: Test
-        env:
-          GOPROXY: "https://proxy.golang.org"
-        run: make test
+
+      - name: Example command via SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
+          script: "touch ${{ secrets.WORKDIR }}production"
