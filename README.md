@@ -10,20 +10,20 @@
 <h4 align="center">Simple score tracker for golf and disc golf. Made with Vue & Go :heart:</h4>
 <br>
 
-## Motivation
+## :question: Motivation
 
 It seems no one wants to be an accountant when we are playing so I wrote this so that the accountant can be switched in the middle of the game.
 
 Created for mobile use. For best usability [add app to homescreen](https://www.howtogeek.com/196087/how-to-add-websites-to-the-home-screen-on-any-smartphone-or-tablet/).
 
-## Features
+## :dart: Features
 
 - :heavy_check_mark: [Live](https://games.miikka.xyz/)
 - :heavy_check_mark: Create pars **automatically** if the user is close to a [supported](https://github.com/tuommii/scoreboard/blob/master/assets/courses.json) course
 - :heavy_check_mark: Accountant can be switched in the middle of the game
 - :heavy_check_mark: Easy to use
 
-## Technical features
+## :memo: Technical features
 
 - :heavy_check_mark: Demonstrates Go's concurrency features nicely
 - :heavy_check_mark: Server can [save and restore](https://github.com/tuommii/scoreboard/blob/5f94a56bc176ee400d26629b3763bf936ec6ccc6/cmd/scoreboard/main.go#L40) it's state
@@ -35,7 +35,7 @@ Created for mobile use. For best usability [add app to homescreen](https://www.h
 - :heavy_check_mark: nginx gzip & cache (may vary during development)
 
 
-## How To Use It
+## :question: How To Use It
 
 ### Local development
 Clone repo
@@ -61,7 +61,7 @@ npm run serve
 
 Go to: http://localhost:8081
 
-### Deploy
+### :trophy: Deploy
 
 Every time when pushed to [production](https://github.com/tuommii/scoreboard/tree/production) branch, new binary will be compiled and sended to server.
 
