@@ -63,7 +63,7 @@ Go to: http://localhost:8081
 
 ### :trophy: Deploy
 
-Every time when pushed to [production](https://github.com/tuommii/scoreboard/tree/production) branch, new binary will be compiled and sended to server.
+Every time when code is pushed to [production](https://github.com/tuommii/scoreboard/tree/production) branch, new binary will be compiled and sended to server.
 
 <h1 align="left">
     <img src="/assets/cd.png" height="200" />
