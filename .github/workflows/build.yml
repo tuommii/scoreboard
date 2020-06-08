@@ -57,7 +57,7 @@ jobs:
           name: scoreboard
 
       - name: Make executable
-        run: chmod +x my-dir-name/run
+        run: chmod +x scoreboard/run
 
       - name: Transfer with SCP
         uses: appleboy/scp-action@master
