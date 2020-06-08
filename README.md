@@ -37,16 +37,6 @@ Created for mobile use. For best usability [add app to homescreen](https://www.h
 
 ## How To Use It
 
-### Docker
-Build
-
-`docker build . -t scoreboard`
-
-Run
-
-`docker run -p 8080:8080 scoreboard`
-
-
 ### Local development
 Clone repo
 
@@ -73,11 +63,21 @@ Go to: http://localhost:8081
 
 ### Deploy
 
-Every time when pushed to production branch, new binary will be compiled and sended to server.
+Every time when pushed to [production](https://github.com/tuommii/scoreboard/tree/production) branch, new binary will be compiled and sended to server.
 
 <h1 align="left">
     <img src="/assets/cd.png" height="200" />
 </h1>
+
+
+### Docker
+Build
+
+`docker build . -t scoreboard`
+
+Run
+
+`docker run -p 8080:8080 scoreboard`
 
 
 ## Things to consider
