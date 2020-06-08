@@ -36,7 +36,7 @@ jobs:
     - name: Build
       env:
         GOPROXY: "https://proxy.golang.org"
-      run: go build -v -o ./deploy/run .
+      run: go build -v -o ./deploy/run cmd/scoreboard/main.go
 
     - name: Upload binary
       uses: actions/upload-artifact@v1
