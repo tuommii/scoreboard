@@ -12,7 +12,7 @@
 
 ## :question: Motivation
 
-It seems no one wants to be an accountant when we are playing so I wrote this so that the accountant can be switched in the middle of the game.
+It seems no one wants to be an accountant when we are playing. I wrote this so that the accountant can be switched in the middle of the game.
 
 Created for mobile use. For best usability [add app to homescreen](https://www.howtogeek.com/196087/how-to-add-websites-to-the-home-screen-on-any-smartphone-or-tablet/).
 
