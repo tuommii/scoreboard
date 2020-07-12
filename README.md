@@ -18,10 +18,10 @@ Created for mobile use. For best usability [add app to homescreen](https://www.h
 
 ## :dart: Features
 
-:heavy_check_mark: [Live](https://games.miikka.xyz/)  
-:heavy_check_mark: Create pars **automatically** if the user is close to a [supported](https://github.com/tuommii/scoreboard/blob/master/assets/courses.json) course. 
-:heavy_check_mark: Accountant can be switched in the middle of the game. 
-:heavy_check_mark: Easy to use. 
+:heavy_check_mark: [Live](https://games.miikka.xyz/).  
+:heavy_check_mark: Create pars **automatically** if the user is close to a [supported](https://github.com/tuommii/scoreboard/blob/master/assets/courses.json) course.  
+:heavy_check_mark: Accountant can be switched in the middle of the game.  
+:heavy_check_mark: Easy to use.  
 
 ## :memo: Technical features
 :heavy_check_mark: Demonstrates Go's concurrency features nicely.  
