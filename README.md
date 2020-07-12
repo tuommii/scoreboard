@@ -18,22 +18,21 @@ Created for mobile use. For best usability [add app to homescreen](https://www.h
 
 ## :dart: Features
 
-- :heavy_check_mark: [Live](https://games.miikka.xyz/)
-- :heavy_check_mark: Create pars **automatically** if the user is close to a [supported](https://github.com/tuommii/scoreboard/blob/master/assets/courses.json) course
-- :heavy_check_mark: Accountant can be switched in the middle of the game
-- :heavy_check_mark: Easy to use
+:heavy_check_mark: [Live](https://games.miikka.xyz/)  
+:heavy_check_mark: Create pars **automatically** if the user is close to a [supported](https://github.com/tuommii/scoreboard/blob/master/assets/courses.json) course. 
+:heavy_check_mark: Accountant can be switched in the middle of the game. 
+:heavy_check_mark: Easy to use. 
 
 ## :memo: Technical features
-
-- :heavy_check_mark: Demonstrates Go's concurrency features nicely
-- :heavy_check_mark: Server can [save and restore](https://github.com/tuommii/scoreboard/blob/master/cmd/scoreboard/main.go#L40) it's state
-- :heavy_check_mark: Each game in memory has it's own mutex instead of one global for all games
-- :heavy_check_mark: [Automatic deployment](https://github.com/tuommii/scoreboard/blob/master/.github/workflows/build.yml#L1) with Github Actions
-- :heavy_check_mark: JSON structure is designed to be easily upgradable
-- :heavy_check_mark: Azure Pipelines & Docker
-- :heavy_check_mark: Good rendering time
-- :heavy_check_mark: Hosted on DigitalOcean behind nginx
-- :heavy_check_mark: nginx gzip & cache (may vary during development)
+:heavy_check_mark: Demonstrates Go's concurrency features nicely.  
+:heavy_check_mark: Server can [save and restore](https://github.com/tuommii/scoreboard/blob/master/cmd/scoreboard/main.go#L40) it's state.  
+:heavy_check_mark: Each game in memory has it's own mutex instead of one global for all games. 
+:heavy_check_mark: [Automatic deployment](https://github.com/tuommii/scoreboard/blob/master/.github/workflows/build.yml#L1) with Github Actions.  
+:heavy_check_mark: JSON structure is designed to be easily upgradable.  
+:heavy_check_mark: Azure Pipelines & Docker.  
+:heavy_check_mark: Good rendering time.  
+:heavy_check_mark: Hosted on DigitalOcean behind nginx.  
+:heavy_check_mark: nginx gzip & cache (may vary during development).  
 
 
 ## :question: How To Use It
@@ -81,6 +80,38 @@ Run
 `docker run -p 8080:8080 scoreboard`
 
 
+
+## Example json
+```json
+{
+  "id": "jt1",
+  "basketCount": 1,
+  "active": 1,
+  "hasBooker": true,
+  "baskets": {
+    "1": {
+      "orderNum": 1,
+      "par": 3,
+      "scores": {
+        "Jian Yang": {
+          "score": 3,
+          "total": 0,
+          "ob": 0
+        },
+        "Tiger King": {
+          "score": 3,
+          "total": 0,
+          "ob": 0
+        }
+      }
+    }
+  },
+  "createdAt": "2020-05-01T20:06:42.283050923+03:00",
+  "editedAt": "2020-05-01T20:06:42.283052041+03:00",
+  "name": "Default"
+}
+```
+
 ## Things to consider
 _Contributions are more than welcome_
 - [x] Create MVP
@@ -114,33 +145,3 @@ _Contributions are more than welcome_
 - [ ] For some users add possibility store game to database (validate time spent)
 - [ ] When stats is implemented add support for marking OB (out of bounds)
 
-## Example json
-```json
-{
-  "id": "jt1",
-  "basketCount": 1,
-  "active": 1,
-  "hasBooker": true,
-  "baskets": {
-    "1": {
-      "orderNum": 1,
-      "par": 3,
-      "scores": {
-        "Jian Yang": {
-          "score": 3,
-          "total": 0,
-          "ob": 0
-        },
-        "Tiger King": {
-          "score": 3,
-          "total": 0,
-          "ob": 0
-        }
-      }
-    }
-  },
-  "createdAt": "2020-05-01T20:06:42.283050923+03:00",
-  "editedAt": "2020-05-01T20:06:42.283052041+03:00",
-  "name": "Default"
-}
-```
