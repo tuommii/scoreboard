@@ -14,7 +14,7 @@ type Course struct {
 	HasBooker   bool            `json:"hasBooker"`
 }
 
-// Basket has a Score struct fro each player
+// Basket has a Score struct for each player
 type Basket struct {
 	// Lets save ordernumber also here just in case
 	OrderNum int `json:"orderNum"`
