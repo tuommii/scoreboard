@@ -34,12 +34,11 @@ jobs:
         go build -v -o ./deploy/run .
 
     - name: Setup Node
-      steps:
-        - uses: actions/checkout@v2
-        - uses: actions/setup-node@v1
-        with:
-          node-version: '12'
-    - run: |
+      uses: actions/checkout@v2
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12'
+      run: |
         npm install
         npm audit fix
         npm run build
