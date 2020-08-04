@@ -41,10 +41,11 @@ jobs:
 
     - name: Build frontend
       run: |
+        cd frontend/
         npm install
         npm audit fix
         npm run build
-        cp -r ./frontend/dist ./deploy/public
+        cp -r ./dist ./deploy/public
 
     - name: Copy courses.json
       run: cp assets/designs.json deploy/
