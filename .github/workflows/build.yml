@@ -45,7 +45,7 @@ jobs:
         npm install
         npm audit fix
         npm run build
-        cp -r ./dist ./deploy/public
+        cp -r ./dist ../deploy/public
 
     - name: Copy designs.json
       run: cp assets/designs.json deploy/
