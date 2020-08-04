@@ -50,7 +50,7 @@ jobs:
     - name: Copy designs.json
       run: cp assets/designs.json deploy/
 
-    - name: Upload binary
+    - name: Name artifact
       uses: actions/upload-artifact@v2
       with:
         name: scoreboard
