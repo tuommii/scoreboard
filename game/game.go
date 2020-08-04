@@ -133,7 +133,7 @@ func validateBasis(basis Basis) bool {
 // LoadDesigns loads pre-made course data
 func LoadDesigns(path string) []Design {
 	var designs []Design
-	file, err := ioutil.ReadFile(path + "assets/courses.json")
+	file, err := ioutil.ReadFile(path)
 	if err != nil {
 		log.Fatal(err)
 	}

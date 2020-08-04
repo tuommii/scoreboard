@@ -33,23 +33,23 @@ type Server struct {
 }
 
 // New creates a server
-func New(path string) *Server {
+func New(static string, port string, designs string) *Server {
 	server := &Server{counter: 1}
 	server.games = cmap.New()
 	router := mux.NewRouter()
 	server.HTTP = &http.Server{
 		Handler:      router,
-		Addr:         "0.0.0.0:8080",
+		Addr:         "0.0.0.0:" + port,
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
-	server.designs = game.LoadDesigns(path)
+	server.designs = game.LoadDesigns(designs)
 	router.HandleFunc("/games/{id}", server.getGameHandle).Methods("GET")
 	router.HandleFunc("/games/{id}", server.exitGameHandle).Methods("DELETE")
 	router.HandleFunc("/games", server.createGameHandle).Methods("POST")
 	router.HandleFunc("/games", server.editGameHandle).Methods("PUT")
 	router.HandleFunc("/_status", server.statusHandle).Methods("GET")
-	router.PathPrefix("/").Handler(http.FileServer(http.Dir(path + "public")))
+	router.PathPrefix("/").Handler(http.FileServer(http.Dir(static)))
 	return server
 }
 
@@ -75,7 +75,7 @@ func (s *Server) SaveMemory(path string) {
 		log.Println(err)
 	}
 
-	err = ioutil.WriteFile(path+"assets/memory.json", file, 0644)
+	err = ioutil.WriteFile(path, file, 0644)
 	if err != nil {
 		log.Println("Saving memory failed!", err)
 	}
@@ -87,7 +87,7 @@ func (s *Server) LoadMemory(path string) {
 	var largest int
 	games := make([]*game.Course, 0)
 	re := regexp.MustCompile("[0-9]+")
-	file, err := ioutil.ReadFile(path + "assets/memory.json")
+	file, err := ioutil.ReadFile(path)
 	if err != nil {
 		log.Println("Error while opening file", err)
 		return

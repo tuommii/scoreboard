@@ -19,9 +19,13 @@ const (
 )
 
 func main() {
-	dir := flag.String("dir", "./", "Path to static dir")
+	static := flag.String("static", "./frontend/public", "Path to static dir")
+	port := flag.String("port", "8080", "Port to listen")
+	mem := flag.String("mem", "./assets/memory.json", "path to memory.json")
+	designs := flag.String("designs", "./assets/designs.json", "path to designs")
+
 	flag.Parse()
-	s := server.New(*dir)
+	s := server.New(*static, *port, *designs)
 	go s.AutoClean(cleanInterval, editedAlive, createdAlive)
 
 	go func() {
@@ -30,7 +34,7 @@ func main() {
 			log.Fatal(err)
 		}
 	}()
-	shutdown(s, *dir)
+	shutdown(s, *mem)
 }
 
 func shutdown(s *server.Server, path string) {
