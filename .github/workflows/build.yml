@@ -31,7 +31,7 @@ jobs:
       run: |
         cd cmd/scoreboard
         go get ./...
-        go build -v -o ./deploy/run .
+        go build -v -o ../../deploy/run .
 
     - name: Setup Node
       uses: actions/setup-node@v1
