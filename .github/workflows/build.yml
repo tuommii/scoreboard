@@ -9,72 +9,82 @@ jobs:
     name: Compile binary file
     steps:
 
-    - name: Set up Go 1.x
-      uses: actions/setup-go@v2
-      env:
-        GOPROXY: "https://proxy.golang.org"
-      with:
-        go-version: ^1.13
-      id: go
-
     - name: Get code
       uses: actions/checkout@v2
       with:
         ref: "production"
 
-    - name: Test
-      env:
-        GOPROXY: "https://proxy.golang.org"
-      run: go test -v ./...
-
     - name: Make directory
       run: mkdir -p deploy
 
-    - name: Copy courses.json
-      run: cp assets/courses.json deploy/
-
-    - name: Build
+    - name: Set up Go 1.x
+      uses: actions/setup-go@v2
       env:
         GOPROXY: "https://proxy.golang.org"
-      run: go build -v -o ./deploy/run cmd/scoreboard/main.go
+      with:
+        go-version: ^1.14
+      id: go
+
+    - name: Build server
+      env:
+        GOPROXY: "https://proxy.golang.org"
+      run: |
+        cd cmd/scoreboard
+        go get ./...
+        go build -v -o ./deploy/run .
+
+    - name: Setup Node
+      steps:
+        - uses: actions/checkout@v2
+        - uses: actions/setup-node@v1
+        with:
+          node-version: '12'
+    - run: |
+        npm install
+        npm audit fix
+        npm run build
+        cp -r ./frontend/dist ./deploy/public
+
+    - name: Copy courses.json
+      run: cp assets/designs.json deploy/
 
     - name: Upload binary
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v2
       with:
         name: scoreboard
-        path: deploy
+        path: deploy/
 
 
-  deploy:
-      runs-on: ubuntu-latest
-      name:  Deploy binary to Digital Ocean
-      needs: build
-      steps:
+  # deploy:
+  #     runs-on: ubuntu-latest
+  #     name:  Deploy binary to Digital Ocean
+  #     needs: build
+  #     steps:
 
-      - name: Download uploaded binary
-        uses: actions/download-artifact@v1
-        with:
-          name: scoreboard
+  #     - name: Download uploaded binary
+  #       uses: actions/download-artifact@v1
+  #       with:
+  #         name: scoreboard
 
-      - name: Make executable
-        run: chmod +x scoreboard/run
+  #     - name: Make executable
+  #       run: chmod +x scoreboard/run
 
-      - name: Transfer with SCP
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USER }}
-          port: ${{ secrets.PORT }}
-          key: ${{ secrets.KEY }}
-          source: scoreboard
-          target: ${{ secrets.WORKDIR }}
+  #     - name: Transfer with SCP
+  #       uses: appleboy/scp-action@master
+  #       with:
+  #         host: ${{ secrets.HOST }}
+  #         username: ${{ secrets.USER }}
+  #         port: ${{ secrets.PORT }}
+  #         key: ${{ secrets.KEY }}
+  #         source: scoreboard
+  #         target: ${{ secrets.WORKDIR }}
 
 
-      - name: Example command via SSH
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USER }}
-          key: ${{ secrets.KEY }}
-          port: ${{ secrets.PORT }}
-          script: "touch ${{ secrets.WORKDIR }}production"
+  #     - name: Example command via SSH
+  #       uses: appleboy/ssh-action@master
+  #       with:
+  #         host: ${{ secrets.HOST }}
+  #         username: ${{ secrets.USER }}
+  #         key: ${{ secrets.KEY }}
+  #         port: ${{ secrets.PORT }}
+  #         script: "touch ${{ secrets.WORKDIR }}production"
