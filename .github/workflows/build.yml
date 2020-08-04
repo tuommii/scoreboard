@@ -37,6 +37,9 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: '12'
+      id: node
+
+    - name: Build frontend
       run: |
         npm install
         npm audit fix
