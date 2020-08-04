@@ -15,7 +15,7 @@ jobs:
         ref: "production"
 
     - name: Make directory
-      run: mkdir -p deploy
+      run: mkdir -p deploy/public
 
     - name: Set up Go 1.x
       uses: actions/setup-go@v2
@@ -47,7 +47,7 @@ jobs:
         npm run build
         cp -r ./dist ./deploy/public
 
-    - name: Copy courses.json
+    - name: Copy designs.json
       run: cp assets/designs.json deploy/
 
     - name: Upload binary
@@ -57,36 +57,36 @@ jobs:
         path: deploy/
 
 
-  # deploy:
-  #     runs-on: ubuntu-latest
-  #     name:  Deploy binary to Digital Ocean
-  #     needs: build
-  #     steps:
+  deploy:
+      runs-on: ubuntu-latest
+      name:  Deploy artifact to Digital Ocean
+      needs: build
+      steps:
 
-  #     - name: Download uploaded binary
-  #       uses: actions/download-artifact@v1
-  #       with:
-  #         name: scoreboard
+      - name: Download uploaded binary
+        uses: actions/download-artifact@v1
+        with:
+          name: scoreboard
 
-  #     - name: Make executable
-  #       run: chmod +x scoreboard/run
+      - name: Make executable
+        run: chmod +x scoreboard/run
 
-  #     - name: Transfer with SCP
-  #       uses: appleboy/scp-action@master
-  #       with:
-  #         host: ${{ secrets.HOST }}
-  #         username: ${{ secrets.USER }}
-  #         port: ${{ secrets.PORT }}
-  #         key: ${{ secrets.KEY }}
-  #         source: scoreboard
-  #         target: ${{ secrets.WORKDIR }}
+      - name: Transfer with SCP
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          port: ${{ secrets.PORT }}
+          key: ${{ secrets.KEY }}
+          source: scoreboard
+          target: ${{ secrets.WORKDIR }}
 
 
-  #     - name: Example command via SSH
-  #       uses: appleboy/ssh-action@master
-  #       with:
-  #         host: ${{ secrets.HOST }}
-  #         username: ${{ secrets.USER }}
-  #         key: ${{ secrets.KEY }}
-  #         port: ${{ secrets.PORT }}
-  #         script: "touch ${{ secrets.WORKDIR }}production"
+      - name: Example command via SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
+          script: "ls ${{ secrets.WORKDIR }}"
